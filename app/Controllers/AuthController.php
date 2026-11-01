@@ -12,7 +12,13 @@ final class AuthController extends Controller
 
     public function inicio(): void
     {
-        $this->redirect(Auth::check() ? '/horas' : '/login');
+        if (!Auth::check()) {
+            $this->redirect('/login');
+        }
+        if (Auth::rol() === 'estudiante') {
+            $this->redirect('/horas');
+        }
+        $this->render('inicio');
     }
 
     public function form(): void

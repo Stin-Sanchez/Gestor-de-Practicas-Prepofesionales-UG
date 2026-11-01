@@ -25,11 +25,11 @@ abstract class Controller
         $_SESSION['flash'] = [$tipo, $msg];
     }
 
-    /** Aborta con 419 si el token CSRF del formulario no coincide. */
+    /** Aborta con 403 si el token CSRF del formulario no coincide. */
     protected function exigirCsrf(): void
     {
         if (!Auth::csrfValido($_POST['csrf'] ?? null)) {
-            http_response_code(419);
+            http_response_code(403);
             exit('Token inválido, recarga la página.');
         }
     }
