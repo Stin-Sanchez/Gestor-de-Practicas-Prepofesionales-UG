@@ -1,0 +1,7 @@
+.git
+.env
+vendor
+storage/uploads/*
+storage/logs/*
+backups
+tests

@@ -1,0 +1,11 @@
+# Solo desarrollo (se aplica solo con `docker compose up`).
+# En el server: docker compose -f compose.yaml up -d
+services:
+  app:
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/vendor          # conserva el vendor de la imagen
+      - ./config/php.dev.ini:/usr/local/etc/php/conf.d/zz-dev.ini:ro
+  db:
+    ports:
+      - "127.0.0.1:3307:3306"         # para DBeaver en dev
