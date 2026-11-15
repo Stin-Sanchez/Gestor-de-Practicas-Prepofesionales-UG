@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registro de Estudiantes — Gestión de Prácticas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="../assets/css/custom.css" rel="stylesheet">
+</head>
+<body data-page="est-registro" data-section="Estudiantes">
+  <div class="wrapper">
+    <aside id="sidebar"></aside>
+    <div class="sidebar-overlay"></div>
+    <div class="main-content">
+      <nav id="topbar"></nav>
+      <div class="content">
+
+        <!-- Encabezado de Página -->
+        <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+          <div>
+            <h2>Registro de Estudiantes</h2>
+            <p>Registro de información personal, académica y validación de requisitos para prácticas preprofesionales</p>
+          </div>
+          <div class="d-flex gap-2">
+            <a href="estudiantes-listado.html" class="btn btn-outline-primary">
+              <i class="bi bi-people me-1"></i> Ver Listado General
+            </a>
+            <a href="estudiantes-postulacion.html" class="btn btn-primary">
+              <i class="bi bi-briefcase me-1"></i> Postulación a Vacantes
+            </a>
+          </div>
+        </div>
+
+        <!-- Tarjetas de Estadísticas Rápidas -->
+        <div class="row g-3 mb-4">
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Total Postulantes</div>
+                  <div class="stat-value mt-1">1,248</div>
+                  <small class="text-success"><i class="bi bi-arrow-up-short"></i> +12% este ciclo</small>
+                </div>
+                <div class="stat-icon bg-primary-subtle text-primary">
+                  <i class="bi bi-people-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Requisitos Validados</div>
+                  <div class="stat-value mt-1">982</div>
+                  <small class="text-muted">78.7% aptos para postular</small>
+                </div>
+                <div class="stat-icon bg-success-subtle text-success">
+                  <i class="bi bi-patch-check-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Pendientes Revisión</div>
+                  <div class="stat-value mt-1">214</div>
+                  <small class="text-warning"><i class="bi bi-clock-history"></i> En proceso de verificación</small>
+                </div>
+                <div class="stat-icon bg-warning-subtle text-warning">
+                  <i class="bi bi-hourglass-split"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Ciclo Académico</div>
+                  <div class="stat-value mt-1" style="font-size: 1.35rem;">2026-2027 CI</div>
+                  <small class="text-info"><i class="bi bi-calendar-check"></i> Convocatoria habilitada</small>
+                </div>
+                <div class="stat-icon bg-info-subtle text-info">
+                  <i class="bi bi-calendar3"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alerta Informativa Institucional -->
+        <div class="alert alert-info d-flex align-items-center gap-3 mb-4 alert-dismissible fade show" role="alert">
+          <i class="bi bi-info-circle-fill fs-4 flex-shrink-0 text-info"></i>
+          <div>
+            <strong>Estimado Coordinador:</strong> Ingrese los datos del estudiante verificando su correspondencia con el Sistema SIUG de la Universidad de Guayaquil. Para que el estudiante pueda ser asignado a empresas de Guayaquil como <strong>Holcim Ecuador, CNT, CNEL, Banco Pichincha, Nestlé o Pronaca</strong>, todos los requisitos reglamentarios deben encontrarse en estado verificado.
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+
+        <!-- Formulario Principal de Registro -->
+        <form id="registroEstudianteForm" novalidate>
+          
+          <!-- SECCIÓN 1: DATOS PERSONALES -->
+          <div class="form-section">
+            <div class="form-section-title">
+              <i class="bi bi-person-vcard-fill"></i> Datos Personales del Estudiante
+            </div>
+            <div class="row g-3">
+              <!-- Cédula -->
+              <div class="col-12 col-md-4">
+                <label for="cedula" class="form-label">Cédula de Identidad <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-card-heading"></i></span>
+                  <input type="text" class="form-control" id="cedula" name="cedula" placeholder="Ej. 0924518721" maxlength="10" pattern="[0-9]{10}" required>
+                </div>
+                <div class="form-text">Número de cédula ecuatoriana de 10 dígitos.</div>
+              </div>
+
+              <!-- Nombres -->
+              <div class="col-12 col-md-4">
+                <label for="nombres" class="form-label">Nombres Completos <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-person"></i></span>
+                  <input type="text" class="form-control" id="nombres" name="nombres" placeholder="Ej. María Fernanda" required>
+                </div>
+              </div>
+
+              <!-- Apellidos -->
+              <div class="col-12 col-md-4">
+                <label for="apellidos" class="form-label">Apellidos Completos <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-person"></i></span>
+                  <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Ej. López Mendoza" required>
+                </div>
+              </div>
+
+              <!-- Fecha de Nacimiento -->
+              <div class="col-12 col-md-4">
+                <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
+                  <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required>
+                </div>
+              </div>
+
+              <!-- Teléfono -->
+              <div class="col-12 col-md-4">
+                <label for="telefono" class="form-label">Teléfono / Celular <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-phone"></i></span>
+                  <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Ej. 0994567812" maxlength="10" pattern="09[0-9]{8}" required>
+                </div>
+              </div>
+
+              <!-- Género -->
+              <div class="col-12 col-md-4">
+                <label for="genero" class="form-label">Género</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-gender-ambiguous"></i></span>
+                  <select class="form-select" id="genero" name="genero">
+                    <option value="" selected>Seleccionar género...</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="No especifica">No especifica</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Dirección -->
+              <div class="col-12 col-md-8">
+                <label for="direccion" class="form-label">Dirección Domiciliaria <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                  <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Ej. Cdla. Kennedy Norte, Mz. 12 Sl. 4" required>
+                </div>
+              </div>
+
+              <!-- Cantón / Ciudad -->
+              <div class="col-12 col-md-4">
+                <label for="ciudad" class="form-label">Cantón de Residencia <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-building"></i></span>
+                  <select class="form-select" id="ciudad" name="ciudad" required>
+                    <option value="Guayaquil" selected>Guayaquil</option>
+                    <option value="Durán">Durán</option>
+                    <option value="Samborondón">Samborondón</option>
+                    <option value="Daule">Daule</option>
+                    <option value="Milagro">Milagro</option>
+                    <option value="Otro">Otro cantón</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECCIÓN 2: DATOS ACADÉMICOS -->
+          <div class="form-section">
+            <div class="form-section-title">
+              <i class="bi bi-mortarboard-fill"></i> Datos Académicos en la Universidad de Guayaquil
+            </div>
+            <div class="row g-3">
+              <!-- Correo Institucional -->
+              <div class="col-12 col-md-6">
+                <label for="correoInstitucional" class="form-label">Correo Institucional <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-envelope-at"></i></span>
+                  <input type="email" class="form-control" id="correoInstitucional" name="correoInstitucional" placeholder="nombre.apellido@ug.edu.ec" required>
+                </div>
+                <div class="form-text">Debe ingresar la cuenta oficial @ug.edu.ec del estudiante.</div>
+              </div>
+
+              <!-- Carrera -->
+              <div class="col-12 col-md-6">
+                <label for="carrera" class="form-label">Carrera de Grado <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-journal-bookmark"></i></span>
+                  <select class="form-select" id="carrera" name="carrera" required>
+                    <option value="" disabled selected>Seleccione la carrera...</option>
+                    <option value="Ing. en Sistemas Computacionales">Ing. en Sistemas Computacionales</option>
+                    <option value="Ing. en Software">Ing. en Software</option>
+                    <option value="Ing. Civil">Ing. Civil</option>
+                    <option value="Ing. Industrial">Ing. Industrial</option>
+                    <option value="Ing. Química">Ing. Química</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Nivel / Semestre -->
+              <div class="col-12 col-md-4">
+                <label for="semestre" class="form-label">Nivel / Semestre Cursado <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-layers-fill"></i></span>
+                  <select class="form-select" id="semestre" name="semestre" required>
+                    <option value="" disabled selected>Seleccione el semestre (1 al 10)...</option>
+                    <option value="1">1er Semestre (Nivel 1)</option>
+                    <option value="2">2do Semestre (Nivel 2)</option>
+                    <option value="3">3er Semestre (Nivel 3)</option>
+                    <option value="4">4to Semestre (Nivel 4)</option>
+                    <option value="5">5to Semestre (Nivel 5)</option>
+                    <option value="6">6to Semestre (Nivel 6 — Prácticas I)</option>
+                    <option value="7">7mo Semestre (Nivel 7 — Prácticas I)</option>
+                    <option value="8">8vo Semestre (Nivel 8 — Prácticas II)</option>
+                    <option value="9">9no Semestre (Nivel 9 — Prácticas II)</option>
+                    <option value="10">10mo Semestre (Nivel 10 — Titulación)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Facultad -->
+              <div class="col-12 col-md-4">
+                <label for="facultad" class="form-label">Facultad Académica</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-bank"></i></span>
+                  <select class="form-select" id="facultad" name="facultad">
+                    <option value="Facultad de Ciencias Matemáticas y Físicas" selected>Facultad de Ciencias Matemáticas y Físicas</option>
+                    <option value="Facultad de Ingeniería Industrial">Facultad de Ingeniería Industrial</option>
+                    <option value="Facultad de Ciencias Químicas">Facultad de Ciencias Químicas</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Jornada / Modalidad -->
+              <div class="col-12 col-md-4">
+                <label for="jornada" class="form-label">Jornada de Estudio</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-sun"></i></span>
+                  <select class="form-select" id="jornada" name="jornada">
+                    <option value="Matutina">Matutina (07:00 - 13:00)</option>
+                    <option value="Vespertina">Vespertina (13:00 - 18:00)</option>
+                    <option value="Nocturna" selected>Nocturna (18:00 - 22:00)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Créditos Aprobados -->
+              <div class="col-12 col-md-6">
+                <label for="creditosAprobados" class="form-label">Porcentaje de Créditos Aprobados (%)</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-pie-chart"></i></span>
+                  <input type="number" class="form-control" id="creditosAprobados" name="creditosAprobados" placeholder="Ej. 65" min="0" max="100" value="65">
+                  <span class="input-group-text">% de la malla</span>
+                </div>
+              </div>
+
+              <!-- Empresa de Preferencia / Interés -->
+              <div class="col-12 col-md-6">
+                <label for="empresaPreferencia" class="form-label">Empresa o Institución de Interés</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-briefcase"></i></span>
+                  <select class="form-select" id="empresaPreferencia" name="empresaPreferencia">
+                    <option value="" selected>Sin preferencia definida</option>
+                    <option value="Holcim Ecuador">Holcim Ecuador</option>
+                    <option value="Pronaca">Pronaca</option>
+                    <option value="Nestlé Ecuador">Nestlé Ecuador</option>
+                    <option value="CNT">Corporación Nacional de Telecomunicaciones (CNT)</option>
+                    <option value="CNEL">Corporación Nacional de Electricidad (CNEL)</option>
+                    <option value="Banco Pichincha">Banco Pichincha</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECCIÓN 3: REQUISITOS HABILITANTES -->
+          <div class="form-section">
+            <div class="form-section-title">
+              <i class="bi bi-shield-check"></i> Requisitos Habilitantes para Prácticas
+            </div>
+            <p class="text-muted small mb-3">Marque y corrobore el cumplimiento de cada requisito reglamentario para que el expediente sea marcado como <strong>Habilitado</strong> en la asignación de prácticas preprofesionales.</p>
+
+            <div class="row g-3">
+              <!-- Requisito 1: Matrícula Vigente -->
+              <div class="col-12 col-md-6">
+                <div class="p-3 border rounded-3 h-100 bg-light-subtle d-flex align-items-start gap-3">
+                  <div class="form-check pt-1">
+                    <input class="form-check-input fs-5" type="checkbox" id="reqMatricula" name="reqMatricula" checked>
+                  </div>
+                  <div>
+                    <label class="form-check-label fw-bold text-dark mb-1 d-block" for="reqMatricula">
+                      Matrícula Vigente <span class="badge bg-primary ms-1">Obligatorio</span>
+                    </label>
+                    <p class="text-muted small mb-0">El estudiante consta formalmente matriculado en el ciclo académico 2026-2027 CI sin adeudos académicos ni administrativos.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Requisito 2: Mínimo Créditos Aprobados -->
+              <div class="col-12 col-md-6">
+                <div class="p-3 border rounded-3 h-100 bg-light-subtle d-flex align-items-start gap-3">
+                  <div class="form-check pt-1">
+                    <input class="form-check-input fs-5" type="checkbox" id="reqCreditos" name="reqCreditos" checked>
+                  </div>
+                  <div>
+                    <label class="form-check-label fw-bold text-dark mb-1 d-block" for="reqCreditos">
+                      Mínimo de Créditos Aprobados <span class="badge bg-primary ms-1">Obligatorio</span>
+                    </label>
+                    <p class="text-muted small mb-0">Cumple con un mínimo del 60% de créditos aprobados de la malla curricular respectiva (a partir de 6to semestre).</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Requisito 3: Seguro Estudiantil -->
+              <div class="col-12 col-md-6">
+                <div class="p-3 border rounded-3 h-100 bg-light-subtle d-flex align-items-start gap-3">
+                  <div class="form-check pt-1">
+                    <input class="form-check-input fs-5" type="checkbox" id="reqSeguro" name="reqSeguro" checked>
+                  </div>
+                  <div>
+                    <label class="form-check-label fw-bold text-dark mb-1 d-block" for="reqSeguro">
+                      Seguro Estudiantil <span class="badge bg-primary ms-1">Obligatorio</span>
+                    </label>
+                    <p class="text-muted small mb-0">Póliza universitaria de accidentes personales y cobertura médica vigente otorgada por la Universidad de Guayaquil.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Requisito 4: Certificado de No Impedimento -->
+              <div class="col-12 col-md-6">
+                <div class="p-3 border rounded-3 h-100 bg-light-subtle d-flex align-items-start gap-3">
+                  <div class="form-check pt-1">
+                    <input class="form-check-input fs-5" type="checkbox" id="reqImpedimento" name="reqImpedimento" checked>
+                  </div>
+                  <div>
+                    <label class="form-check-label fw-bold text-dark mb-1 d-block" for="reqImpedimento">
+                      Certificado de No Impedimento <span class="badge bg-primary ms-1">Obligatorio</span>
+                    </label>
+                    <p class="text-muted small mb-0">Constancia digital de no registrar sanciones disciplinarias emitida por el Decanato o Secretaría General.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Archivo de Respaldo Digital Opcional -->
+              <div class="col-12 mt-3">
+                <label for="archivoExpediente" class="form-label">Adjuntar Expediente de Respaldo Digital (Opcional - Formato PDF)</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white"><i class="bi bi-file-earmark-pdf-fill text-danger"></i></span>
+                  <input type="file" class="form-control" id="archivoExpediente" accept=".pdf">
+                </div>
+                <div class="form-text">Copia digitalizada en PDF de cédula, certificado de matrícula y récord académico (máximo 10 MB).</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOTONES DE ACCIÓN: Primarias alineadas a la derecha -->
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 pt-2 mb-5">
+            <button type="reset" class="btn btn-outline-secondary px-4" id="btnLimpiar">
+              <i class="bi bi-arrow-counterclockwise me-1"></i> Limpiar formulario
+            </button>
+            <div class="d-flex gap-2">
+              <button type="button" class="btn btn-outline-primary px-4" id="btnVistaPrevia" data-bs-toggle="modal" data-bs-target="#modalVistaPrevia">
+                <i class="bi bi-eye me-1"></i> Vista Previa
+              </button>
+              <button type="submit" class="btn btn-primary px-4" id="btnGuardar">
+                <i class="bi bi-check-circle me-1"></i> Guardar Estudiante
+              </button>
+            </div>
+          </div>
+
+        </form>
+
+        <!-- SECCIÓN: REGISTROS RECIENTES (TABLA, FILTROS Y PAGINACIÓN) -->
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 mt-4">
+          <div>
+            <h4 class="fw-bold mb-1 text-dark">
+              <i class="bi bi-clock-history me-2 text-primary"></i>Estudiantes Registrados Recientemente
+            </h4>
+            <p class="text-muted small mb-0">Historial y estado de los últimos estudiantes registrados en la plataforma institucional</p>
+          </div>
+          <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-semibold">
+            <i class="bi bi-database-check me-1"></i> Base de Datos SIUG Sincronizada
+          </span>
+        </div>
+
+        <!-- Barra de Filtros -->
+        <div class="filter-bar">
+          <div class="form-group flex-grow-1">
+            <label class="form-label" for="busquedaTabla">Buscar estudiante</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+              <input type="text" class="form-control" id="busquedaTabla" placeholder="Cédula, nombre o correo..." data-search-table="tablaEstudiantes">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filtroCarrera">Filtrar por Carrera</label>
+            <select class="form-select" id="filtroCarrera">
+              <option value="">Todas las carreras</option>
+              <option value="Ing. en Software">Ing. en Software</option>
+              <option value="Ing. en Sistemas Computacionales">Ing. en Sistemas Computacionales</option>
+              <option value="Ing. Civil">Ing. Civil</option>
+              <option value="Ing. Industrial">Ing. Industrial</option>
+              <option value="Ing. Química">Ing. Química</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filtroEstado">Estado de Requisitos</label>
+            <select class="form-select" id="filtroEstado">
+              <option value="">Todos los estados</option>
+              <option value="Habilitado">Habilitado</option>
+              <option value="Pendiente">Pendiente</option>
+              <option value="Observado">Observado</option>
+            </select>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary" id="btnResetFiltros" title="Restablecer filtros">
+              <i class="bi bi-arrow-counterclockwise"></i>
+            </button>
+            <button type="button" class="btn btn-primary" id="btnFiltrar">
+              <i class="bi bi-funnel me-1"></i> Filtrar
+            </button>
+          </div>
+        </div>
+
+        <!-- Contenedor de Tabla con Gestalt de Cierre y Similitud -->
+        <div class="table-container mb-4">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="tablaEstudiantes">
+              <thead>
+                <tr>
+                  <th scope="col" style="width: 40px;">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="checkAll" data-select-all="tablaEstudiantes">
+                    </div>
+                  </th>
+                  <th scope="col">Cédula</th>
+                  <th scope="col">Estudiante</th>
+                  <th scope="col">Carrera / Semestre</th>
+                  <th scope="col">Empresa Sugerida</th>
+                  <th scope="col">Requisitos</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col" class="text-end">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Registro 1: María Fernanda López -->
+                <tr>
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input row-check" type="checkbox">
+                    </div>
+                  </td>
+                  <td><span class="fw-semibold text-dark">0924518721</span></td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center fw-bold" style="width: 34px; height: 34px; font-size: 0.8rem;">
+                        ML
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">María Fernanda López Mendoza</div>
+                        <small class="text-muted">maria.lopezm@ug.edu.ec &bull; 0994567812</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="text-dark">Ing. en Software</div>
+                    <small class="text-muted"><i class="bi bi-layers me-1"></i>7mo Semestre</small>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border">
+                      <i class="bi bi-building me-1 text-primary"></i>Holcim Ecuador
+                    </span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="progress flex-grow-1" style="height: 6px; width: 70px;">
+                        <div class="progress-bar bg-success" style="width: 100%;"></div>
+                      </div>
+                      <small class="fw-bold text-success">4/4</small>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-success">Habilitado</span>
+                  </td>
+                  <td class="text-end">
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-outline-primary btn-action" title="Ver Detalle" data-bs-toggle="tooltip">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary btn-action" title="Editar Registro" data-bs-toggle="tooltip">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger btn-action" title="Eliminar Registro" data-confirm="¿Está seguro de eliminar este estudiante?" data-bs-toggle="tooltip">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Registro 2: Carlos Andrés Moreira -->
+                <tr>
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input row-check" type="checkbox">
+                    </div>
+                  </td>
+                  <td><span class="fw-semibold text-dark">0918734512</span></td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="rounded-circle bg-info-subtle text-info d-flex align-items-center justify-content-center fw-bold" style="width: 34px; height: 34px; font-size: 0.8rem;">
+                        CM
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Carlos Andrés Moreira Zambrano</div>
+                        <small class="text-muted">carlos.moreiraz@ug.edu.ec &bull; 0987654321</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="text-dark">Ing. en Sistemas Computacionales</div>
+                    <small class="text-muted"><i class="bi bi-layers me-1"></i>8vo Semestre</small>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border">
+                      <i class="bi bi-building me-1 text-primary"></i>CNT
+                    </span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="progress flex-grow-1" style="height: 6px; width: 70px;">
+                        <div class="progress-bar bg-success" style="width: 100%;"></div>
+                      </div>
+                      <small class="fw-bold text-success">4/4</small>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-success">Habilitado</span>
+                  </td>
+                  <td class="text-end">
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-outline-primary btn-action" title="Ver Detalle" data-bs-toggle="tooltip">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary btn-action" title="Editar Registro" data-bs-toggle="tooltip">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger btn-action" title="Eliminar Registro" data-confirm="¿Está seguro de eliminar este estudiante?" data-bs-toggle="tooltip">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Registro 3: Diana Carolina Villacís -->
+                <tr>
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input row-check" type="checkbox">
+                    </div>
+                  </td>
+                  <td><span class="fw-semibold text-dark">0931204892</span></td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="rounded-circle bg-warning-subtle text-warning d-flex align-items-center justify-content-center fw-bold" style="width: 34px; height: 34px; font-size: 0.8rem;">
+                        DV
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Diana Carolina Villacís Alarcón</div>
+                        <small class="text-muted">diana.villacisa@ug.edu.ec &bull; 0993214587</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="text-dark">Ing. Industrial</div>
+                    <small class="text-muted"><i class="bi bi-layers me-1"></i>6to Semestre</small>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border">
+                      <i class="bi bi-building me-1 text-primary"></i>Pronaca
+                    </span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="progress flex-grow-1" style="height: 6px; width: 70px;">
+                        <div class="progress-bar bg-warning" style="width: 75%;"></div>
+                      </div>
+                      <small class="fw-bold text-warning">3/4</small>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-warning text-dark">Pendiente</span>
+                  </td>
+                  <td class="text-end">
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-outline-primary btn-action" title="Ver Detalle" data-bs-toggle="tooltip">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary btn-action" title="Editar Registro" data-bs-toggle="tooltip">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger btn-action" title="Eliminar Registro" data-confirm="¿Está seguro de eliminar este estudiante?" data-bs-toggle="tooltip">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Registro 4: Kevin Roberto Andrade -->
+                <tr>
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input row-check" type="checkbox">
+                    </div>
+                  </td>
+                  <td><span class="fw-semibold text-dark">0945821903</span></td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="rounded-circle bg-success-subtle text-success d-flex align-items-center justify-content-center fw-bold" style="width: 34px; height: 34px; font-size: 0.8rem;">
+                        KA
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Kevin Roberto Andrade Cevallos</div>
+                        <small class="text-muted">kevin.andradec@ug.edu.ec &bull; 0998741256</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="text-dark">Ing. Civil</div>
+                    <small class="text-muted"><i class="bi bi-layers me-1"></i>7mo Semestre</small>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border">
+                      <i class="bi bi-building me-1 text-primary"></i>Nestlé Ecuador
+                    </span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="progress flex-grow-1" style="height: 6px; width: 70px;">
+                        <div class="progress-bar bg-success" style="width: 100%;"></div>
+                      </div>
+                      <small class="fw-bold text-success">4/4</small>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-success">Habilitado</span>
+                  </td>
+                  <td class="text-end">
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-outline-primary btn-action" title="Ver Detalle" data-bs-toggle="tooltip">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary btn-action" title="Editar Registro" data-bs-toggle="tooltip">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger btn-action" title="Eliminar Registro" data-confirm="¿Está seguro de eliminar este estudiante?" data-bs-toggle="tooltip">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Registro 5: Valeria Estefanía Romero -->
+                <tr>
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input row-check" type="checkbox">
+                    </div>
+                  </td>
+                  <td><span class="fw-semibold text-dark">0929841205</span></td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="rounded-circle bg-danger-subtle text-danger d-flex align-items-center justify-content-center fw-bold" style="width: 34px; height: 34px; font-size: 0.8rem;">
+                        VR
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Valeria Estefanía Romero Cedeño</div>
+                        <small class="text-muted">valeria.romeroc@ug.edu.ec &bull; 0958963214</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="text-dark">Ing. Química</div>
+                    <small class="text-muted"><i class="bi bi-layers me-1"></i>5to Semestre</small>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border">
+                      <i class="bi bi-building me-1 text-primary"></i>CNEL
+                    </span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="progress flex-grow-1" style="height: 6px; width: 70px;">
+                        <div class="progress-bar bg-danger" style="width: 50%;"></div>
+                      </div>
+                      <small class="fw-bold text-danger">2/4</small>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-danger">Observado</span>
+                  </td>
+                  <td class="text-end">
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-outline-primary btn-action" title="Ver Detalle" data-bs-toggle="tooltip">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary btn-action" title="Editar Registro" data-bs-toggle="tooltip">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger btn-action" title="Eliminar Registro" data-confirm="¿Está seguro de eliminar este estudiante?" data-bs-toggle="tooltip">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Registro 6: Marlon Javier Morales (Banco Pichincha) -->
+                <tr>
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input row-check" type="checkbox">
+                    </div>
+                  </td>
+                  <td><span class="fw-semibold text-dark">0912457896</span></td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="rounded-circle bg-secondary-subtle text-secondary d-flex align-items-center justify-content-center fw-bold" style="width: 34px; height: 34px; font-size: 0.8rem;">
+                        MM
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Marlon Javier Morales Vera</div>
+                        <small class="text-muted">marlon.moralesv@ug.edu.ec &bull; 0984512369</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="text-dark">Ing. en Software</div>
+                    <small class="text-muted"><i class="bi bi-layers me-1"></i>8vo Semestre</small>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border">
+                      <i class="bi bi-building me-1 text-primary"></i>Banco Pichincha
+                    </span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="progress flex-grow-1" style="height: 6px; width: 70px;">
+                        <div class="progress-bar bg-success" style="width: 100%;"></div>
+                      </div>
+                      <small class="fw-bold text-success">4/4</small>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-success">Habilitado</span>
+                  </td>
+                  <td class="text-end">
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-outline-primary btn-action" title="Ver Detalle" data-bs-toggle="tooltip">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary btn-action" title="Editar Registro" data-bs-toggle="tooltip">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger btn-action" title="Eliminar Registro" data-confirm="¿Está seguro de eliminar este estudiante?" data-bs-toggle="tooltip">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Paginación -->
+          <div class="pagination-container">
+            <div class="pagination-info">
+              Mostrando <strong>1</strong> a <strong>6</strong> de <strong>1,248</strong> estudiantes registrados
+            </div>
+            <nav aria-label="Navegación de páginas">
+              <ul class="pagination pagination-sm mb-0">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" aria-label="Anterior">
+                    <i class="bi bi-chevron-left"></i>
+                  </a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">...</a></li>
+                <li class="page-item"><a class="page-link" href="#">208</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Siguiente">
+                    <i class="bi bi-chevron-right"></i>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <!-- MODAL: VISTA PREVIA DEL REGISTRO -->
+        <div class="modal fade" id="modalVistaPrevia" tabindex="-1" aria-labelledby="modalVistaPreviaLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="modalVistaPreviaLabel">
+                  <i class="bi bi-person-lines-fill text-primary me-2"></i>Vista Previa de Ficha Estudiantil
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body">
+                <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-3 mb-3">
+                  <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold fs-4" style="width: 54px; height: 54px;" id="previewAvatar">
+                    ES
+                  </div>
+                  <div class="flex-grow-1">
+                    <h5 class="mb-0 fw-bold" id="previewNombre">Nombre del Estudiante</h5>
+                    <p class="text-muted small mb-0" id="previewCarreraSemestre">Carrera &bull; Semestre</p>
+                  </div>
+                  <span class="badge badge-estado bg-success" id="previewBadgeEstado">Requisitos Habilitados</span>
+                </div>
+
+                <div class="row g-3">
+                  <div class="col-sm-6">
+                    <div class="p-2 border rounded">
+                      <small class="text-muted d-block">Cédula:</small>
+                      <strong id="previewCedula">0924518721</strong>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="p-2 border rounded">
+                      <small class="text-muted d-block">Correo Institucional:</small>
+                      <strong id="previewCorreo">estudiante@ug.edu.ec</strong>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="p-2 border rounded">
+                      <small class="text-muted d-block">Teléfono Móvil:</small>
+                      <strong id="previewTelefono">0994567812</strong>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="p-2 border rounded">
+                      <small class="text-muted d-block">Dirección y Cantón:</small>
+                      <strong id="previewDireccion">Cdla. Kennedy Norte, Guayaquil</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <hr class="my-3">
+
+                <h6 class="fw-bold mb-2"><i class="bi bi-check2-all text-success me-1"></i>Requisitos Reglamentarios</h6>
+                <ul class="list-group list-group-flush small" id="previewListaRequisitos">
+                  <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                    <span><i class="bi bi-check-circle-fill text-success me-2"></i>Matrícula vigente (2026-2027 CI)</span>
+                    <span class="badge bg-success-subtle text-success">Verificado</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                    <span><i class="bi bi-check-circle-fill text-success me-2"></i>Mínimo créditos aprobados (≥ 60%)</span>
+                    <span class="badge bg-success-subtle text-success">Verificado</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                    <span><i class="bi bi-check-circle-fill text-success me-2"></i>Seguro estudiantil vigente</span>
+                    <span class="badge bg-success-subtle text-success">Verificado</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                    <span><i class="bi bi-check-circle-fill text-success me-2"></i>Certificado de no tener impedimento</span>
+                    <span class="badge bg-success-subtle text-success">Verificado</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="btnConfirmarDesdeModal">
+                  <i class="bi bi-check-circle me-1"></i> Confirmar y Guardar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODAL: NOTIFICACIÓN DE ÉXITO -->
+        <div class="modal fade" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center p-3">
+              <div class="modal-body">
+                <div class="rounded-circle bg-success-subtle text-success mx-auto d-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                  <i class="bi bi-check-lg fs-1"></i>
+                </div>
+                <h4 class="fw-bold text-dark mb-2">¡Estudiante Registrado Exitosamente!</h4>
+                <p class="text-muted small mb-3">La información personal, académica y requisitos reglamentarios han sido guardados y sincronizados con el SIUG.</p>
+                <div class="alert alert-light border small text-start mb-0">
+                  <i class="bi bi-shield-check text-success me-1"></i> Estado asignado: <strong class="text-success">Habilitado para Prácticas Preprofesionales</strong>.
+                </div>
+              </div>
+              <div class="modal-footer justify-content-center border-0 pt-0">
+                <button type="button" class="btn btn-primary px-4" data-bs-dismiss="modal">Aceptar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCRIPT ESPECÍFICO DE LA PÁGINA -->
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('registroEstudianteForm');
+            const btnVistaPrevia = document.getElementById('btnVistaPrevia');
+            const btnConfirmarDesdeModal = document.getElementById('btnConfirmarDesdeModal');
+            const modalExitoEl = document.getElementById('modalExito');
+            const modalExito = new bootstrap.Modal(modalExitoEl);
+            const modalVistaPreviaEl = document.getElementById('modalVistaPrevia');
+            const modalVistaPrevia = bootstrap.Modal.getOrCreateInstance(modalVistaPreviaEl);
+
+            // Actualizar datos en modal de vista previa
+            btnVistaPrevia.addEventListener('click', function () {
+              const nombres = document.getElementById('nombres').value.trim() || 'Nombre No Especificado';
+              const apellidos = document.getElementById('apellidos').value.trim() || 'Apellido';
+              const cedula = document.getElementById('cedula').value.trim() || 'Sin cédula';
+              const correo = document.getElementById('correoInstitucional').value.trim() || 'sin-correo@ug.edu.ec';
+              const telefono = document.getElementById('telefono').value.trim() || 'Sin teléfono';
+              const direccion = document.getElementById('direccion').value.trim() || 'Sin dirección';
+              const ciudad = document.getElementById('ciudad').value;
+              const carreraSelect = document.getElementById('carrera');
+              const carrera = carreraSelect.options[carreraSelect.selectedIndex]?.text || 'Carrera no seleccionada';
+              const semestreSelect = document.getElementById('semestre');
+              const semestre = semestreSelect.options[semestreSelect.selectedIndex]?.text || 'Semestre no seleccionado';
+
+              document.getElementById('previewNombre').textContent = nombres + ' ' + apellidos;
+              document.getElementById('previewCarreraSemestre').textContent = carrera + ' • ' + semestre;
+              document.getElementById('previewCedula').textContent = cedula;
+              document.getElementById('previewCorreo').textContent = correo;
+              document.getElementById('previewTelefono').textContent = telefono;
+              document.getElementById('previewDireccion').textContent = direccion + ', ' + ciudad;
+
+              const iniciales = (nombres.charAt(0) + (apellidos ? apellidos.charAt(0) : '')).toUpperCase();
+              document.getElementById('previewAvatar').textContent = iniciales || 'UG';
+
+              // Validar checkboxes
+              const reqMatricula = document.getElementById('reqMatricula').checked;
+              const reqCreditos = document.getElementById('reqCreditos').checked;
+              const reqSeguro = document.getElementById('reqSeguro').checked;
+              const reqImpedimento = document.getElementById('reqImpedimento').checked;
+              const allChecked = reqMatricula && reqCreditos && reqSeguro && reqImpedimento;
+
+              const previewBadge = document.getElementById('previewBadgeEstado');
+              if (allChecked) {
+                previewBadge.className = 'badge badge-estado bg-success';
+                previewBadge.textContent = 'Habilitado';
+              } else {
+                previewBadge.className = 'badge badge-estado bg-warning text-dark';
+                previewBadge.textContent = 'Requisitos Incompletos';
+              }
+            });
+
+            // Enviar formulario
+            form.addEventListener('submit', function (e) {
+              e.preventDefault();
+              if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+              }
+              modalExito.show();
+            });
+
+            btnConfirmarDesdeModal.addEventListener('click', function () {
+              modalVistaPrevia.hide();
+              setTimeout(() => {
+                modalExito.show();
+              }, 400);
+            });
+
+            // Filtros de tabla
+            const filtroCarrera = document.getElementById('filtroCarrera');
+            const filtroEstado = document.getElementById('filtroEstado');
+            const btnFiltrar = document.getElementById('btnFiltrar');
+            const btnResetFiltros = document.getElementById('btnResetFiltros');
+            const tabla = document.getElementById('tablaEstudiantes');
+
+            function aplicarFiltros() {
+              const valCarrera = filtroCarrera.value.toLowerCase();
+              const valEstado = filtroEstado.value.toLowerCase();
+              const filas = tabla.querySelectorAll('tbody tr');
+
+              filas.forEach(fila => {
+                const textoCarrera = fila.children[3].textContent.toLowerCase();
+                const textoEstado = fila.children[6].textContent.toLowerCase();
+
+                const coincideCarrera = !valCarrera || textoCarrera.includes(valCarrera);
+                const coincideEstado = !valEstado || textoEstado.includes(valEstado);
+
+                fila.style.display = (coincideCarrera && coincideEstado) ? '' : 'none';
+              });
+            }
+
+            btnFiltrar.addEventListener('click', aplicarFiltros);
+            filtroCarrera.addEventListener('change', aplicarFiltros);
+            filtroEstado.addEventListener('change', aplicarFiltros);
+
+            btnResetFiltros.addEventListener('click', function () {
+              filtroCarrera.value = '';
+              filtroEstado.value = '';
+              const busqueda = document.getElementById('busquedaTabla');
+              if (busqueda) busqueda.value = '';
+              const filas = tabla.querySelectorAll('tbody tr');
+              filas.forEach(f => f.style.display = '');
+            });
+          });
+        </script>
+
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

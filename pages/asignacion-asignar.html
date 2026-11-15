@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Asignar Empresa y Tutor — Gestión de Prácticas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="../assets/css/custom.css" rel="stylesheet">
+</head>
+<body data-page="asig-asignar" data-section="Asignación">
+  <div class="wrapper">
+    <aside id="sidebar"></aside>
+    <div class="sidebar-overlay"></div>
+    <div class="main-content">
+      <nav id="topbar"></nav>
+      <div class="content">
+
+        <!-- Encabezado de la página (Gestalt: Continuidad) -->
+        <div class="page-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+          <div>
+            <h2><i class="bi bi-diagram-3-fill text-primary me-2"></i>Asignar Empresa y Tutor</h2>
+            <p>Vincule estudiantes habilitados con entidades receptoras y designe tutores académicos y empresariales</p>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <a href="asignacion-estado.html" class="btn btn-outline-secondary">
+              <i class="bi bi-card-checklist me-1"></i> Consultar Estados
+            </a>
+          </div>
+        </div>
+
+        <!-- Tarjetas de resumen estadístico (Gestalt: Cierre y Similitud) -->
+        <div class="row g-3 mb-4">
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-value">148</div>
+                  <div class="stat-label">Asignaciones Activas</div>
+                </div>
+                <div class="stat-icon bg-primary-subtle text-primary">
+                  <i class="bi bi-person-check-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-value">24</div>
+                  <div class="stat-label">Pendientes de Asignar</div>
+                </div>
+                <div class="stat-icon bg-warning-subtle text-warning">
+                  <i class="bi bi-hourglass-split"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-value">42</div>
+                  <div class="stat-label">Empresas en Convenio</div>
+                </div>
+                <div class="stat-icon bg-success-subtle text-success">
+                  <i class="bi bi-buildings-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-value">28</div>
+                  <div class="stat-label">Tutores Académicos</div>
+                </div>
+                <div class="stat-icon bg-info-subtle text-info">
+                  <i class="bi bi-person-workspace"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alerta Informativa (Bootstrap Alert) -->
+        <div class="alert alert-info alert-dismissible fade show d-flex align-items-center gap-2 mb-4" role="alert">
+          <i class="bi bi-info-circle-fill fs-5 flex-shrink-0"></i>
+          <div>
+            <strong>Requisito institucional UG:</strong> La asignación formal debe completarse antes del inicio de actividades. Ambos tutores recibirán una notificación automática con los términos de la práctica preprofesional.
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+
+        <!-- Formulario de Asignación (Gestalt: Cierre, Proximidad y Región Común) -->
+        <div class="form-section">
+          <div class="form-section-title">
+            <i class="bi bi-person-plus-fill"></i> Nueva Asignación de Práctica
+          </div>
+
+          <form id="formAsignacion" action="#" method="POST" onsubmit="event.preventDefault(); alert('¡Asignación guardada con éxito en el sistema!');">
+            
+            <!-- Fila 1: Estudiante y Empresa (Gestalt: Proximidad) -->
+            <div class="row g-3 mb-4">
+              <div class="col-12 col-lg-6">
+                <label class="form-label" for="selectEstudiante">
+                  <i class="bi bi-person-badge text-primary me-1"></i>Estudiante (Búsqueda rápida) <span class="text-danger">*</span>
+                </label>
+                <div class="input-group mb-1">
+                  <span class="input-group-text bg-light"><i class="bi bi-search text-muted"></i></span>
+                  <input type="text" class="form-control" id="searchEstudianteInput" list="listaEstudiantes" placeholder="Escriba cédula o apellido para filtrar..." autocomplete="off">
+                </div>
+                <select class="form-select" id="selectEstudiante" name="estudiante" required>
+                  <option value="" selected disabled>-- Seleccione un estudiante habilitado --</option>
+                  <option value="1">Carlos Andrés Moreira Vélez — C.I. 0928374651 (Ing. en Sistemas Computacionales)</option>
+                  <option value="2">María Fernanda López Solórzano — C.I. 0931456782 (Ing. en Software)</option>
+                  <option value="3">Jonathan David Zambrano Holguín — C.I. 0945678123 (Ing. Industrial)</option>
+                  <option value="4">Valeria Nicole Castro Mendoza — C.I. 0918273645 (Ing. en Software)</option>
+                  <option value="5">Bryan Steven Paredes Ronquillo — C.I. 0956789124 (Ing. Civil)</option>
+                  <option value="6">Diana Carolina Alarcón Vera — C.I. 0923456789 (Ing. Química)</option>
+                  <option value="7">Kevin Alejandro Macías Intriago — C.I. 0937894561 (Ing. en Sistemas Computacionales)</option>
+                  <option value="8">Andrea Estefanía Morales Guadamud — C.I. 0948921345 (Ing. en Software)</option>
+                </select>
+                <datalist id="listaEstudiantes">
+                  <option value="Carlos Andrés Moreira Vélez — 0928374651"></option>
+                  <option value="María Fernanda López Solórzano — 0931456782"></option>
+                  <option value="Jonathan David Zambrano Holguín — 0945678123"></option>
+                  <option value="Valeria Nicole Castro Mendoza — 0918273645"></option>
+                  <option value="Bryan Steven Paredes Ronquillo — 0956789124"></option>
+                  <option value="Diana Carolina Alarcón Vera — 0923456789"></option>
+                  <option value="Kevin Alejandro Macías Intriago — 0937894561"></option>
+                  <option value="Andrea Estefanía Morales Guadamud — 0948921345"></option>
+                </datalist>
+                <div class="form-text">Estudiante con créditos académicos y prerequisitos de vinculación aprobados.</div>
+              </div>
+
+              <div class="col-12 col-lg-6">
+                <label class="form-label" for="selectEmpresa">
+                  <i class="bi bi-building text-primary me-1"></i>Empresa Receptora <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" id="selectEmpresa" name="empresa" required>
+                  <option value="" selected disabled>-- Seleccione la empresa con convenio vigente --</option>
+                  <option value="1">Banco Pichincha C.A. — Centro Financiero Guayaquil</option>
+                  <option value="2">Holcim Ecuador S.A. — Planta San Eduardo, Guayaquil</option>
+                  <option value="3">Pronaca S.A. — Complejo Industrial Durán - Guayaquil</option>
+                  <option value="4">CNT EP (Corporación Nacional de Telecomunicaciones) — Sucursal Guayas</option>
+                  <option value="5">CNEL EP (Corporación Nacional de Electricidad) — Unidad de Negocio Guayaquil</option>
+                  <option value="6">Nestlé Ecuador S.A. — Fábrica Sur, Guayaquil</option>
+                  <option value="7">Cervecería Nacional CN S.A. — Planta Pascuales, Guayaquil</option>
+                  <option value="8">Banco Bolivariano C.A. — Matriz Guayaquil</option>
+                  <option value="9">Difare S.A. (Grupo Difare) — Centro de Distribución Guayaquil</option>
+                </select>
+                <div class="form-text">Entidades del sector público y privado con convenio interinstitucional activo.</div>
+              </div>
+            </div>
+
+            <!-- Fila 2: Tutores Académico y Empresarial (Gestalt: Proximidad) -->
+            <div class="row g-3 mb-4">
+              <div class="col-12 col-lg-6">
+                <label class="form-label" for="selectTutorAcademico">
+                  <i class="bi bi-person-workspace text-primary me-1"></i>Tutor Académico (Docente UG) <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" id="selectTutorAcademico" name="tutor_academico" required>
+                  <option value="" selected disabled>-- Seleccione docente tutor de la Universidad de Guayaquil --</option>
+                  <option value="1">Ing. Roberto Carlos Mendoza Viteri, Mgs. (Facultad de Ciencias Matemáticas y Físicas)</option>
+                  <option value="2">Mgs. Patricia Elena Andrade Cárdenas (Facultad de Ciencias Matemáticas y Físicas)</option>
+                  <option value="3">Dr. Washington Oswaldo Guadamud Vera (Facultad de Ingeniería Industrial)</option>
+                  <option value="4">Ing. Mónica Elizabeth Zambrano Romero, Ph.D. (Facultad de Ciencias Químicas)</option>
+                  <option value="5">Ing. Francisco Javier Barrezueta Loor, Mgs. (Facultad de Ciencias Matemáticas y Físicas)</option>
+                  <option value="6">Lcda. Silvia Maricela Peñaherrera Cruz, Mgs. (Facultad de Ciencias Matemáticas y Físicas)</option>
+                </select>
+                <div class="form-text">Docente responsable del seguimiento metodológico y registro de notas en SIUG.</div>
+              </div>
+
+              <div class="col-12 col-lg-6">
+                <label class="form-label" for="selectTutorEmpresarial">
+                  <i class="bi bi-briefcase text-primary me-1"></i>Tutor Empresarial (Contraparte Institucional) <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" id="selectTutorEmpresarial" name="tutor_empresarial" required>
+                  <option value="" selected disabled>-- Seleccione supervisor de la entidad receptora --</option>
+                  <option value="1">Lcdo. Fernando Javier Ortega Bazán — Coordinador de Desarrollo (Banco Pichincha C.A.)</option>
+                  <option value="2">Ing. Gabriela Sofía Cevallos Reyes — Jefa de TI (Holcim Ecuador S.A.)</option>
+                  <option value="3">Ing. Carmen Daniela Palacios Vera — Supervisora de Procesos (Pronaca S.A.)</option>
+                  <option value="4">Ing. Diego Marcelo Saltos Álava — Director de Infraestructura (CNT EP)</option>
+                  <option value="5">Ing. Lorena Beatriz Campuzano Roca — Líder Técnico (CNEL EP)</option>
+                  <option value="6">Mgs. Xavier Andrés Villacrés Suárez — Gerente de Operaciones (Nestlé Ecuador S.A.)</option>
+                </select>
+                <div class="form-text">Profesional asignado por la empresa para la dirección y control de actividades.</div>
+              </div>
+            </div>
+
+            <!-- Fila 3: Periodo de Ejecución (Gestalt: Continuidad) -->
+            <div class="row g-3 mb-4">
+              <div class="col-12 col-md-6 col-lg-4">
+                <label class="form-label" for="fechaInicio">
+                  <i class="bi bi-calendar-event text-primary me-1"></i>Fecha de Inicio <span class="text-danger">*</span>
+                </label>
+                <input type="date" class="form-control" id="fechaInicio" name="fecha_inicio" value="2026-11-20" required>
+                <div class="form-text">Fecha formal de incorporación del estudiante.</div>
+              </div>
+
+              <div class="col-12 col-md-6 col-lg-4">
+                <label class="form-label" for="fechaFin">
+                  <i class="bi bi-calendar-check text-primary me-1"></i>Fecha de Finalización <span class="text-danger">*</span>
+                </label>
+                <input type="date" class="form-control" id="fechaFin" name="fecha_fin" value="2027-02-20" required>
+                <div class="form-text">Fecha límite de culminación de las horas prácticas.</div>
+              </div>
+
+              <div class="col-12 col-md-12 col-lg-4">
+                <label class="form-label" for="horasAsignadas">
+                  <i class="bi bi-clock-history text-primary me-1"></i>Total de Horas Requeridas <span class="text-danger">*</span>
+                </label>
+                <div class="input-group">
+                  <input type="number" class="form-control" id="horasAsignadas" name="horas_asignadas" value="240" min="80" max="480" required>
+                  <span class="input-group-text">Horas reloj</span>
+                </div>
+                <div class="form-text">Carga horaria mínima establecida por el reglamento curricular UG.</div>
+              </div>
+            </div>
+
+            <!-- Fila 4: Observaciones -->
+            <div class="row g-3 mb-4">
+              <div class="col-12">
+                <label class="form-label" for="observaciones">
+                  <i class="bi bi-card-text text-primary me-1"></i>Observaciones y Acuerdos de Trabajo
+                </label>
+                <textarea class="form-control" id="observaciones" name="observaciones" rows="3" placeholder="Detalle acuerdos de horario laboral, modalidad (presencial, híbrida o virtual), departamento de asignación o especificaciones de confidencialidad institucional..."></textarea>
+                <div class="form-text">Esta información constará en la carta oficial de asignación emitida al estudiante.</div>
+              </div>
+            </div>
+
+            <!-- Botones de Acción (Gestalt: Similitud y Alineación a la derecha) -->
+            <div class="d-flex justify-content-end gap-2 pt-3 border-top">
+              <button type="reset" class="btn btn-outline-secondary">
+                <i class="bi bi-x-circle me-1"></i> Cancelar
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check2-circle me-1"></i> Asignar Empresa y Tutor
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Barra de Filtros para Asignaciones Recientes (Gestalt: Región Común) -->
+        <div class="filter-bar">
+          <div class="form-group" style="flex: 2; min-width: 250px;">
+            <label class="form-label" for="busquedaTabla"><i class="bi bi-search me-1"></i>Buscar en asignaciones</label>
+            <div class="input-group input-group-sm">
+              <span class="input-group-text"><i class="bi bi-search"></i></span>
+              <input type="text" class="form-control" id="busquedaTabla" data-search-table="tablaAsignacionesRecientes" placeholder="Buscar por estudiante, empresa, tutor o periodo...">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filtroEstado"><i class="bi bi-funnel me-1"></i>Filtrar por Estado</label>
+            <select class="form-select form-select-sm" id="filtroEstado" onchange="filtrarPorEstado(this.value)">
+              <option value="">Todos los estados</option>
+              <option value="Activa">Activa</option>
+              <option value="Pendiente">Pendiente</option>
+              <option value="Finalizada">Finalizada</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filtroEmpresa"><i class="bi bi-building me-1"></i>Filtrar por Empresa</label>
+            <select class="form-select form-select-sm" id="filtroEmpresa" onchange="filtrarPorEmpresa(this.value)">
+              <option value="">Todas las empresas</option>
+              <option value="Banco Pichincha">Banco Pichincha</option>
+              <option value="Holcim Ecuador">Holcim Ecuador</option>
+              <option value="Pronaca">Pronaca</option>
+              <option value="CNT EP">CNT EP</option>
+              <option value="CNEL EP">CNEL EP</option>
+              <option value="Nestlé Ecuador">Nestlé Ecuador</option>
+            </select>
+          </div>
+          <div class="form-group d-flex gap-2">
+            <button class="btn btn-sm btn-outline-secondary w-100" type="button" onclick="limpiarFiltros()">
+              <i class="bi bi-arrow-counterclockwise me-1"></i>Limpiar
+            </button>
+            <button class="btn btn-sm btn-outline-primary" type="button" title="Descargar reporte de asignaciones" onclick="alert('Generando reporte en formato PDF/Excel...');">
+              <i class="bi bi-download"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabla de Asignaciones Recientes (Gestalt: Similitud y Continuidad) -->
+        <div class="table-container mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-clock-history text-primary"></i>
+              <span class="fw-bold">Asignaciones Recientes</span>
+            </div>
+            <span class="badge bg-secondary-subtle text-secondary-emphasis">6 registros encontrados</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover align-middle" id="tablaAsignacionesRecientes">
+              <thead>
+                <tr>
+                  <th scope="col"><i class="bi bi-person me-1"></i>Estudiante</th>
+                  <th scope="col"><i class="bi bi-buildings me-1"></i>Empresa</th>
+                  <th scope="col"><i class="bi bi-mortarboard me-1"></i>Tutor Académico</th>
+                  <th scope="col"><i class="bi bi-briefcase me-1"></i>Tutor Empresarial</th>
+                  <th scope="col"><i class="bi bi-calendar3 me-1"></i>Periodo</th>
+                  <th scope="col" class="text-center"><i class="bi bi-info-circle me-1"></i>Estado</th>
+                  <th scope="col" class="text-end"><i class="bi bi-gear me-1"></i>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Fila 1 (Mock) -->
+                <tr>
+                  <td>
+                    <div class="fw-bold text-dark">Carlos Andrés Moreira Vélez</div>
+                    <div class="text-muted small"><i class="bi bi-mortarboard-fill me-1 text-primary"></i>Ing. en Sistemas Computacionales &bull; C.I. 0928374651</div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Banco Pichincha C.A.</div>
+                    <div class="text-muted small"><i class="bi bi-geo-alt-fill me-1 text-danger"></i>Centro Financiero Guayaquil</div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Ing. Roberto Carlos Mendoza Viteri, Mgs.</div>
+                    <div class="text-muted small">Fac. Ciencias Matemáticas y Físicas</div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Lcdo. Fernando Javier Ortega Bazán</div>
+                    <div class="text-muted small">Coordinador de Desarrollo</div>
+                  </td>
+                  <td>
+                    <div class="small fw-semibold text-dark">01/10/2026 &mdash; 15/01/2027</div>
+                    <div class="badge bg-light text-secondary border mt-1"><i class="bi bi-clock me-1"></i>240 horas</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle-fill me-1"></i>Activa
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <div class="d-inline-flex gap-1">
+                      <button class="btn btn-sm btn-outline-primary btn-action" title="Ver detalles completos" onclick="verDetalles('Carlos Andrés Moreira Vélez', 'Banco Pichincha C.A.', 'Activa')">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary btn-action" title="Editar asignación" onclick="alert('Editar asignación de Carlos Andrés Moreira');">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Fila 2 (Mock) -->
+                <tr>
+                  <td>
+                    <div class="fw-bold text-dark">María Fernanda López Solórzano</div>
+                    <div class="text-muted small"><i class="bi bi-mortarboard-fill me-1 text-primary"></i>Ing. en Software &bull; C.I. 0931456782</div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Holcim Ecuador S.A.</div>
+                    <div class="text-muted small"><i class="bi bi-geo-alt-fill me-1 text-danger"></i>Planta San Eduardo, Guayaquil</div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Mgs. Patricia Elena Andrade Cárdenas</div>
+                    <div class="text-muted small">Fac. Ciencias Matemáticas y Físicas</div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Ing. Gabriela Sofía Cevallos Reyes</div>
+                    <div class="text-muted small">Jefa de TI</div>
+                  </td>
+                  <td>
+                    <div class="small fw-semibold text-dark">15/10/2026 &mdash; 30/01/2027</div>
+                    <div class="badge bg-light text-secondary border mt-1"><i class="bi bi-clock me-1"></i>240 horas</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle-fill me-1"></i>Activa
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <div class="d-inline-flex gap-1">
+                      <button class="btn btn-sm btn-outline-primary btn-action" title="Ver detalles completos" onclick="verDetalles('María Fernanda López Solórzano', 'Holcim Ecuador S.A.', 'Activa')">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary btn-action" title="Editar asignación" onclick="alert('Editar asignación de María Fernanda López');">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Fila 3 (Mock) -->
+                <tr>
+                  <td>
+                    <div class="fw-bold text-dark">Jonathan David Zambrano Holguín</div>
+                    <div class="text-muted small"><i class="bi bi-mortarboard-fill me-1 text-primary"></i>Ing. Industrial &bull; C.I. 0945678123</div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Pronaca S.A.</div>
+                    <div class="text-muted small"><i class="bi bi-geo-alt-fill me-1 text-danger"></i>Complejo Industrial Durán - Guayaquil</div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Dr. Washington Oswaldo Guadamud Vera</div>
+                    <div class="text-muted small">Fac. Ingeniería Industrial</div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Ing. Carmen Daniela Palacios Vera</div>
+                    <div class="text-muted small">Supervisora de Procesos</div>
+                  </td>
+                  <td>
+                    <div class="small fw-semibold text-dark">01/11/2026 &mdash; 15/02/2027</div>
+                    <div class="badge bg-light text-secondary border mt-1"><i class="bi bi-clock me-1"></i>240 horas</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-warning text-dark">
+                      <i class="bi bi-hourglass-split me-1"></i>Pendiente
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <div class="d-inline-flex gap-1">
+                      <button class="btn btn-sm btn-outline-primary btn-action" title="Ver detalles completos" onclick="verDetalles('Jonathan David Zambrano Holguín', 'Pronaca S.A.', 'Pendiente')">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary btn-action" title="Editar asignación" onclick="alert('Editar asignación de Jonathan David Zambrano');">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Fila 4 (Mock) -->
+                <tr>
+                  <td>
+                    <div class="fw-bold text-dark">Valeria Nicole Castro Mendoza</div>
+                    <div class="text-muted small"><i class="bi bi-mortarboard-fill me-1 text-primary"></i>Ing. en Software &bull; C.I. 0918273645</div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">CNT EP</div>
+                    <div class="text-muted small"><i class="bi bi-geo-alt-fill me-1 text-danger"></i>Sucursal Guayas, Guayaquil</div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Ing. Francisco Javier Barrezueta Loor, Mgs.</div>
+                    <div class="text-muted small">Fac. Ciencias Matemáticas y Físicas</div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Ing. Diego Marcelo Saltos Álava</div>
+                    <div class="text-muted small">Director de Infraestructura</div>
+                  </td>
+                  <td>
+                    <div class="small fw-semibold text-dark">15/11/2026 &mdash; 28/02/2027</div>
+                    <div class="badge bg-light text-secondary border mt-1"><i class="bi bi-clock me-1"></i>240 horas</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-warning text-dark">
+                      <i class="bi bi-hourglass-split me-1"></i>Pendiente
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <div class="d-inline-flex gap-1">
+                      <button class="btn btn-sm btn-outline-primary btn-action" title="Ver detalles completos" onclick="verDetalles('Valeria Nicole Castro Mendoza', 'CNT EP', 'Pendiente')">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary btn-action" title="Editar asignación" onclick="alert('Editar asignación de Valeria Nicole Castro');">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Fila 5 (Mock) -->
+                <tr>
+                  <td>
+                    <div class="fw-bold text-dark">Bryan Steven Paredes Ronquillo</div>
+                    <div class="text-muted small"><i class="bi bi-mortarboard-fill me-1 text-primary"></i>Ing. Civil &bull; C.I. 0956789124</div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">CNEL EP</div>
+                    <div class="text-muted small"><i class="bi bi-geo-alt-fill me-1 text-danger"></i>Unidad de Negocio Guayaquil</div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Lcda. Silvia Maricela Peñaherrera Cruz, Mgs.</div>
+                    <div class="text-muted small">Fac. Ciencias Matemáticas y Físicas</div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Ing. Lorena Beatriz Campuzano Roca</div>
+                    <div class="text-muted small">Líder Técnico</div>
+                  </td>
+                  <td>
+                    <div class="small fw-semibold text-dark">01/06/2026 &mdash; 15/09/2026</div>
+                    <div class="badge bg-light text-secondary border mt-1"><i class="bi bi-clock me-1"></i>240 horas</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-secondary">
+                      <i class="bi bi-flag-fill me-1"></i>Finalizada
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <div class="d-inline-flex gap-1">
+                      <button class="btn btn-sm btn-outline-primary btn-action" title="Ver detalles completos" onclick="verDetalles('Bryan Steven Paredes Ronquillo', 'CNEL EP', 'Finalizada')">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary btn-action" title="Editar asignación" onclick="alert('Editar asignación de Bryan Steven Paredes');">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Fila 6 (Mock) -->
+                <tr>
+                  <td>
+                    <div class="fw-bold text-dark">Diana Carolina Alarcón Vera</div>
+                    <div class="text-muted small"><i class="bi bi-mortarboard-fill me-1 text-primary"></i>Ing. Química &bull; C.I. 0923456789</div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Nestlé Ecuador S.A.</div>
+                    <div class="text-muted small"><i class="bi bi-geo-alt-fill me-1 text-danger"></i>Fábrica Sur, Guayaquil</div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Ing. Mónica Elizabeth Zambrano Romero, Ph.D.</div>
+                    <div class="text-muted small">Fac. Ciencias Químicas</div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Mgs. Xavier Andrés Villacrés Suárez</div>
+                    <div class="text-muted small">Gerente de Operaciones</div>
+                  </td>
+                  <td>
+                    <div class="small fw-semibold text-dark">15/05/2026 &mdash; 31/08/2026</div>
+                    <div class="badge bg-light text-secondary border mt-1"><i class="bi bi-clock me-1"></i>240 horas</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-secondary">
+                      <i class="bi bi-flag-fill me-1"></i>Finalizada
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <div class="d-inline-flex gap-1">
+                      <button class="btn btn-sm btn-outline-primary btn-action" title="Ver detalles completos" onclick="verDetalles('Diana Carolina Alarcón Vera', 'Nestlé Ecuador S.A.', 'Finalizada')">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary btn-action" title="Editar asignación" onclick="alert('Editar asignación de Diana Carolina Alarcón');">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Paginación (Gestalt: Continuidad) -->
+          <div class="pagination-container">
+            <div class="pagination-info">
+              Mostrando <strong>1</strong> a <strong>6</strong> de <strong>6</strong> asignaciones registradas
+            </div>
+            <nav aria-label="Navegación de páginas">
+              <ul class="pagination pagination-sm mb-0">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i class="bi bi-chevron-left"></i></a>
+                </li>
+                <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <!-- Modal de Detalle de Asignación (Bootstrap 5.3 Modal) -->
+        <div class="modal fade" id="modalDetalleAsignacion" tabindex="-1" aria-labelledby="modalDetalleLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="modalDetalleLabel">
+                  <i class="bi bi-info-circle-fill text-primary me-2"></i>Ficha de Asignación
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body">
+                <div class="mb-3">
+                  <label class="form-label text-muted small mb-0">Estudiante:</label>
+                  <div class="fw-bold fs-6" id="modalDetalleEstudiante">Carlos Andrés Moreira Vélez</div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label text-muted small mb-0">Empresa Receptora:</label>
+                  <div class="fw-semibold" id="modalDetalleEmpresa">Banco Pichincha C.A.</div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label text-muted small mb-0">Estado Actual:</label>
+                  <div><span class="badge badge-estado bg-success" id="modalDetalleEstado">Activa</span></div>
+                </div>
+                <div class="alert alert-light border small text-muted mb-0">
+                  <i class="bi bi-file-earmark-text me-1"></i> El acta de compromiso y el plan de aprendizaje se encuentran validados conforme al reglamento institucional de la Universidad de Guayaquil.
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="alert('Descargando acta oficial en PDF...');">
+                  <i class="bi bi-file-earmark-pdf me-1"></i> Descargar Acta
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Script de interactividad específica para la página -->
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('searchEstudianteInput');
+            const selectEst = document.getElementById('selectEstudiante');
+
+            // Sincronización entre input de búsqueda con datalist y select
+            if (searchInput && selectEst) {
+              searchInput.addEventListener('input', function () {
+                const term = this.value.toLowerCase().trim();
+                if (!term) return;
+                for (let i = 1; i < selectEst.options.length; i++) {
+                  const optText = selectEst.options[i].text.toLowerCase();
+                  if (optText.includes(term)) {
+                    selectEst.selectedIndex = i;
+                    break;
+                  }
+                }
+              });
+
+              selectEst.addEventListener('change', function () {
+                if (this.selectedIndex > 0) {
+                  const nombre = this.options[this.selectedIndex].text.split(' — ')[0];
+                  searchInput.value = nombre;
+                }
+              });
+            }
+          });
+
+          // Filtro por Estado en la tabla
+          function filtrarPorEstado(estado) {
+            const filas = document.querySelectorAll('#tablaAsignacionesRecientes tbody tr');
+            filas.forEach(fila => {
+              const badge = fila.querySelector('.badge-estado');
+              if (!estado || (badge && badge.textContent.trim().includes(estado))) {
+                fila.style.display = '';
+              } else {
+                fila.style.display = 'none';
+              }
+            });
+          }
+
+          // Filtro por Empresa en la tabla
+          function filtrarPorEmpresa(empresa) {
+            const filas = document.querySelectorAll('#tablaAsignacionesRecientes tbody tr');
+            filas.forEach(fila => {
+              const colEmpresa = fila.cells[1];
+              if (!empresa || (colEmpresa && colEmpresa.textContent.toLowerCase().includes(empresa.toLowerCase()))) {
+                fila.style.display = '';
+              } else {
+                fila.style.display = 'none';
+              }
+            });
+          }
+
+          // Limpiar filtros aplicados
+          function limpiarFiltros() {
+            const inputBusqueda = document.getElementById('busquedaTabla');
+            const selectEstado = document.getElementById('filtroEstado');
+            const selectEmpresa = document.getElementById('filtroEmpresa');
+            if (inputBusqueda) inputBusqueda.value = '';
+            if (selectEstado) selectEstado.value = '';
+            if (selectEmpresa) selectEmpresa.value = '';
+            const filas = document.querySelectorAll('#tablaAsignacionesRecientes tbody tr');
+            filas.forEach(fila => fila.style.display = '');
+          }
+
+          // Ver detalles en Modal
+          function verDetalles(estudiante, empresa, estado) {
+            document.getElementById('modalDetalleEstudiante').textContent = estudiante;
+            document.getElementById('modalDetalleEmpresa').textContent = empresa;
+            const estadoBadge = document.getElementById('modalDetalleEstado');
+            estadoBadge.textContent = estado;
+            estadoBadge.className = 'badge badge-estado ' + (estado === 'Activa' ? 'bg-success' : (estado === 'Pendiente' ? 'bg-warning text-dark' : 'bg-secondary'));
+            const modal = new bootstrap.Modal(document.getElementById('modalDetalleAsignacion'));
+            modal.show();
+          }
+        </script>
+
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

@@ -1,8 +1,11 @@
-.env
-vendor/
-storage/uploads/*
-storage/logs/*
-!storage/uploads/.gitkeep
-!storage/logs/.gitkeep
-backups/
-.phpunit.result.cache
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Node (si se usa a futuro)
+node_modules/

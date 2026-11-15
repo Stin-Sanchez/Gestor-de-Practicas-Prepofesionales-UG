@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cambios y Reasignaciones — Gestión de Prácticas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="../assets/css/custom.css" rel="stylesheet">
+</head>
+<body data-page="asig-reasignacion" data-section="Asignación">
+  <div class="wrapper">
+    <aside id="sidebar"></aside>
+    <div class="sidebar-overlay"></div>
+    <div class="main-content">
+      <nav id="topbar"></nav>
+      <div class="content">
+
+        <!-- Encabezado de Página (Gestalt: Continuidad) -->
+        <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+          <div>
+            <h2>Cambios y Reasignaciones</h2>
+            <p>Gestione y supervise las solicitudes de cambio de entidad receptora, asignación de tutores y cancelaciones de prácticas preprofesionales.</p>
+          </div>
+          <div class="d-flex gap-2">
+            <a href="#formSolicitudCambio" class="btn btn-outline-primary btn-sm">
+              <i class="bi bi-plus-circle me-1"></i>Nueva Solicitud
+            </a>
+            <a href="#seccionTablaSolicitudes" class="btn btn-primary btn-sm">
+              <i class="bi bi-list-task me-1"></i>Ver Solicitudes Pendientes
+            </a>
+          </div>
+        </div>
+
+        <!-- Tarjetas de Métricas (Gestalt: Similitud y Cierre) -->
+        <div class="row g-3 mb-4">
+          <div class="col-xl-3 col-sm-6">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Solicitudes Pendientes</div>
+                  <div class="stat-value text-warning">8</div>
+                  <div class="small text-muted mt-1">
+                    <i class="bi bi-clock-history me-1"></i>3 urgentes por revisar
+                  </div>
+                </div>
+                <div class="stat-icon bg-warning bg-opacity-10 text-warning">
+                  <i class="bi bi-hourglass-split"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-6">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Cambios de Empresa</div>
+                  <div class="stat-value text-primary">14</div>
+                  <div class="small text-muted mt-1">
+                    <i class="bi bi-buildings me-1"></i>Periodo lectivo 2026-C2
+                  </div>
+                </div>
+                <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                  <i class="bi bi-arrow-left-right"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-6">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Cambios de Tutor</div>
+                  <div class="stat-value text-info">9</div>
+                  <div class="small text-muted mt-1">
+                    <i class="bi bi-person-check me-1"></i>Tutores reasignados
+                  </div>
+                </div>
+                <div class="stat-icon bg-info bg-opacity-10 text-info">
+                  <i class="bi bi-person-badge"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-6">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Cancelaciones</div>
+                  <div class="stat-value text-danger">3</div>
+                  <div class="small text-muted mt-1">
+                    <i class="bi bi-x-octagon me-1"></i>1.2% del total asignado
+                  </div>
+                </div>
+                <div class="stat-icon bg-danger bg-opacity-10 text-danger">
+                  <i class="bi bi-exclamation-octagon"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila Principal: Formulario de Solicitud y Timeline Lateral -->
+        <div class="row g-4 mb-4">
+          <!-- Columna Izquierda: Formulario de Solicitud de Cambio -->
+          <div class="col-lg-8">
+            <form id="formSolicitudCambio" novalidate>
+              <!-- Sección 1: Selección del Estudiante -->
+              <div class="form-section">
+                <div class="form-section-title">
+                  <i class="bi bi-person-lines-fill"></i>
+                  <span>1. Selección del Estudiante</span>
+                </div>
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label for="selectEstudiante" class="form-label">Estudiante Matriculado <span class="text-danger">*</span></label>
+                    <select class="form-select" id="selectEstudiante" required>
+                      <option value="" selected disabled>-- Seleccione un estudiante --</option>
+                      <option value="1" data-carrera="Ing. en Software" data-empresa="CNEL EP Guayaquil" data-tutor="Mgs. Silvia Elena Morales" data-horas="96 / 240 hrs" data-cedula="0928471923" data-matricula="2021-04192">
+                        López Mendoza María Fernanda — Ing. en Software (Matrícula: 2021-04192)
+                      </option>
+                      <option value="2" data-carrera="Ing. en Sistemas Computacionales" data-empresa="Holcim Ecuador S.A." data-tutor="Ing. Roberto Carlos Mora" data-horas="120 / 240 hrs" data-cedula="0918239012" data-matricula="2020-08341">
+                        Moreira Macías Carlos Andrés — Ing. en Sistemas Computacionales (Matrícula: 2020-08341)
+                      </option>
+                      <option value="3" data-carrera="Ing. Civil" data-empresa="Pronaca Guayaquil" data-tutor="Mgs. Washington Eduardo Villacís" data-horas="48 / 240 hrs" data-cedula="0930491823" data-matricula="2019-11024">
+                        Zambrano Ortiz Kevin Alexander — Ing. Civil (Matrícula: 2019-11024)
+                      </option>
+                      <option value="4" data-carrera="Ing. Industrial" data-empresa="Pronaca Guayaquil" data-tutor="Ing. Patricia Delgado Villao, PhD" data-horas="160 / 240 hrs" data-cedula="0941928374" data-matricula="2021-01872">
+                        Alarcón Vera Doménica Stephania — Ing. Industrial (Matrícula: 2021-01872)
+                      </option>
+                      <option value="5" data-carrera="Ing. Química" data-empresa="Banco Pichincha (Regional Litoral)" data-tutor="Dra. Carmen Lucía Viteri" data-horas="60 / 240 hrs" data-cedula="0950192843" data-matricula="2020-03591">
+                        Cedeño Holguín Bryan Javier — Ing. Química (Matrícula: 2020-03591)
+                      </option>
+                      <option value="6" data-carrera="Ing. en Software" data-empresa="CNT EP - Guayas" data-tutor="Ing. Xavier Andrade Calderón" data-horas="80 / 240 hrs" data-cedula="0927384910" data-matricula="2022-05443">
+                        Barzola Castro Andrea Nicole — Ing. en Software (Matrícula: 2022-05443)
+                      </option>
+                      <option value="7" data-carrera="Ing. en Sistemas Computacionales" data-empresa="Cervecería Nacional (Pascuales)" data-tutor="Mgs. Silvia Elena Morales" data-horas="140 / 240 hrs" data-cedula="0919284756" data-matricula="2021-09823">
+                        Villamar Reyes Luis Alberto — Ing. en Sistemas Computacionales (Matrícula: 2021-09823)
+                      </option>
+                    </select>
+                  </div>
+
+                  <!-- Resumen visual de la práctica actual del estudiante (Gestalt: Proximidad) -->
+                  <div class="col-12" id="infoEstudianteBox" style="display: none;">
+                    <div class="p-3 bg-light rounded-3 border">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-bold text-primary small">
+                          <i class="bi bi-info-circle-fill me-1"></i> Asignación Actual en Curso
+                        </span>
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle" id="badgeEstadoPractica">En Ejecución</span>
+                      </div>
+                      <div class="row g-2 small">
+                        <div class="col-md-6">
+                          <span class="text-muted d-block">Carrera:</span>
+                          <strong id="infoCarrera" class="text-dark">-</strong>
+                        </div>
+                        <div class="col-md-6">
+                          <span class="text-muted d-block">Cédula / Matrícula:</span>
+                          <span id="infoIdentificacion" class="text-dark">-</span>
+                        </div>
+                        <div class="col-md-6">
+                          <span class="text-muted d-block">Empresa / Entidad Receptora:</span>
+                          <strong id="infoEmpresa" class="text-dark">-</strong>
+                        </div>
+                        <div class="col-md-6">
+                          <span class="text-muted d-block">Tutor Académico Asignado:</span>
+                          <strong id="infoTutor" class="text-dark">-</strong>
+                        </div>
+                        <div class="col-12 mt-2">
+                          <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted">Horas Registradas:</span>
+                            <span class="fw-semibold" id="infoHorasText">-</span>
+                          </div>
+                          <div class="progress" style="height: 6px;">
+                            <div class="progress-bar bg-success" id="infoHorasProgreso" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Sección 2: Tipo de Cambio y Selección de Destino -->
+              <div class="form-section">
+                <div class="form-section-title">
+                  <i class="bi bi-arrow-repeat"></i>
+                  <span>2. Tipo de Modificación y Nuevo Destino</span>
+                </div>
+
+                <!-- Opciones de Tipo de Cambio (Radio Buttons) -->
+                <div class="mb-3">
+                  <label class="form-label d-block">Tipo de Solicitud de Cambio <span class="text-danger">*</span></label>
+                  <div class="row g-3">
+                    <div class="col-md-4">
+                      <div class="form-check p-3 border rounded-3 bg-light-subtle h-100">
+                        <input class="form-check-input" type="radio" name="tipoCambio" id="radioCambioEmpresa" value="empresa" checked>
+                        <label class="form-check-label fw-semibold d-block cursor-pointer" for="radioCambioEmpresa">
+                          <i class="bi bi-buildings text-primary me-1"></i> Cambio de Empresa
+                          <small class="d-block text-muted fw-normal mt-1">Reubicación de entidad receptora de prácticas.</small>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-check p-3 border rounded-3 bg-light-subtle h-100">
+                        <input class="form-check-input" type="radio" name="tipoCambio" id="radioCambioTutor" value="tutor">
+                        <label class="form-check-label fw-semibold d-block cursor-pointer" for="radioCambioTutor">
+                          <i class="bi bi-person-badge text-info me-1"></i> Cambio de Tutor
+                          <small class="d-block text-muted fw-normal mt-1">Reasignación de docente tutor académico UG.</small>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-check p-3 border rounded-3 bg-light-subtle h-100">
+                        <input class="form-check-input" type="radio" name="tipoCambio" id="radioCancelacion" value="cancelacion">
+                        <label class="form-check-label fw-semibold d-block cursor-pointer" for="radioCancelacion">
+                          <i class="bi bi-x-octagon text-danger me-1"></i> Cancelación
+                          <small class="d-block text-muted fw-normal mt-1">Suspensión o retiro formal del proceso formativo.</small>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Bloque Condicional: Nueva Empresa -->
+                <div id="bloqueNuevaEmpresa" class="mt-3">
+                  <div class="row g-3">
+                    <div class="col-md-7">
+                      <label for="selectNuevaEmpresa" class="form-label">Nueva Empresa / Entidad Receptora <span class="text-danger">*</span></label>
+                      <select class="form-select" id="selectNuevaEmpresa" required>
+                        <option value="" selected disabled>-- Seleccione empresa con convenio vigente --</option>
+                        <option value="Holcim Ecuador S.A.">Holcim Ecuador S.A. (Km 18 Vía a la Costa, Guayaquil)</option>
+                        <option value="Pronaca Guayaquil">Pronaca Guayaquil (Km 16.5 Vía a Daule)</option>
+                        <option value="Nestlé Ecuador">Nestlé Ecuador — Fábrica Sur (Av. Domingo Comín)</option>
+                        <option value="CNT EP - Guayas">CNT EP - Guayas (Cdla. IETEL, Av. Hermano Miguel)</option>
+                        <option value="CNEL EP Guayaquil">CNEL EP Guayaquil (Av. Bombero Km 6.5)</option>
+                        <option value="Banco Pichincha (Regional Litoral)">Banco Pichincha (Regional Litoral — Av. 9 de Octubre)</option>
+                        <option value="Cervecería Nacional (Pascuales)">Cervecería Nacional (Fábrica Pascuales Km 14.5)</option>
+                        <option value="Corporación Favorita Guayaquil">Corporación Favorita (Av. Juan Tanca Marengo)</option>
+                      </select>
+                    </div>
+                    <div class="col-md-5">
+                      <label for="inputAreaNuevaEmpresa" class="form-label">Área / Departamento de Destino <span class="text-danger">*</span></label>
+                      <input type="text" class="form-control" id="inputAreaNuevaEmpresa" placeholder="Ej. TI e Innovación Tecnológica" required>
+                    </div>
+                    <div class="col-md-7">
+                      <label for="inputSupervisorPropuesto" class="form-label">Supervisor Empresarial Propuesto</label>
+                      <input type="text" class="form-control" id="inputSupervisorPropuesto" placeholder="Nombre completo del tutor en empresa">
+                    </div>
+                    <div class="col-md-5">
+                      <label for="selectModalidadNueva" class="form-label">Modalidad de Práctica</label>
+                      <select class="form-select" id="selectModalidadNueva">
+                        <option value="Presencial" selected>Presencial (Jornada diurna)</option>
+                        <option value="Híbrida">Híbrida (3 días presencial / 2 remota)</option>
+                        <option value="Remota">Virtual / Remota (Telepráctica)</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Bloque Condicional: Nuevo Tutor Académico -->
+                <div id="bloqueNuevoTutor" class="mt-3" style="display: none;">
+                  <div class="row g-3">
+                    <div class="col-md-7">
+                      <label for="selectNuevoTutor" class="form-label">Nuevo Docente Tutor Académico UG <span class="text-danger">*</span></label>
+                      <select class="form-select" id="selectNuevoTutor">
+                        <option value="" selected disabled>-- Seleccione docente tutor disponible --</option>
+                        <option value="Ing. Roberto Carlos Mora, M.Sc.">Ing. Roberto Carlos Mora, M.Sc. (Ing. en Sistemas / Software — 4 cupos)</option>
+                        <option value="Mgs. Silvia Elena Morales">Mgs. Silvia Elena Morales (Ing. en Sistemas Computacionales — 2 cupos)</option>
+                        <option value="Ing. Patricia Delgado Villao, PhD">Ing. Patricia Delgado Villao, PhD (Ing. Industrial — 3 cupos)</option>
+                        <option value="Mgs. Washington Eduardo Villacís">Mgs. Washington Eduardo Villacís (Ing. Civil — 1 cupo)</option>
+                        <option value="Dra. Carmen Lucía Viteri">Dra. Carmen Lucía Viteri (Ing. Química — 2 cupos)</option>
+                        <option value="Ing. Xavier Andrade Calderón">Ing. Xavier Andrade Calderón (Ing. en Software — 3 cupos)</option>
+                      </select>
+                    </div>
+                    <div class="col-md-5">
+                      <label for="selectCausaCambioTutor" class="form-label">Causal de Reasignación</label>
+                      <select class="form-select" id="selectCausaCambioTutor">
+                        <option value="Cruce de horarios académicos">Cruce de horarios de tutoría</option>
+                        <option value="Afinidad con proyecto de titulación">Afinidad temática de especialidad</option>
+                        <option value="Licencia docente justificada">Licencia médica o académica del docente</option>
+                        <option value="Equiparación de carga horaria">Equiparación de carga horaria docente</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Bloque Condicional: Cancelación -->
+                <div id="bloqueCancelacion" class="mt-3" style="display: none;">
+                  <div class="alert alert-warning d-flex align-items-center mb-3 py-2 px-3" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill fs-5 me-2 flex-shrink-0"></i>
+                    <div class="small">
+                      <strong>Atención:</strong> La cancelación de prácticas preprofesionales requiere informe de descargo y aprobación formal de la Comisión Académica de la Facultad.
+                    </div>
+                  </div>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label for="selectMotivoCancelacion" class="form-label">Causa Principal de Cancelación <span class="text-danger">*</span></label>
+                      <select class="form-select" id="selectMotivoCancelacion">
+                        <option value="" selected disabled>-- Seleccione causa de cancelación --</option>
+                        <option value="Cruce de horarios con materias curriculares">Cruce de horarios con materias curriculares obligatorias</option>
+                        <option value="Calamidad doméstica o problemas médicos">Calamidad doméstica o condición médica certificada</option>
+                        <option value="Incumplimiento del plan formativo por la empresa">Incumplimiento del plan formativo por la entidad receptora</option>
+                        <option value="Renuncia voluntaria justificada">Renuncia voluntaria justificada</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="selectDisposicionHoras" class="form-label">Disposición de Horas Cumplidas</label>
+                      <select class="form-select" id="selectDisposicionHoras">
+                        <option value="Convalidación parcial en nuevo periodo" selected>Convalidación parcial de horas en el siguiente ciclo</option>
+                        <option value="Anulación total sin penalidad académica">Anulación total sin penalidad al récord</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Sección 3: Justificación y Documentación de Respaldo -->
+              <div class="form-section">
+                <div class="form-section-title">
+                  <i class="bi bi-file-earmark-text-fill"></i>
+                  <span>3. Justificación y Documentación de Respaldo</span>
+                </div>
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label for="textareaMotivo" class="form-label">Motivo Detallado de la Solicitud <span class="text-danger">*</span></label>
+                    <textarea class="form-control" id="textareaMotivo" rows="3" placeholder="Explique de forma detallada y precisa los fundamentos académicos, laborales o personales que sustentan la solicitud..." required></textarea>
+                    <div class="form-text">Mínimo 30 caracteres. Incluya antecedentes relevantes y fechas de acuerdo.</div>
+                  </div>
+                  <div class="col-12">
+                    <label for="inputFileEvidencia" class="form-label">Evidencia / Documento de Soporte (PDF o Imagen) <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="bi bi-paperclip"></i></span>
+                      <input class="form-control" type="file" id="inputFileEvidencia" accept=".pdf,.png,.jpg,.jpeg" required>
+                    </div>
+                    <div class="form-text">Adjunte oficio institucional, carta de aceptación empresarial o justificativo médico. Tamaño máx.: 5 MB.</div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="checkDeclaracion" required>
+                      <label class="form-check-label small text-muted" for="checkDeclaracion">
+                        Certifico que la información ingresada ha sido revisada y cumple con la reglamentación del Departamento de Vinculación y Prácticas de la Universidad de Guayaquil.
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Botones de Acción (Regla 11: Alineados a la derecha) -->
+                <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                  <button type="reset" class="btn btn-outline-secondary" id="btnRestablecerFormulario">
+                    <i class="bi bi-arrow-counterclockwise me-1"></i>Limpiar Formulario
+                  </button>
+                  <button type="submit" class="btn btn-primary" id="btnGuardarSolicitud">
+                    <i class="bi bi-send-check me-1"></i>Registrar Solicitud
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Columna Derecha: Timeline / Historial Lateral de Cambios Recientes (5 items mock) -->
+          <div class="col-lg-4">
+            <div class="card h-100">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="d-flex align-items-center gap-2">
+                  <i class="bi bi-clock-history text-primary"></i>
+                  <span>Historial de Cambios Recientes</span>
+                </span>
+                <span class="badge bg-light text-dark border">5 registros</span>
+              </div>
+              <div class="card-body">
+                <div class="timeline">
+                  <!-- Item 1 -->
+                  <div class="timeline-item">
+                    <div class="time"><i class="bi bi-clock me-1"></i>Hoy, 15:40</div>
+                    <h6 class="fw-bold mb-1 mt-1 text-dark">Cambio de Tutor Aprobado</h6>
+                    <p class="mb-1 small text-secondary">
+                      <strong>Carlos Andrés Moreira Macías</strong> (Ing. en Sistemas)<br>
+                      Reasignado de Mgs. Silvia Elena Morales a <strong>Ing. Roberto Carlos Mora</strong> para seguimiento presencial.
+                    </p>
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle me-1"></i>Aprobado
+                    </span>
+                  </div>
+
+                  <!-- Item 2 -->
+                  <div class="timeline-item">
+                    <div class="time"><i class="bi bi-clock me-1"></i>Hoy, 10:15</div>
+                    <h6 class="fw-bold mb-1 mt-1 text-dark">Solicitud Cambio de Empresa</h6>
+                    <p class="mb-1 small text-secondary">
+                      <strong>María Fernanda López Mendoza</strong> (Ing. en Software)<br>
+                      Petición de traslado de CNEL EP Guayaquil a <strong>Holcim Ecuador S.A.</strong> por cambio de domicilio a Durán.
+                    </p>
+                    <span class="badge badge-estado bg-warning text-dark">
+                      <i class="bi bi-hourglass-split me-1"></i>En revisión
+                    </span>
+                  </div>
+
+                  <!-- Item 3 -->
+                  <div class="timeline-item">
+                    <div class="time"><i class="bi bi-clock me-1"></i>Ayer, 16:30</div>
+                    <h6 class="fw-bold mb-1 mt-1 text-dark">Cancelación Procesada</h6>
+                    <p class="mb-1 small text-secondary">
+                      <strong>Kevin Alexander Zambrano Ortiz</strong> (Ing. Civil)<br>
+                      Cancelación en Pronaca Guayaquil por cruce horario con taller de titulación de 7mo semestre. Horas congeladas: 48 hrs.
+                    </p>
+                    <span class="badge badge-estado bg-danger">
+                      <i class="bi bi-x-octagon me-1"></i>Cancelada
+                    </span>
+                  </div>
+
+                  <!-- Item 4 -->
+                  <div class="timeline-item">
+                    <div class="time"><i class="bi bi-clock me-1"></i>12 Nov 2026, 11:20</div>
+                    <h6 class="fw-bold mb-1 mt-1 text-dark">Cambio de Empresa Efectuado</h6>
+                    <p class="mb-1 small text-secondary">
+                      <strong>Doménica Stephania Alarcón Vera</strong> (Ing. Industrial)<br>
+                      Traslado de Pronaca a <strong>Nestlé Ecuador (Fábrica Sur)</strong> por reestructuración del área de control de calidad.
+                    </p>
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle me-1"></i>Aprobado
+                    </span>
+                  </div>
+
+                  <!-- Item 5 -->
+                  <div class="timeline-item">
+                    <div class="time"><i class="bi bi-clock me-1"></i>09 Nov 2026, 14:00</div>
+                    <h6 class="fw-bold mb-1 mt-1 text-dark">Reasignación Rechazada</h6>
+                    <p class="mb-1 small text-secondary">
+                      <strong>Bryan Javier Cedeño Holguín</strong> (Ing. Química)<br>
+                      Solicitud en Banco Pichincha denegada por no adjuntar informe formal de descargo ni carta empresarial suscrita.
+                    </p>
+                    <span class="badge badge-estado bg-danger">
+                      <i class="bi bi-x-circle me-1"></i>Rechazado
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Encabezado de Sección de Tabla -->
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 mt-2" id="seccionTablaSolicitudes">
+          <div>
+            <h4 class="fw-bold mb-1 text-dark"><i class="bi bi-table me-2 text-primary"></i>Solicitudes de Cambio y Reasignación</h4>
+            <p class="text-muted small mb-0">Listado general para revisión, aprobación y resolución de peticiones registradas.</p>
+          </div>
+          <div class="d-flex gap-2 mt-2 mt-sm-0">
+            <button class="btn btn-outline-primary btn-sm" id="btnRefrescarTabla">
+              <i class="bi bi-arrow-clockwise me-1"></i>Actualizar
+            </button>
+            <button class="btn btn-outline-secondary btn-sm" id="btnDescargarReporte">
+              <i class="bi bi-file-earmark-arrow-down me-1"></i>Exportar
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra de Filtros (Regla 9: filter-bar, Gestalt: Región Común) -->
+        <div class="filter-bar">
+          <div class="form-group" style="flex: 2; min-width: 220px;">
+            <label class="form-label" for="inputBuscarTabla">Búsqueda General</label>
+            <div class="input-group input-group-sm">
+              <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+              <input type="text" class="form-control" id="inputBuscarTabla" data-search-table="tablaReasignaciones" placeholder="Buscar por estudiante, matrícula, motivo...">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filtroTipoSolicitud">Tipo de Solicitud</label>
+            <select class="form-select form-select-sm" id="filtroTipoSolicitud">
+              <option value="">Todos los tipos</option>
+              <option value="Cambio de empresa">Cambio de empresa</option>
+              <option value="Cambio de tutor">Cambio de tutor</option>
+              <option value="Cancelación">Cancelación</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filtroEstadoSolicitud">Estado</label>
+            <select class="form-select form-select-sm" id="filtroEstadoSolicitud">
+              <option value="">Todos los estados</option>
+              <option value="Pendiente">Pendiente</option>
+              <option value="Aprobado">Aprobado</option>
+              <option value="Rechazado">Rechazado</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filtroCarreraSolicitud">Carrera</label>
+            <select class="form-select form-select-sm" id="filtroCarreraSolicitud">
+              <option value="">Todas las carreras</option>
+              <option value="Software">Ing. en Software</option>
+              <option value="Sistemas">Ing. en Sistemas Computacionales</option>
+              <option value="Civil">Ing. Civil</option>
+              <option value="Industrial">Ing. Industrial</option>
+              <option value="Química">Ing. Química</option>
+            </select>
+          </div>
+          <div class="d-flex gap-2 align-self-end">
+            <button class="btn btn-outline-secondary btn-sm" type="button" id="btnLimpiarFiltros" title="Restablecer filtros">
+              <i class="bi bi-arrow-counterclockwise"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabla de Solicitudes (Reglas 6, 7 y 10: table-container, table-hover, proper thead/tbody) -->
+        <div class="table-container mb-4">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="tablaReasignaciones">
+              <thead>
+                <tr>
+                  <th scope="col" style="width: 27%;">Estudiante</th>
+                  <th scope="col" style="width: 17%;">Tipo</th>
+                  <th scope="col" style="width: 25%;">Motivo Resumido</th>
+                  <th scope="col" style="width: 13%;">Fecha Solicitud</th>
+                  <th scope="col" style="width: 10%;">Estado</th>
+                  <th scope="col" style="width: 8%;" class="text-end">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Fila 1: Pendiente - Cambio de empresa -->
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.75rem; background-color: #0d6efd;">
+                        ML
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">María Fernanda López Mendoza</div>
+                        <div class="text-muted small">Ing. en Software &bull; Matr. 2021-04192</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                      <i class="bi bi-buildings me-1"></i>Cambio de empresa
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-truncate" style="max-width: 260px;" title="Reubicación de domicilio familiar a Durán. Traslado solicitado de CNEL EP a Holcim Ecuador S.A.">
+                      De CNEL EP a Holcim Ecuador S.A. por traslado familiar.
+                    </div>
+                  </td>
+                  <td>
+                    <div>14 Nov 2026</div>
+                    <div class="text-muted small">10:15</div>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-warning text-dark">
+                      <i class="bi bi-clock-history me-1"></i>Pendiente
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <div class="d-inline-flex gap-1">
+                      <button class="btn btn-light btn-action" title="Ver Detalle" data-bs-toggle="modal" data-bs-target="#modalDetalleSolicitud" data-estudiante="María Fernanda López Mendoza" data-carrera="Ing. en Software" data-tipo="Cambio de empresa" data-motivo="Reubicación de domicilio familiar al cantón Durán. Requiere traslado desde CNEL EP Guayaquil hacia las instalaciones de Holcim Ecuador S.A. para reducir tiempos de traslado y optimizar el cumplimiento horario." data-fecha="14 Nov 2026, 10:15" data-estado="Pendiente" data-archivo="Solicitud_Cambio_Empresa_Lopez_MF.pdf">
+                        <i class="bi bi-eye text-primary"></i>
+                      </button>
+                      <button class="btn btn-light btn-action" title="Aprobar Solicitud" data-confirm="¿Desea aprobar la solicitud de cambio de empresa de María Fernanda López Mendoza?">
+                        <i class="bi bi-check-lg text-success"></i>
+                      </button>
+                      <button class="btn btn-light btn-action" title="Rechazar Solicitud" data-confirm="¿Está seguro de rechazar esta solicitud?">
+                        <i class="bi bi-x-lg text-danger"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Fila 2: Pendiente - Cambio de tutor -->
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.75rem; background-color: #0dcaf0; color: #000;">
+                        CM
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Carlos Andrés Moreira Macías</div>
+                        <div class="text-muted small">Ing. en Sistemas Computacionales &bull; Matr. 2020-08341</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle">
+                      <i class="bi bi-person-badge me-1"></i>Cambio de tutor
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-truncate" style="max-width: 260px;" title="Incompatibilidad horaria con docente tutor para reuniones de seguimiento semanal.">
+                      Incompatibilidad horaria con tutor para reuniones semanales.
+                    </div>
+                  </td>
+                  <td>
+                    <div>13 Nov 2026</div>
+                    <div class="text-muted small">15:40</div>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-warning text-dark">
+                      <i class="bi bi-clock-history me-1"></i>Pendiente
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <div class="d-inline-flex gap-1">
+                      <button class="btn btn-light btn-action" title="Ver Detalle" data-bs-toggle="modal" data-bs-target="#modalDetalleSolicitud" data-estudiante="Carlos Andrés Moreira Macías" data-carrera="Ing. en Sistemas Computacionales" data-tipo="Cambio de tutor" data-motivo="Incompatibilidad entre el turno laboral del estudiante y el horario de atención asignado por el docente tutor. Se solicita asignación del Ing. Roberto Carlos Mora." data-fecha="13 Nov 2026, 15:40" data-estado="Pendiente" data-archivo="Certificado_Horario_Moreira_CA.pdf">
+                        <i class="bi bi-eye text-primary"></i>
+                      </button>
+                      <button class="btn btn-light btn-action" title="Aprobar Solicitud" data-confirm="¿Desea aprobar la reasignación de tutor para Carlos Andrés Moreira Macías?">
+                        <i class="bi bi-check-lg text-success"></i>
+                      </button>
+                      <button class="btn btn-light btn-action" title="Rechazar Solicitud" data-confirm="¿Desea rechazar la reasignación de tutor?">
+                        <i class="bi bi-x-lg text-danger"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Fila 3: Pendiente - Cancelación -->
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.75rem; background-color: #dc3545;">
+                        KZ
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Kevin Alexander Zambrano Ortiz</div>
+                        <div class="text-muted small">Ing. Civil &bull; Matr. 2019-11024</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle">
+                      <i class="bi bi-x-octagon me-1"></i>Cancelación
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-truncate" style="max-width: 260px;" title="Cruce de horarios con taller de titulación de 7mo semestre en Pronaca Guayaquil.">
+                      Cruce de horarios con taller de titulación en 7mo semestre.
+                    </div>
+                  </td>
+                  <td>
+                    <div>12 Nov 2026</div>
+                    <div class="text-muted small">16:30</div>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-warning text-dark">
+                      <i class="bi bi-clock-history me-1"></i>Pendiente
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <div class="d-inline-flex gap-1">
+                      <button class="btn btn-light btn-action" title="Ver Detalle" data-bs-toggle="modal" data-bs-target="#modalDetalleSolicitud" data-estudiante="Kevin Alexander Zambrano Ortiz" data-carrera="Ing. Civil" data-tipo="Cancelación" data-motivo="El estudiante registra cruce insalvable entre el horario de permanencia en obra de Pronaca Guayaquil y los talleres obligatorios de titulación. Solicita diferimiento y convalidación parcial de 48 horas cumplidas." data-fecha="12 Nov 2026, 16:30" data-estado="Pendiente" data-archivo="Malla_Horaria_Zambrano_KA.pdf">
+                        <i class="bi bi-eye text-primary"></i>
+                      </button>
+                      <button class="btn btn-light btn-action" title="Aprobar Solicitud" data-confirm="¿Desea aprobar la cancelación de prácticas de Kevin Alexander Zambrano Ortiz?">
+                        <i class="bi bi-check-lg text-success"></i>
+                      </button>
+                      <button class="btn btn-light btn-action" title="Rechazar Solicitud" data-confirm="¿Desea rechazar la cancelación solicitada?">
+                        <i class="bi bi-x-lg text-danger"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Fila 4: Aprobado - Cambio de empresa -->
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.75rem; background-color: #198754;">
+                        DA
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Doménica Stephania Alarcón Vera</div>
+                        <div class="text-muted small">Ing. Industrial &bull; Matr. 2021-01872</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                      <i class="bi bi-buildings me-1"></i>Cambio de empresa
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-truncate" style="max-width: 260px;" title="Cierre del departamento de control de calidad en planta Pronaca. Traspaso a Nestlé Ecuador.">
+                      De Pronaca hacia Nestlé Ecuador (Fábrica Sur) aprobada.
+                    </div>
+                  </td>
+                  <td>
+                    <div>10 Nov 2026</div>
+                    <div class="text-muted small">11:20</div>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle me-1"></i>Aprobado
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <div class="d-inline-flex gap-1">
+                      <button class="btn btn-light btn-action" title="Ver Detalle" data-bs-toggle="modal" data-bs-target="#modalDetalleSolicitud" data-estudiante="Doménica Stephania Alarcón Vera" data-carrera="Ing. Industrial" data-tipo="Cambio de empresa" data-motivo="Reestructuración de la línea de producción en planta Pronaca. Se gestionó y aprobó cupo formativo en Nestlé Ecuador Fábrica Sur, homologando 160 horas ya ejecutadas." data-fecha="10 Nov 2026, 11:20" data-estado="Aprobado" data-archivo="Resolucion_Cambio_Alarcon_DS.pdf">
+                        <i class="bi bi-eye text-primary"></i>
+                      </button>
+                      <button class="btn btn-light btn-action disabled" title="Ya tramitada">
+                        <i class="bi bi-check-all text-muted"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Fila 5: Rechazado - Cancelación -->
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.75rem; background-color: #6f42c1;">
+                        BC
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Bryan Javier Cedeño Holguín</div>
+                        <div class="text-muted small">Ing. Química &bull; Matr. 2020-03591</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle">
+                      <i class="bi bi-x-octagon me-1"></i>Cancelación
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-truncate" style="max-width: 260px;" title="No presenta justificativo de fuerza mayor ni carta formal de Banco Pichincha.">
+                      Falta de justificativo reglamentario en Banco Pichincha.
+                    </div>
+                  </td>
+                  <td>
+                    <div>08 Nov 2026</div>
+                    <div class="text-muted small">14:00</div>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-danger">
+                      <i class="bi bi-x-circle me-1"></i>Rechazado
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <div class="d-inline-flex gap-1">
+                      <button class="btn btn-light btn-action" title="Ver Detalle" data-bs-toggle="modal" data-bs-target="#modalDetalleSolicitud" data-estudiante="Bryan Javier Cedeño Holguín" data-carrera="Ing. Química" data-tipo="Cancelación" data-motivo="La solicitud de cancelación en Banco Pichincha fue rechazada debido a que el estudiante no anexó documento probatorio de calamidad ni informe de la entidad receptora." data-fecha="08 Nov 2026, 14:00" data-estado="Rechazado" data-archivo="Oficio_Negativa_Cedeno_BJ.pdf">
+                        <i class="bi bi-eye text-primary"></i>
+                      </button>
+                      <button class="btn btn-light btn-action disabled" title="Ya tramitada">
+                        <i class="bi bi-slash-circle text-muted"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Fila 6: Aprobado - Cambio de tutor -->
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.75rem; background-color: #20c997; color: #fff;">
+                        AB
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Andrea Nicole Barzola Castro</div>
+                        <div class="text-muted small">Ing. en Software &bull; Matr. 2022-05443</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle">
+                      <i class="bi bi-person-badge me-1"></i>Cambio de tutor
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-truncate" style="max-width: 260px;" title="Licencia académica del tutor titular. Asignado Ing. Xavier Andrade C. en CNT EP.">
+                      Licencia académica de tutor; asignado Ing. Xavier Andrade.
+                    </div>
+                  </td>
+                  <td>
+                    <div>07 Nov 2026</div>
+                    <div class="text-muted small">09:30</div>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle me-1"></i>Aprobado
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <div class="d-inline-flex gap-1">
+                      <button class="btn btn-light btn-action" title="Ver Detalle" data-bs-toggle="modal" data-bs-target="#modalDetalleSolicitud" data-estudiante="Andrea Nicole Barzola Castro" data-carrera="Ing. en Software" data-tipo="Cambio de tutor" data-motivo="El docente tutor inicial solicitó licencia por comisión de servicios académicos al exterior. Se reasignó formalmente al docente Ing. Xavier Andrade Calderón para las prácticas en CNT EP." data-fecha="07 Nov 2026, 09:30" data-estado="Aprobado" data-archivo="Reasignacion_Barzola_AN.pdf">
+                        <i class="bi bi-eye text-primary"></i>
+                      </button>
+                      <button class="btn btn-light btn-action disabled" title="Ya tramitada">
+                        <i class="bi bi-check-all text-muted"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Fila 7: Pendiente - Cambio de empresa -->
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.75rem; background-color: #fd7e14;">
+                        LV
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Luis Alberto Villamar Reyes</div>
+                        <div class="text-muted small">Ing. en Sistemas Computacionales &bull; Matr. 2021-09823</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                      <i class="bi bi-buildings me-1"></i>Cambio de empresa
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-truncate" style="max-width: 260px;" title="Labores asignadas en Cervecería Nacional no coinciden con perfil de sistemas.">
+                      Funciones no afines al perfil; pide cambio a Banco Pichincha.
+                    </div>
+                  </td>
+                  <td>
+                    <div>06 Nov 2026</div>
+                    <div class="text-muted small">08:50</div>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-warning text-dark">
+                      <i class="bi bi-clock-history me-1"></i>Pendiente
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <div class="d-inline-flex gap-1">
+                      <button class="btn btn-light btn-action" title="Ver Detalle" data-bs-toggle="modal" data-bs-target="#modalDetalleSolicitud" data-estudiante="Luis Alberto Villamar Reyes" data-carrera="Ing. en Sistemas Computacionales" data-tipo="Cambio de empresa" data-motivo="El estudiante manifiesta que las actividades asignadas en planta física no corresponden a desarrollo de software o infraestructura de redes. Se propone traslado a Banco Pichincha Regional Litoral." data-fecha="06 Nov 2026, 08:50" data-estado="Pendiente" data-archivo="Informe_Actividades_Villamar_LA.pdf">
+                        <i class="bi bi-eye text-primary"></i>
+                      </button>
+                      <button class="btn btn-light btn-action" title="Aprobar Solicitud" data-confirm="¿Desea aprobar el cambio de empresa de Luis Alberto Villamar Reyes?">
+                        <i class="bi bi-check-lg text-success"></i>
+                      </button>
+                      <button class="btn btn-light btn-action" title="Rechazar Solicitud" data-confirm="¿Desea rechazar la solicitud de cambio?">
+                        <i class="bi bi-x-lg text-danger"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Paginación (Regla 10: pagination-container) -->
+          <div class="pagination-container">
+            <div class="pagination-info">
+              Mostrando <strong>1</strong> a <strong>7</strong> de <strong>24</strong> solicitudes registradas
+            </div>
+            <nav aria-label="Navegación de solicitudes">
+              <ul class="pagination pagination-sm mb-0">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i class="bi bi-chevron-left"></i></a>
+                </li>
+                <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <!-- Modal de Detalle de Solicitud (Bootstrap 5.3) -->
+        <div class="modal fade" id="modalDetalleSolicitud" tabindex="-1" aria-labelledby="modalDetalleSolicitudLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+              <div class="modal-header border-bottom">
+                <h5 class="modal-title fw-bold" id="modalDetalleSolicitudLabel">
+                  <i class="bi bi-file-earmark-text text-primary me-2"></i>Detalle de Solicitud de Cambio
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body p-4">
+                <div class="row g-3 mb-3">
+                  <div class="col-md-7">
+                    <span class="text-muted small d-block">Estudiante solicitante:</span>
+                    <strong class="fs-6 text-dark" id="modalEstudiante">-</strong>
+                    <div class="text-muted small" id="modalCarrera">-</div>
+                  </div>
+                  <div class="col-md-5 text-md-end">
+                    <span class="text-muted small d-block">Fecha y Estado:</span>
+                    <span id="modalFecha" class="small fw-semibold text-dark">-</span>
+                    <div class="mt-1" id="modalBadgeEstado">-</div>
+                  </div>
+                </div>
+
+                <div class="p-3 bg-light rounded-3 border mb-3">
+                  <div class="row g-2 small">
+                    <div class="col-sm-6">
+                      <span class="text-muted d-block">Tipo de Modificación:</span>
+                      <strong class="text-dark" id="modalTipo">-</strong>
+                    </div>
+                    <div class="col-sm-6">
+                      <span class="text-muted d-block">Archivo de Evidencia Adjunto:</span>
+                      <a href="#" class="text-decoration-none fw-semibold" id="modalArchivoLink">
+                        <i class="bi bi-file-earmark-pdf-fill text-danger me-1"></i>
+                        <span id="modalArchivoNombre">documento.pdf</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label fw-bold small text-muted text-uppercase mb-1">Fundamentación y Justificación</label>
+                  <div class="p-3 bg-white rounded border small text-dark lh-base" id="modalMotivoTexto" style="min-height: 80px;">
+                    -
+                  </div>
+                </div>
+
+                <div>
+                  <label for="textareaObservacionesCoordinador" class="form-label fw-bold small text-muted text-uppercase mb-1">Dictamen u Observaciones de Coordinación</label>
+                  <textarea class="form-control" id="textareaObservacionesCoordinador" rows="2" placeholder="Ingrese comentarios de resolución o condiciones de aprobación..."></textarea>
+                </div>
+              </div>
+              <div class="modal-footer border-top d-flex justify-content-between">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                  <i class="bi bi-x-circle me-1"></i>Cerrar
+                </button>
+                <div class="d-flex gap-2">
+                  <button type="button" class="btn btn-outline-danger" id="btnModalRechazar" data-confirm="¿Confirma el rechazo formal de esta solicitud?">
+                    <i class="bi bi-x-lg me-1"></i>Rechazar
+                  </button>
+                  <button type="button" class="btn btn-success" id="btnModalAprobar" data-confirm="¿Confirma la aprobación y emisión de la resolución de cambio?">
+                    <i class="bi bi-check-circle me-1"></i>Aprobar Solicitud
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Script de Comportamiento Interactivo de la Página -->
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            // 1. Selector de Tipo de Cambio (Radio Buttons)
+            const radioEmpresa = document.getElementById('radioCambioEmpresa');
+            const radioTutor = document.getElementById('radioCambioTutor');
+            const radioCancelacion = document.getElementById('radioCancelacion');
+
+            const bloqueEmpresa = document.getElementById('bloqueNuevaEmpresa');
+            const bloqueTutor = document.getElementById('bloqueNuevoTutor');
+            const bloqueCancelacion = document.getElementById('bloqueCancelacion');
+
+            const selectNuevaEmpresa = document.getElementById('selectNuevaEmpresa');
+            const inputAreaNuevaEmpresa = document.getElementById('inputAreaNuevaEmpresa');
+            const selectNuevoTutor = document.getElementById('selectNuevoTutor');
+            const selectMotivoCancelacion = document.getElementById('selectMotivoCancelacion');
+
+            function actualizarVisibilidadTipo() {
+              if (radioEmpresa.checked) {
+                bloqueEmpresa.style.display = 'block';
+                bloqueTutor.style.display = 'none';
+                bloqueCancelacion.style.display = 'none';
+
+                selectNuevaEmpresa.setAttribute('required', 'required');
+                inputAreaNuevaEmpresa.setAttribute('required', 'required');
+                selectNuevoTutor.removeAttribute('required');
+                selectMotivoCancelacion.removeAttribute('required');
+              } else if (radioTutor.checked) {
+                bloqueEmpresa.style.display = 'none';
+                bloqueTutor.style.display = 'block';
+                bloqueCancelacion.style.display = 'none';
+
+                selectNuevaEmpresa.removeAttribute('required');
+                inputAreaNuevaEmpresa.removeAttribute('required');
+                selectNuevoTutor.setAttribute('required', 'required');
+                selectMotivoCancelacion.removeAttribute('required');
+              } else if (radioCancelacion.checked) {
+                bloqueEmpresa.style.display = 'none';
+                bloqueTutor.style.display = 'none';
+                bloqueCancelacion.style.display = 'block';
+
+                selectNuevaEmpresa.removeAttribute('required');
+                inputAreaNuevaEmpresa.removeAttribute('required');
+                selectNuevoTutor.removeAttribute('required');
+                selectMotivoCancelacion.setAttribute('required', 'required');
+              }
+            }
+
+            [radioEmpresa, radioTutor, radioCancelacion].forEach(radio => {
+              if (radio) {
+                radio.addEventListener('change', actualizarVisibilidadTipo);
+              }
+            });
+            actualizarVisibilidadTipo();
+
+            // 2. Información del Estudiante seleccionado
+            const selectEstudiante = document.getElementById('selectEstudiante');
+            const infoEstudianteBox = document.getElementById('infoEstudianteBox');
+            const infoCarrera = document.getElementById('infoCarrera');
+            const infoIdentificacion = document.getElementById('infoIdentificacion');
+            const infoEmpresa = document.getElementById('infoEmpresa');
+            const infoTutor = document.getElementById('infoTutor');
+            const infoHorasText = document.getElementById('infoHorasText');
+            const infoHorasProgreso = document.getElementById('infoHorasProgreso');
+
+            if (selectEstudiante) {
+              selectEstudiante.addEventListener('change', function () {
+                const opt = this.options[this.selectedIndex];
+                if (opt && opt.value) {
+                  infoCarrera.textContent = opt.getAttribute('data-carrera') || '-';
+                  infoIdentificacion.textContent = (opt.getAttribute('data-cedula') || '') + ' / Matr. ' + (opt.getAttribute('data-matricula') || '');
+                  infoEmpresa.textContent = opt.getAttribute('data-empresa') || '-';
+                  infoTutor.textContent = opt.getAttribute('data-tutor') || '-';
+                  
+                  const horas = opt.getAttribute('data-horas') || '0 / 240 hrs';
+                  infoHorasText.textContent = horas;
+                  
+                  const partes = horas.split('/');
+                  if (partes.length === 2) {
+                    const actual = parseFloat(partes[0].trim());
+                    const total = parseFloat(partes[1].replace('hrs', '').trim());
+                    const pct = Math.min(100, Math.round((actual / total) * 100));
+                    infoHorasProgreso.style.width = pct + '%';
+                    infoHorasProgreso.setAttribute('aria-valuenow', pct);
+                  }
+                  infoEstudianteBox.style.display = 'block';
+                } else {
+                  infoEstudianteBox.style.display = 'none';
+                }
+              });
+            }
+
+            // 3. Envío del Formulario
+            const form = document.getElementById('formSolicitudCambio');
+            if (form) {
+              form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                if (!form.checkValidity()) {
+                  e.stopPropagation();
+                  form.classList.add('was-validated');
+                  return;
+                }
+
+                alert('¡Solicitud de cambio registrada exitosamente! Se ha generado el expediente para revisión de la coordinación.');
+                form.reset();
+                form.classList.remove('was-validated');
+                actualizarVisibilidadTipo();
+                if (infoEstudianteBox) infoEstudianteBox.style.display = 'none';
+              });
+            }
+
+            // 4. Modal de Detalle de Solicitud
+            const modalDetalle = document.getElementById('modalDetalleSolicitud');
+            if (modalDetalle) {
+              modalDetalle.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                if (!button) return;
+
+                document.getElementById('modalEstudiante').textContent = button.getAttribute('data-estudiante') || '-';
+                document.getElementById('modalCarrera').textContent = button.getAttribute('data-carrera') || '-';
+                document.getElementById('modalTipo').textContent = button.getAttribute('data-tipo') || '-';
+                document.getElementById('modalFecha').textContent = button.getAttribute('data-fecha') || '-';
+                document.getElementById('modalMotivoTexto').textContent = button.getAttribute('data-motivo') || '-';
+                
+                const archivo = button.getAttribute('data-archivo') || 'Evidencia_Adjunta.pdf';
+                document.getElementById('modalArchivoNombre').textContent = archivo;
+
+                const estado = button.getAttribute('data-estado') || 'Pendiente';
+                let badgeHtml = '';
+                if (estado === 'Aprobado') {
+                  badgeHtml = '<span class="badge badge-estado bg-success"><i class="bi bi-check-circle me-1"></i>Aprobado</span>';
+                } else if (estado === 'Rechazado') {
+                  badgeHtml = '<span class="badge badge-estado bg-danger"><i class="bi bi-x-circle me-1"></i>Rechazado</span>';
+                } else {
+                  badgeHtml = '<span class="badge badge-estado bg-warning text-dark"><i class="bi bi-clock-history me-1"></i>Pendiente</span>';
+                }
+                document.getElementById('modalBadgeEstado').innerHTML = badgeHtml;
+              });
+            }
+
+            // 5. Filtros combinados de la tabla (Tipo, Estado, Carrera)
+            const filtroTipo = document.getElementById('filtroTipoSolicitud');
+            const filtroEstado = document.getElementById('filtroEstadoSolicitud');
+            const filtroCarrera = document.getElementById('filtroCarreraSolicitud');
+            const inputBuscar = document.getElementById('inputBuscarTabla');
+            const btnLimpiar = document.getElementById('btnLimpiarFiltros');
+            const tabla = document.getElementById('tablaReasignaciones');
+
+            function aplicarFiltros() {
+              if (!tabla) return;
+              const valTipo = (filtroTipo ? filtroTipo.value.toLowerCase() : '').trim();
+              const valEstado = (filtroEstado ? filtroEstado.value.toLowerCase() : '').trim();
+              const valCarrera = (filtroCarrera ? filtroCarrera.value.toLowerCase() : '').trim();
+              const valTexto = (inputBuscar ? inputBuscar.value.toLowerCase() : '').trim();
+
+              const rows = tabla.querySelectorAll('tbody tr');
+              rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const matchTexto = !valTexto || text.includes(valTexto);
+                const matchTipo = !valTipo || text.includes(valTipo);
+                const matchEstado = !valEstado || text.includes(valEstado);
+                const matchCarrera = !valCarrera || text.includes(valCarrera);
+
+                if (matchTexto && matchTipo && matchEstado && matchCarrera) {
+                  row.style.display = '';
+                } else {
+                  row.style.display = 'none';
+                }
+              });
+            }
+
+            [filtroTipo, filtroEstado, filtroCarrera].forEach(el => {
+              if (el) el.addEventListener('change', aplicarFiltros);
+            });
+
+            if (btnLimpiar) {
+              btnLimpiar.addEventListener('click', function () {
+                if (filtroTipo) filtroTipo.value = '';
+                if (filtroEstado) filtroEstado.value = '';
+                if (filtroCarrera) filtroCarrera.value = '';
+                if (inputBuscar) inputBuscar.value = '';
+                aplicarFiltros();
+              });
+            }
+
+            const btnRefrescar = document.getElementById('btnRefrescarTabla');
+            if (btnRefrescar) {
+              btnRefrescar.addEventListener('click', function () {
+                aplicarFiltros();
+                alert('La lista de solicitudes ha sido actualizada.');
+              });
+            }
+
+            const btnDescargar = document.getElementById('btnDescargarReporte');
+            if (btnDescargar) {
+              btnDescargar.addEventListener('click', function () {
+                alert('Generando archivo de exportación Excel / PDF con las solicitudes filtradas...');
+              });
+            }
+          });
+        </script>
+
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

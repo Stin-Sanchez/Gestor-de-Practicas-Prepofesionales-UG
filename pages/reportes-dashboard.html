@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard — Gestión de Prácticas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="../assets/css/custom.css" rel="stylesheet">
+</head>
+<body data-page="rep-dashboard" data-section="Reportes">
+  <div class="wrapper">
+    <aside id="sidebar"></aside>
+    <div class="sidebar-overlay"></div>
+    <div class="main-content">
+      <nav id="topbar"></nav>
+      <div class="content">
+
+        <!-- Encabezado de Página (Gestalt: Continuidad) -->
+        <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+          <div>
+            <h2>Dashboard General</h2>
+            <p>Monitoreo ejecutivo y métricas en tiempo real del periodo académico 2024-2025 CI</p>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-outline-secondary" type="button" onclick="window.print()">
+              <i class="bi bi-printer me-1"></i> Imprimir
+            </button>
+            <a href="reportes-exportar.html" class="btn btn-primary">
+              <i class="bi bi-file-earmark-arrow-down me-1"></i> Exportar Reporte
+            </a>
+          </div>
+        </div>
+
+        <!-- Barra de Filtros (Gestalt: Región Común) -->
+        <div class="filter-bar">
+          <div class="form-group">
+            <label class="form-label" for="filtroPeriodo">Periodo Académico</label>
+            <select class="form-select form-select-sm" id="filtroPeriodo">
+              <option selected>2024 - 2025 Ciclo I</option>
+              <option>2023 - 2024 Ciclo II</option>
+              <option>2023 - 2024 Ciclo I</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filtroCarrera">Carrera</label>
+            <select class="form-select form-select-sm" id="filtroCarrera">
+              <option selected value="">Todas las Carreras</option>
+              <option>Ing. en Sistemas Computacionales</option>
+              <option>Ing. en Software</option>
+              <option>Ing. Industrial</option>
+              <option>Ing. Civil</option>
+              <option>Ing. Química</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filtroEmpresa">Empresa Convenio</label>
+            <select class="form-select form-select-sm" id="filtroEmpresa">
+              <option selected value="">Todas las Empresas</option>
+              <option>Holcim Ecuador</option>
+              <option>Pronaca</option>
+              <option>Nestlé Ecuador</option>
+              <option>CNT</option>
+              <option>CNEL</option>
+              <option>Banco Pichincha</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filtroBuscar">Buscar estudiante</label>
+            <input type="text" class="form-control form-control-sm" id="filtroBuscar" placeholder="Nombre o cédula..." data-search-table="tablaAtencion">
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-sm btn-primary">
+              <i class="bi bi-funnel-fill me-1"></i> Filtrar
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">
+              <i class="bi bi-arrow-counterclockwise me-1"></i> Limpiar
+            </button>
+          </div>
+        </div>
+
+        <!-- Fila 1: 4 Stat Cards (Gestalt: Proximidad y Similitud) -->
+        <div class="row g-3 mb-4">
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card border-0 h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Total Estudiantes</div>
+                  <div class="stat-value my-1">248</div>
+                  <div class="small text-success d-flex align-items-center">
+                    <i class="bi bi-arrow-up-short fs-6"></i>
+                    <span>+12% vs ciclo anterior</span>
+                  </div>
+                </div>
+                <div class="stat-icon bg-primary-subtle text-primary">
+                  <i class="bi bi-people-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card border-0 h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Empresas Convenio</div>
+                  <div class="stat-value my-1">45</div>
+                  <div class="small text-info d-flex align-items-center">
+                    <i class="bi bi-building-check fs-6 me-1"></i>
+                    <span>6 nuevas este mes</span>
+                  </div>
+                </div>
+                <div class="stat-icon bg-info-subtle text-info">
+                  <i class="bi bi-building-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card border-0 h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Prácticas Activas</div>
+                  <div class="stat-value my-1">82</div>
+                  <div class="small text-warning d-flex align-items-center">
+                    <i class="bi bi-clock-history fs-6 me-1"></i>
+                    <span>33.1% del alumnado</span>
+                  </div>
+                </div>
+                <div class="stat-icon bg-warning-subtle text-warning">
+                  <i class="bi bi-briefcase-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card border-0 h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Tasa Completación</div>
+                  <div class="stat-value my-1">87%</div>
+                  <div class="small text-success d-flex align-items-center">
+                    <i class="bi bi-check2-circle fs-6 me-1"></i>
+                    <span>+3.4% meta institucional</span>
+                  </div>
+                </div>
+                <div class="stat-icon bg-success-subtle text-success">
+                  <i class="bi bi-patch-check-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila 2: Prácticas por Carrera y Actividad Reciente (Gestalt: Cierre y Continuidad) -->
+        <div class="row g-4 mb-4">
+          <!-- Card: Prácticas por Carrera -->
+          <div class="col-12 col-xl-8">
+            <div class="card h-100">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-mortarboard-fill text-primary fs-5"></i>
+                  <span>Prácticas por Carrera</span>
+                </div>
+                <a href="reportes-por-carrera.html" class="btn btn-sm btn-outline-primary">
+                  <i class="bi bi-arrow-right-short"></i> Ver Detalle
+                </a>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-container shadow-none">
+                  <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                      <thead>
+                        <tr>
+                          <th scope="col">Carrera</th>
+                          <th scope="col" class="text-center">Activas</th>
+                          <th scope="col" class="text-center">Completadas</th>
+                          <th scope="col" class="text-center">Total</th>
+                          <th scope="col" style="min-width: 170px;">Cumplimiento</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <div class="fw-semibold text-dark">Ing. en Sistemas Computacionales</div>
+                            <small class="text-muted">Facultad de Ciencias Matemáticas y Físicas</small>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge-estado bg-primary">28</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge-estado bg-success">48</span>
+                          </td>
+                          <td class="text-center fw-bold">80</td>
+                          <td>
+                            <div class="d-flex align-items-center gap-2">
+                              <div class="progress flex-grow-1" style="height: 6px;" role="progressbar" aria-valuenow="88.5" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar bg-success" style="width: 88.5%;"></div>
+                              </div>
+                              <span class="small fw-semibold text-dark">88.5%</span>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="fw-semibold text-dark">Ing. en Software</div>
+                            <small class="text-muted">Facultad de Ciencias Matemáticas y Físicas</small>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge-estado bg-primary">22</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge-estado bg-success">38</span>
+                          </td>
+                          <td class="text-center fw-bold">65</td>
+                          <td>
+                            <div class="d-flex align-items-center gap-2">
+                              <div class="progress flex-grow-1" style="height: 6px;" role="progressbar" aria-valuenow="91.2" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar bg-success" style="width: 91.2%;"></div>
+                              </div>
+                              <span class="small fw-semibold text-dark">91.2%</span>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="fw-semibold text-dark">Ing. Industrial</div>
+                            <small class="text-muted">Facultad de Ingeniería Industrial</small>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge-estado bg-primary">14</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge-estado bg-success">28</span>
+                          </td>
+                          <td class="text-center fw-bold">45</td>
+                          <td>
+                            <div class="d-flex align-items-center gap-2">
+                              <div class="progress flex-grow-1" style="height: 6px;" role="progressbar" aria-valuenow="84.8" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar bg-info" style="width: 84.8%;"></div>
+                              </div>
+                              <span class="small fw-semibold text-dark">84.8%</span>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="fw-semibold text-dark">Ing. Civil</div>
+                            <small class="text-muted">Facultad de Ciencias Matemáticas y Físicas</small>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge-estado bg-primary">11</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge-estado bg-success">24</span>
+                          </td>
+                          <td class="text-center fw-bold">37</td>
+                          <td>
+                            <div class="d-flex align-items-center gap-2">
+                              <div class="progress flex-grow-1" style="height: 6px;" role="progressbar" aria-valuenow="82.1" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar bg-info" style="width: 82.1%;"></div>
+                              </div>
+                              <span class="small fw-semibold text-dark">82.1%</span>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="fw-semibold text-dark">Ing. Química</div>
+                            <small class="text-muted">Facultad de Ingeniería Química</small>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge-estado bg-primary">7</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge-estado bg-success">13</span>
+                          </td>
+                          <td class="text-center fw-bold">21</td>
+                          <td>
+                            <div class="d-flex align-items-center gap-2">
+                              <div class="progress flex-grow-1" style="height: 6px;" role="progressbar" aria-valuenow="86.7" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar bg-success" style="width: 86.7%;"></div>
+                              </div>
+                              <span class="small fw-semibold text-dark">86.7%</span>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="pagination-container">
+                    <div class="pagination-info">
+                      Mostrando 1 a 5 de 5 carreras registradas
+                    </div>
+                    <ul class="pagination pagination-sm mb-0">
+                      <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a></li>
+                      <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item disabled"><a class="page-link" href="#" aria-disabled="true">&raquo;</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card: Actividad Reciente (Timeline) -->
+          <div class="col-12 col-xl-4">
+            <div class="card h-100">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-clock-history text-primary fs-5"></i>
+                  <span>Actividad Reciente</span>
+                </div>
+                <span class="badge bg-primary-subtle text-primary rounded-pill">5 eventos</span>
+              </div>
+              <div class="card-body">
+                <div class="timeline">
+                  <div class="timeline-item">
+                    <div class="time">Hace 15 minutos</div>
+                    <div class="fw-semibold text-dark">Informe final entregado</div>
+                    <p class="text-muted small mb-0">
+                      <strong>María Fernanda López</strong> entregó documentación final de prácticas en <strong>Holcim Ecuador</strong>.
+                    </p>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="time">Hace 1 hora</div>
+                    <div class="fw-semibold text-dark">Nueva asignación de plaza</div>
+                    <p class="text-muted small mb-0">
+                      <strong>Carlos Andrés Moreira</strong> fue asignado a <strong>Pronaca</strong> bajo supervisión del tutor de carrera.
+                    </p>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="time">Hace 3 horas</div>
+                    <div class="fw-semibold text-dark">Convenio marco renovado</div>
+                    <p class="text-muted small mb-0">
+                      Se oficializó la renovación del convenio interinstitucional con <strong>Banco Pichincha</strong> por 2 años lectivos.
+                    </p>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="time">Hace 5 horas</div>
+                    <div class="fw-semibold text-dark">Documentación validada</div>
+                    <p class="text-muted small mb-0">
+                      <strong>Diana Sofía Villacís</strong> completó el registro de póliza de seguro para <strong>Nestlé Ecuador</strong>.
+                    </p>
+                  </div>
+                  <div class="timeline-item pb-0">
+                    <div class="time">Ayer a las 16:30</div>
+                    <div class="fw-semibold text-dark">Plan formativo aprobado</div>
+                    <p class="text-muted small mb-0">
+                      Coordinación académica aprobó plan de trabajo técnico en <strong>CNT</strong> para practicantes de Ing. en Software.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila 3: Estudiantes que Requieren Atención y Distribución por Estado -->
+        <div class="row g-4 mb-4">
+          <!-- Card: Estudiantes que Requieren Atención -->
+          <div class="col-12 col-xl-8">
+            <div class="card h-100">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-exclamation-triangle-fill text-warning fs-5"></i>
+                  <span>Estudiantes que Requieren Atención</span>
+                </div>
+                <span class="badge bg-danger rounded-pill">4 Casos Prioritarios</span>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-container shadow-none">
+                  <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0" id="tablaAtencion">
+                      <thead>
+                        <tr>
+                          <th scope="col">Estudiante</th>
+                          <th scope="col">Situación</th>
+                          <th scope="col" class="text-center">Días Sin Actividad</th>
+                          <th scope="col" class="text-end">Acción</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <div class="d-flex align-items-center gap-2">
+                              <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.75rem; background: #dc3545;">KZ</div>
+                              <div>
+                                <div class="fw-semibold text-dark">Kevin Javier Zambrano Moreira</div>
+                                <div class="text-muted small">Ing. en Sistemas &bull; Holcim Ecuador</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <span class="badge-estado bg-danger">Informe mensual retrasado</span>
+                            <div class="text-muted small mt-1">Límite vencido el 01/11/2024</div>
+                          </td>
+                          <td class="text-center">
+                            <span class="text-danger fw-bold d-inline-flex align-items-center gap-1">
+                              <i class="bi bi-alarm-fill"></i> 14 días
+                            </span>
+                          </td>
+                          <td class="text-end">
+                            <div class="d-inline-flex gap-1">
+                              <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalNotificar" onclick="prepararNotificacion('Kevin Javier Zambrano Moreira', 'Informe mensual retrasado')">
+                                <i class="bi bi-send-fill me-1"></i> Notificar
+                              </button>
+                              <a href="reportes-por-estudiante.html" class="btn btn-sm btn-outline-secondary" title="Ver Expediente">
+                                <i class="bi bi-folder2-open"></i>
+                              </a>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="d-flex align-items-center gap-2">
+                              <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.75rem; background: #fd7e14;">AC</div>
+                              <div>
+                                <div class="fw-semibold text-dark">Andrea Nicole Cedeño Álava</div>
+                                <div class="text-muted small">Ing. en Software &bull; CNT</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <span class="badge-estado bg-warning text-dark">Sin registro de bitácora semanal</span>
+                            <div class="text-muted small mt-1">Último reporte hace 2 semanas</div>
+                          </td>
+                          <td class="text-center">
+                            <span class="text-warning fw-bold d-inline-flex align-items-center gap-1">
+                              <i class="bi bi-hourglass-split"></i> 10 días
+                            </span>
+                          </td>
+                          <td class="text-end">
+                            <div class="d-inline-flex gap-1">
+                              <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalNotificar" onclick="prepararNotificacion('Andrea Nicole Cedeño Álava', 'Sin registro de bitácora semanal')">
+                                <i class="bi bi-send-fill me-1"></i> Notificar
+                              </button>
+                              <a href="reportes-por-estudiante.html" class="btn btn-sm btn-outline-secondary" title="Ver Expediente">
+                                <i class="bi bi-folder2-open"></i>
+                              </a>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="d-flex align-items-center gap-2">
+                              <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.75rem; background: #ffc107; color: #000;">BM</div>
+                              <div>
+                                <div class="fw-semibold text-dark">Bryan Alexander Mendoza Castro</div>
+                                <div class="text-muted small">Ing. Industrial &bull; Nestlé Ecuador</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <span class="badge-estado bg-warning text-dark">Pendiente aprobación empresarial</span>
+                            <div class="text-muted small mt-1">Convenio específico en revisión legal</div>
+                          </td>
+                          <td class="text-center">
+                            <span class="text-warning fw-bold d-inline-flex align-items-center gap-1">
+                              <i class="bi bi-clock-history"></i> 7 días
+                            </span>
+                          </td>
+                          <td class="text-end">
+                            <div class="d-inline-flex gap-1">
+                              <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalNotificar" onclick="prepararNotificacion('Bryan Alexander Mendoza Castro', 'Pendiente aprobación empresarial')">
+                                <i class="bi bi-send-fill me-1"></i> Notificar
+                              </button>
+                              <a href="reportes-por-estudiante.html" class="btn btn-sm btn-outline-secondary" title="Ver Expediente">
+                                <i class="bi bi-folder2-open"></i>
+                              </a>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="d-flex align-items-center gap-2">
+                              <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.75rem; background: #0dcaf0; color: #000;">VR</div>
+                              <div>
+                                <div class="fw-semibold text-dark">Valeria Denisse Rocafuerte Suárez</div>
+                                <div class="text-muted small">Ing. Civil &bull; CNEL</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <span class="badge-estado bg-info text-dark">Evaluación intermedia pendiente</span>
+                            <div class="text-muted small mt-1">Tutor de campo no ha emitido nota</div>
+                          </td>
+                          <td class="text-center">
+                            <span class="text-secondary fw-semibold d-inline-flex align-items-center gap-1">
+                              <i class="bi bi-calendar-event"></i> 5 días
+                            </span>
+                          </td>
+                          <td class="text-end">
+                            <div class="d-inline-flex gap-1">
+                              <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalNotificar" onclick="prepararNotificacion('Valeria Denisse Rocafuerte Suárez', 'Evaluación intermedia pendiente')">
+                                <i class="bi bi-send-fill me-1"></i> Notificar
+                              </button>
+                              <a href="reportes-por-estudiante.html" class="btn btn-sm btn-outline-secondary" title="Ver Expediente">
+                                <i class="bi bi-folder2-open"></i>
+                              </a>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="pagination-container">
+                    <div class="pagination-info">
+                      Mostrando 1 a 4 de 4 estudiantes detectados
+                    </div>
+                    <ul class="pagination pagination-sm mb-0">
+                      <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a></li>
+                      <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item disabled"><a class="page-link" href="#" aria-disabled="true">&raquo;</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card: Distribución por Estado -->
+          <div class="col-12 col-xl-4">
+            <div class="card h-100">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-pie-chart-fill text-primary fs-5"></i>
+                  <span>Distribución por Estado</span>
+                </div>
+                <span class="badge bg-secondary-subtle text-secondary rounded-pill">Total: 248</span>
+              </div>
+              <div class="card-body">
+                <div class="list-group list-group-flush">
+                  <div class="list-group-item px-0 py-2 border-0">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                        <span class="small fw-semibold text-dark">Culminadas / Aprobadas</span>
+                      </div>
+                      <span class="badge-estado bg-success">96</span>
+                    </div>
+                    <div class="progress" style="height: 6px;" role="progressbar" aria-valuenow="38.7" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar bg-success" style="width: 38.7%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="list-group-item px-0 py-2 border-0">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-play-circle-fill text-primary"></i>
+                        <span class="small fw-semibold text-dark">Prácticas Activas</span>
+                      </div>
+                      <span class="badge-estado bg-primary">82</span>
+                    </div>
+                    <div class="progress" style="height: 6px;" role="progressbar" aria-valuenow="33.1" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar bg-primary" style="width: 33.1%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="list-group-item px-0 py-2 border-0">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-hourglass-top text-info"></i>
+                        <span class="small fw-semibold text-dark">En Postulación / Asignación</span>
+                      </div>
+                      <span class="badge-estado bg-info text-dark">34</span>
+                    </div>
+                    <div class="progress" style="height: 6px;" role="progressbar" aria-valuenow="13.7" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar bg-info" style="width: 13.7%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="list-group-item px-0 py-2 border-0">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-file-earmark-text text-warning"></i>
+                        <span class="small fw-semibold text-dark">Pendiente Validación Documental</span>
+                      </div>
+                      <span class="badge-estado bg-warning text-dark">21</span>
+                    </div>
+                    <div class="progress" style="height: 6px;" role="progressbar" aria-valuenow="8.5" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar bg-warning" style="width: 8.5%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="list-group-item px-0 py-2 border-0">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-exclamation-circle-fill text-danger"></i>
+                        <span class="small fw-semibold text-dark">En Revisión con Observaciones</span>
+                      </div>
+                      <span class="badge-estado bg-danger">11</span>
+                    </div>
+                    <div class="progress" style="height: 6px;" role="progressbar" aria-valuenow="4.4" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar bg-danger" style="width: 4.4%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="list-group-item px-0 py-2 border-0">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-pause-circle-fill text-secondary"></i>
+                        <span class="small fw-semibold text-dark">Suspendidas / Inactivas</span>
+                      </div>
+                      <span class="badge-estado bg-secondary">4</span>
+                    </div>
+                    <div class="progress" style="height: 6px;" role="progressbar" aria-valuenow="1.6" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar bg-secondary" style="width: 1.6%;"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-end mt-3 pt-2 border-top">
+                  <a href="reportes-exportar.html" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-file-earmark-spreadsheet me-1"></i> Desglose Detallado
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal: Notificar a Estudiante (Gestalt: Cierre y Proximidad) -->
+        <div class="modal fade" id="modalNotificar" tabindex="-1" aria-labelledby="modalNotificarLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalNotificarLabel">
+                  <i class="bi bi-bell-fill text-warning me-2"></i>Enviar Notificación Institucional
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body">
+                <div class="form-section mb-0 p-3">
+                  <div class="form-section-title">
+                    <i class="bi bi-chat-left-dots"></i> Registro de Requerimiento Tutorial
+                  </div>
+                  <form id="formNotificacionModal" onsubmit="event.preventDefault(); alert('Notificación enviada exitosamente.'); bootstrap.Modal.getInstance(document.getElementById('modalNotificar')).hide();">
+                    <div class="mb-3">
+                      <label class="form-label" for="inputModalEstudiante">Estudiante</label>
+                      <input type="text" class="form-control" id="inputModalEstudiante" readonly>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label" for="inputModalMotivo">Motivo de Notificación</label>
+                      <input type="text" class="form-control" id="inputModalMotivo" readonly>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label" for="selectModalPrioridad">Nivel de Prioridad</label>
+                      <select class="form-select" id="selectModalPrioridad">
+                        <option value="alta" selected>Alta — Plazo 24 horas</option>
+                        <option value="media">Media — Plazo 72 horas</option>
+                        <option value="baja">Informativa</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label" for="textareaModalMensaje">Mensaje Formal</label>
+                      <textarea class="form-control" id="textareaModalMensaje" rows="3">Estimado(a) estudiante, se le solicita presentar la documentación pendiente o regularizar su registro de actividades en el sistema a la brevedad posible.</textarea>
+                    </div>
+                    <div class="form-check mb-3">
+                      <input class="form-check-input" type="checkbox" id="checkModalCopiaTutor" checked>
+                      <label class="form-check-label small" for="checkModalCopiaTutor">
+                        Notificar también al tutor empresarial y tutor académico institucional
+                      </label>
+                    </div>
+                    <div class="d-flex justify-content-end gap-2 pt-2 border-top">
+                      <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                      <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-send-fill me-1"></i> Enviar Notificación
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script>
+          function prepararNotificacion(estudiante, motivo) {
+            var estudianteInput = document.getElementById('inputModalEstudiante');
+            var motivoInput = document.getElementById('inputModalMotivo');
+            if (estudianteInput) estudianteInput.value = estudiante;
+            if (motivoInput) motivoInput.value = motivo;
+          }
+        </script>
+
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

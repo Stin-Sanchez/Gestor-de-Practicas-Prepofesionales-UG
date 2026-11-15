@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Estado de la Práctica — Gestión de Prácticas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="../assets/css/custom.css" rel="stylesheet">
+</head>
+<body data-page="asig-estado" data-section="Asignación">
+  <div class="wrapper">
+    <aside id="sidebar"></aside>
+    <div class="sidebar-overlay"></div>
+    <div class="main-content">
+      <nav id="topbar"></nav>
+      <div class="content">
+
+        <!-- Encabezado de Página (Gestalt: Continuidad) -->
+        <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+          <div>
+            <h2>Estado de la Práctica</h2>
+            <p>Monitoreo en tiempo real del avance, registro de horas acumuladas y cumplimiento institucional de los practicantes.</p>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary" onclick="window.print()">
+              <i class="bi bi-printer me-1"></i> Imprimir Reporte
+            </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalActualizarEstado">
+              <i class="bi bi-plus-circle me-1"></i> Registrar Avance
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Stat-cards Superiores (Gestalt: Cierre, Proximidad, Similitud) -->
+        <div class="row g-3 mb-4">
+          <!-- Total Asignados (Azul) -->
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Total Asignados</div>
+                  <div class="stat-value my-1">128</div>
+                  <small class="text-primary fw-semibold"><i class="bi bi-people-fill me-1"></i>Período 2026-C2</small>
+                </div>
+                <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                  <i class="bi bi-people-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- En Progreso (Amarillo) -->
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">En Progreso</div>
+                  <div class="stat-value my-1">74</div>
+                  <small class="text-warning fw-semibold"><i class="bi bi-hourglass-split me-1"></i>57.8% del total</small>
+                </div>
+                <div class="stat-icon bg-warning bg-opacity-10 text-warning">
+                  <i class="bi bi-hourglass-split"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Completadas (Verde) -->
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Completadas</div>
+                  <div class="stat-value my-1">42</div>
+                  <small class="text-success fw-semibold"><i class="bi bi-check-circle-fill me-1"></i>32.8% culminadas</small>
+                </div>
+                <div class="stat-icon bg-success bg-opacity-10 text-success">
+                  <i class="bi bi-check2-circle"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pendientes (Rojo) -->
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Pendientes</div>
+                  <div class="stat-value my-1">12</div>
+                  <small class="text-danger fw-semibold"><i class="bi bi-pause-circle-fill me-1"></i>9.4% por iniciar</small>
+                </div>
+                <div class="stat-icon bg-danger bg-opacity-10 text-danger">
+                  <i class="bi bi-pause-circle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de Filtros (Gestalt: Región Común) -->
+        <div class="filter-bar">
+          <div class="form-group flex-grow-1" style="min-width: 240px;">
+            <label class="form-label" for="busquedaTabla">Buscar estudiante, empresa o tutor</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-search"></i></span>
+              <input type="text" id="busquedaTabla" class="form-control border-start-0" placeholder="Escriba nombre, cédula, empresa o tutor..." data-search-table="tablaEstadoPractica">
+            </div>
+          </div>
+          <div class="form-group" style="min-width: 180px;">
+            <label class="form-label" for="filtroEstadoSelect">Estado de la práctica</label>
+            <select id="filtroEstadoSelect" class="form-select">
+              <option value="">Todos los estados</option>
+              <option value="En Progreso">En Progreso</option>
+              <option value="Completada">Completada</option>
+              <option value="Pendiente">Pendiente</option>
+            </select>
+          </div>
+          <div class="form-group" style="min-width: 210px;">
+            <label class="form-label" for="filtroCarreraSelect">Carrera</label>
+            <select id="filtroCarreraSelect" class="form-select">
+              <option value="">Todas las carreras</option>
+              <option value="Ing. en Sistemas Computacionales">Ing. en Sistemas Computacionales</option>
+              <option value="Ing. en Software">Ing. en Software</option>
+              <option value="Ing. Civil">Ing. Civil</option>
+              <option value="Ing. Industrial">Ing. Industrial</option>
+              <option value="Ing. Química">Ing. Química</option>
+            </select>
+          </div>
+          <div class="d-flex gap-2 align-self-end ms-auto">
+            <button type="button" class="btn btn-outline-secondary" id="btnRestablecerFiltros" title="Restablecer filtros">
+              <i class="bi bi-arrow-counterclockwise me-1"></i> Limpiar
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabla Principal (Gestalt: Continuidad, Similitud, Cierre) -->
+        <div class="table-container mb-4">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="tablaEstadoPractica">
+              <thead>
+                <tr>
+                  <th scope="col">Estudiante</th>
+                  <th scope="col">Empresa</th>
+                  <th scope="col">Tutor Académico</th>
+                  <th scope="col" style="min-width: 140px;">Progreso</th>
+                  <th scope="col">Horas (Comp./Total)</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Fecha Inicio</th>
+                  <th scope="col" class="text-end">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Fila 1: María Fernanda López -->
+                <tr data-estado="En Progreso" data-carrera="Ing. en Software">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="rounded-circle bg-primary bg-opacity-10 text-primary fw-bold d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; font-size: 0.8rem;">
+                        ML
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">María Fernanda López Mendoza</div>
+                        <small class="text-muted d-block">Ing. en Software &bull; C.I. 0928374651</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Banco Pichincha</div>
+                    <small class="text-muted">Sede Guayaquil Centro</small>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Ing. Roberto Vélez Castro, Msc.</div>
+                    <small class="text-muted">Docente Tutor UG</small>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <small class="fw-bold text-primary">75%</small>
+                    </div>
+                    <div class="progress" style="height: 6px;" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar bg-primary" style="width: 75%"></div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="fw-bold text-dark">180</span> <span class="text-muted">/ 240 hrs</span>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-warning text-dark">
+                      <i class="bi bi-hourglass-split me-1"></i>En Progreso
+                    </span>
+                  </td>
+                  <td>
+                    <span class="text-nowrap text-secondary">
+                      <i class="bi bi-calendar3 me-1 text-muted"></i>15/08/2026
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <button type="button" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 btn-ver-detalle"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalDetallePractica"
+                      data-nombre="María Fernanda López Mendoza"
+                      data-cedula="0928374651"
+                      data-carrera="Ing. en Software"
+                      data-correo="maria.lopezm@ug.edu.ec"
+                      data-empresa="Banco Pichincha"
+                      data-sucursal="Sede Guayaquil Centro (9 de Octubre y Pichincha)"
+                      data-tutor="Ing. Roberto Vélez Castro, Msc."
+                      data-supervisor="Ing. Patricio Almeida (Líder Arquitectura TI)"
+                      data-progreso="75"
+                      data-horas="180 / 240 hrs"
+                      data-horas-num="180"
+                      data-estado="En Progreso"
+                      data-estado-badge="bg-warning text-dark"
+                      data-fecha-inicio="15/08/2026"
+                      data-fecha-fin="30/11/2026">
+                      <i class="bi bi-eye"></i> Detalle
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Fila 2: Carlos Andrés Moreira -->
+                <tr data-estado="Completada" data-carrera="Ing. en Sistemas Computacionales">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="rounded-circle bg-success bg-opacity-10 text-success fw-bold d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; font-size: 0.8rem;">
+                        CM
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Carlos Andrés Moreira Zambrano</div>
+                        <small class="text-muted d-block">Ing. en Sistemas Computacionales &bull; C.I. 0951829304</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">CNT EP</div>
+                    <small class="text-muted">Gerencia Regional 5 Guayas</small>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Ing. Diana Morán Figueroa, Ph.D.</div>
+                    <small class="text-muted">Docente Tutor UG</small>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <small class="fw-bold text-success">100%</small>
+                    </div>
+                    <div class="progress" style="height: 6px;" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar bg-success" style="width: 100%"></div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="fw-bold text-dark">240</span> <span class="text-muted">/ 240 hrs</span>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle-fill me-1"></i>Completada
+                    </span>
+                  </td>
+                  <td>
+                    <span class="text-nowrap text-secondary">
+                      <i class="bi bi-calendar3 me-1 text-muted"></i>01/07/2026
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <button type="button" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 btn-ver-detalle"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalDetallePractica"
+                      data-nombre="Carlos Andrés Moreira Zambrano"
+                      data-cedula="0951829304"
+                      data-carrera="Ing. en Sistemas Computacionales"
+                      data-correo="carlos.moreiraz@ug.edu.ec"
+                      data-empresa="CNT EP"
+                      data-sucursal="Gerencia Regional 5 Guayas (Av. Francisco de Orellana)"
+                      data-tutor="Ing. Diana Morán Figueroa, Ph.D."
+                      data-supervisor="Ing. Javier Salazar (Jefe de Redes y Telecomunicaciones)"
+                      data-progreso="100"
+                      data-horas="240 / 240 hrs"
+                      data-horas-num="240"
+                      data-estado="Completada"
+                      data-estado-badge="bg-success"
+                      data-fecha-inicio="01/07/2026"
+                      data-fecha-fin="15/10/2026">
+                      <i class="bi bi-eye"></i> Detalle
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Fila 3: Valeria Sofía Alarcón -->
+                <tr data-estado="En Progreso" data-carrera="Ing. Industrial">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="rounded-circle bg-warning bg-opacity-10 text-warning fw-bold d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; font-size: 0.8rem;">
+                        VA
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Valeria Sofía Alarcón Cedeño</div>
+                        <small class="text-muted d-block">Ing. Industrial &bull; C.I. 0947261538</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Holcim Ecuador S.A.</div>
+                    <small class="text-muted">Planta San Eduardo (Vía a la Costa)</small>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Ing. Jorge Barcos Villavicencio, Msc.</div>
+                    <small class="text-muted">Docente Tutor UG</small>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <small class="fw-bold text-primary">45%</small>
+                    </div>
+                    <div class="progress" style="height: 6px;" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar bg-primary" style="width: 45%"></div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="fw-bold text-dark">108</span> <span class="text-muted">/ 240 hrs</span>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-warning text-dark">
+                      <i class="bi bi-hourglass-split me-1"></i>En Progreso
+                    </span>
+                  </td>
+                  <td>
+                    <span class="text-nowrap text-secondary">
+                      <i class="bi bi-calendar3 me-1 text-muted"></i>22/09/2026
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <button type="button" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 btn-ver-detalle"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalDetallePractica"
+                      data-nombre="Valeria Sofía Alarcón Cedeño"
+                      data-cedula="0947261538"
+                      data-carrera="Ing. Industrial"
+                      data-correo="valeria.alarconc@ug.edu.ec"
+                      data-empresa="Holcim Ecuador S.A."
+                      data-sucursal="Planta San Eduardo (Vía a la Costa Km 6.5)"
+                      data-tutor="Ing. Jorge Barcos Villavicencio, Msc."
+                      data-supervisor="Ing. Eduardo Viteri (Coordinador de Calidad Industrial)"
+                      data-progreso="45"
+                      data-horas="108 / 240 hrs"
+                      data-horas-num="108"
+                      data-estado="En Progreso"
+                      data-estado-badge="bg-warning text-dark"
+                      data-fecha-inicio="22/09/2026"
+                      data-fecha-fin="15/01/2027">
+                      <i class="bi bi-eye"></i> Detalle
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Fila 4: Kevin Daniel Intriago -->
+                <tr data-estado="Pendiente" data-carrera="Ing. Civil">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="rounded-circle bg-danger bg-opacity-10 text-danger fw-bold d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; font-size: 0.8rem;">
+                        KI
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Kevin Daniel Intriago Vera</div>
+                        <small class="text-muted d-block">Ing. Civil &bull; C.I. 0918273645</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">CNEL EP</div>
+                    <small class="text-muted">Unidad de Negocio Guayaquil</small>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Arq. Elena Guaycha Paredes, Msc.</div>
+                    <small class="text-muted">Docente Tutor UG</small>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <small class="fw-bold text-danger">0%</small>
+                    </div>
+                    <div class="progress" style="height: 6px;" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar bg-danger" style="width: 0%"></div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="fw-bold text-dark">0</span> <span class="text-muted">/ 240 hrs</span>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-danger">
+                      <i class="bi bi-pause-circle-fill me-1"></i>Pendiente
+                    </span>
+                  </td>
+                  <td>
+                    <span class="text-nowrap text-secondary">
+                      <i class="bi bi-calendar3 me-1 text-muted"></i>01/11/2026
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <button type="button" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 btn-ver-detalle"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalDetallePractica"
+                      data-nombre="Kevin Daniel Intriago Vera"
+                      data-cedula="0918273645"
+                      data-carrera="Ing. Civil"
+                      data-correo="kevin.intriagov@ug.edu.ec"
+                      data-empresa="CNEL EP"
+                      data-sucursal="Unidad de Negocio Guayaquil (Garzota)"
+                      data-tutor="Arq. Elena Guaycha Paredes, Msc."
+                      data-supervisor="Ing. Marcos Benalcázar (Director de Obras Civiles)"
+                      data-progreso="0"
+                      data-horas="0 / 240 hrs"
+                      data-horas-num="0"
+                      data-estado="Pendiente"
+                      data-estado-badge="bg-danger"
+                      data-fecha-inicio="01/11/2026"
+                      data-fecha-fin="28/02/2027">
+                      <i class="bi bi-eye"></i> Detalle
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Fila 5: Doménica Beatriz Reyes -->
+                <tr data-estado="Completada" data-carrera="Ing. Química">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="rounded-circle bg-success bg-opacity-10 text-success fw-bold d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; font-size: 0.8rem;">
+                        DR
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Doménica Beatriz Reyes Macías</div>
+                        <small class="text-muted d-block">Ing. Química &bull; C.I. 0963524178</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Nestlé Ecuador S.A.</div>
+                    <small class="text-muted">Fábrica Sur Guayaquil</small>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Dra. Carmen Holguín Loor, Ph.D.</div>
+                    <small class="text-muted">Docente Tutor UG</small>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <small class="fw-bold text-success">100%</small>
+                    </div>
+                    <div class="progress" style="height: 6px;" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar bg-success" style="width: 100%"></div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="fw-bold text-dark">240</span> <span class="text-muted">/ 240 hrs</span>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle-fill me-1"></i>Completada
+                    </span>
+                  </td>
+                  <td>
+                    <span class="text-nowrap text-secondary">
+                      <i class="bi bi-calendar3 me-1 text-muted"></i>10/06/2026
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <button type="button" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 btn-ver-detalle"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalDetallePractica"
+                      data-nombre="Doménica Beatriz Reyes Macías"
+                      data-cedula="0963524178"
+                      data-carrera="Ing. Química"
+                      data-correo="domenica.reyesm@ug.edu.ec"
+                      data-empresa="Nestlé Ecuador S.A."
+                      data-sucursal="Fábrica Sur Guayaquil (Av. Domingo Comín)"
+                      data-tutor="Dra. Carmen Holguín Loor, Ph.D."
+                      data-supervisor="Ing. Lorena Cárdenas (Supervisora de Procesos y Calidad)"
+                      data-progreso="100"
+                      data-horas="240 / 240 hrs"
+                      data-horas-num="240"
+                      data-estado="Completada"
+                      data-estado-badge="bg-success"
+                      data-fecha-inicio="10/06/2026"
+                      data-fecha-fin="25/09/2026">
+                      <i class="bi bi-eye"></i> Detalle
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Fila 6: Bryan Josué Chóez -->
+                <tr data-estado="En Progreso" data-carrera="Ing. en Software">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="rounded-circle bg-info bg-opacity-10 text-info fw-bold d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; font-size: 0.8rem;">
+                        BC
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Bryan Josué Chóez Quimis</div>
+                        <small class="text-muted d-block">Ing. en Software &bull; C.I. 0938475612</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Pronaca</div>
+                    <small class="text-muted">Centro Operativo Durán / Guayaquil</small>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Ing. Víctor Hugo Macías, Msc.</div>
+                    <small class="text-muted">Docente Tutor UG</small>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <small class="fw-bold text-info">25%</small>
+                    </div>
+                    <div class="progress" style="height: 6px;" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar bg-info" style="width: 25%"></div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="fw-bold text-dark">60</span> <span class="text-muted">/ 240 hrs</span>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-warning text-dark">
+                      <i class="bi bi-hourglass-split me-1"></i>En Progreso
+                    </span>
+                  </td>
+                  <td>
+                    <span class="text-nowrap text-secondary">
+                      <i class="bi bi-calendar3 me-1 text-muted"></i>10/10/2026
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <button type="button" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 btn-ver-detalle"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalDetallePractica"
+                      data-nombre="Bryan Josué Chóez Quimis"
+                      data-cedula="0938475612"
+                      data-carrera="Ing. en Software"
+                      data-correo="bryan.choezq@ug.edu.ec"
+                      data-empresa="Pronaca"
+                      data-sucursal="Complejo Industrial Durán - Guayaquil"
+                      data-tutor="Ing. Víctor Hugo Macías, Msc."
+                      data-supervisor="Ing. Fernando Gómez (Líder Desarrollo de Sistemas)"
+                      data-progreso="25"
+                      data-horas="60 / 240 hrs"
+                      data-horas-num="60"
+                      data-estado="En Progreso"
+                      data-estado-badge="bg-warning text-dark"
+                      data-fecha-inicio="10/10/2026"
+                      data-fecha-fin="15/02/2027">
+                      <i class="bi bi-eye"></i> Detalle
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Fila 7: Andrea Nicole Solórzano -->
+                <tr data-estado="En Progreso" data-carrera="Ing. en Sistemas Computacionales">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="rounded-circle bg-primary bg-opacity-10 text-primary fw-bold d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; font-size: 0.8rem;">
+                        AS
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Andrea Nicole Solórzano Pino</div>
+                        <small class="text-muted d-block">Ing. en Sistemas Computacionales &bull; C.I. 0923456789</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Banco Pichincha</div>
+                    <small class="text-muted">Agencia Mall del Sol (Av. J.T. Marengo)</small>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Ing. Roberto Vélez Castro, Msc.</div>
+                    <small class="text-muted">Docente Tutor UG</small>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <small class="fw-bold text-primary">60%</small>
+                    </div>
+                    <div class="progress" style="height: 6px;" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar bg-primary" style="width: 60%"></div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="fw-bold text-dark">144</span> <span class="text-muted">/ 240 hrs</span>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-warning text-dark">
+                      <i class="bi bi-hourglass-split me-1"></i>En Progreso
+                    </span>
+                  </td>
+                  <td>
+                    <span class="text-nowrap text-secondary">
+                      <i class="bi bi-calendar3 me-1 text-muted"></i>01/09/2026
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <button type="button" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 btn-ver-detalle"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalDetallePractica"
+                      data-nombre="Andrea Nicole Solórzano Pino"
+                      data-cedula="0923456789"
+                      data-carrera="Ing. en Sistemas Computacionales"
+                      data-correo="andrea.solorzanop@ug.edu.ec"
+                      data-empresa="Banco Pichincha"
+                      data-sucursal="Agencia Mall del Sol (Av. Juan Tanca Marengo)"
+                      data-tutor="Ing. Roberto Vélez Castro, Msc."
+                      data-supervisor="Ing. Gabriela Villacís (Jefe Soporte de Infraestructura)"
+                      data-progreso="60"
+                      data-horas="144 / 240 hrs"
+                      data-horas-num="144"
+                      data-estado="En Progreso"
+                      data-estado-badge="bg-warning text-dark"
+                      data-fecha-inicio="01/09/2026"
+                      data-fecha-fin="20/12/2026">
+                      <i class="bi bi-eye"></i> Detalle
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Fila 8: Gabriel Alexander Briones -->
+                <tr data-estado="Pendiente" data-carrera="Ing. Industrial">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="rounded-circle bg-danger bg-opacity-10 text-danger fw-bold d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; font-size: 0.8rem;">
+                        GB
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Gabriel Alexander Briones Tumbaco</div>
+                        <small class="text-muted d-block">Ing. Industrial &bull; C.I. 0948392011</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Holcim Ecuador S.A.</div>
+                    <small class="text-muted">Cantera y Planta Industrial Guayaquil</small>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark">Ing. Jorge Barcos Villavicencio, Msc.</div>
+                    <small class="text-muted">Docente Tutor UG</small>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <small class="fw-bold text-danger">10%</small>
+                    </div>
+                    <div class="progress" style="height: 6px;" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar bg-danger" style="width: 10%"></div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="fw-bold text-dark">24</span> <span class="text-muted">/ 240 hrs</span>
+                  </td>
+                  <td>
+                    <span class="badge badge-estado bg-danger">
+                      <i class="bi bi-pause-circle-fill me-1"></i>Pendiente
+                    </span>
+                  </td>
+                  <td>
+                    <span class="text-nowrap text-secondary">
+                      <i class="bi bi-calendar3 me-1 text-muted"></i>05/11/2026
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <button type="button" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 btn-ver-detalle"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalDetallePractica"
+                      data-nombre="Gabriel Alexander Briones Tumbaco"
+                      data-cedula="0948392011"
+                      data-carrera="Ing. Industrial"
+                      data-correo="gabriel.brionest@ug.edu.ec"
+                      data-empresa="Holcim Ecuador S.A."
+                      data-sucursal="Cantera San Eduardo, Vía a la Costa"
+                      data-tutor="Ing. Jorge Barcos Villavicencio, Msc."
+                      data-supervisor="Ing. Marcelo Andrade (Jefe de Seguridad Industrial)"
+                      data-progreso="10"
+                      data-horas="24 / 240 hrs"
+                      data-horas-num="24"
+                      data-estado="Pendiente"
+                      data-estado-badge="bg-danger"
+                      data-fecha-inicio="05/11/2026"
+                      data-fecha-fin="15/03/2027">
+                      <i class="bi bi-eye"></i> Detalle
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Paginación (Gestalt: Continuidad) -->
+          <div class="pagination-container">
+            <div class="pagination-info">
+              Mostrando <span class="fw-semibold text-dark">1-8</span> de <span class="fw-semibold text-dark" id="registroContador">8</span> prácticas asignadas
+            </div>
+            <nav aria-label="Navegación de páginas">
+              <ul class="pagination pagination-sm">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                    <i class="bi bi-chevron-left"></i> Anterior
+                  </a>
+                </li>
+                <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">
+                    Siguiente <i class="bi bi-chevron-right"></i>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <!-- Modal: Ver Detalle de la Práctica (Gestalt: Cierre, Proximidad) -->
+        <div class="modal fade" id="modalDetallePractica" tabindex="-1" aria-labelledby="modalDetalleLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header border-bottom">
+                <div class="d-flex align-items-center gap-2">
+                  <div class="stat-icon bg-primary bg-opacity-10 text-primary" style="width: 40px; height: 40px; font-size: 1.1rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">
+                    <i class="bi bi-mortarboard-fill"></i>
+                  </div>
+                  <div>
+                    <h5 class="modal-title fw-bold text-dark mb-0" id="modalDetalleLabel">Detalle de la Práctica Preprofesional</h5>
+                    <small class="text-muted">Expediente de seguimiento académico e institucional</small>
+                  </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+
+              <div class="modal-body p-4">
+                <!-- Sección 1: Datos del Estudiante y Asignación (Form-section) -->
+                <div class="form-section mb-4">
+                  <div class="form-section-title">
+                    <i class="bi bi-person-badge"></i> Datos del Estudiante y Asignación
+                  </div>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label class="form-label text-muted small mb-0">Estudiante</label>
+                      <div class="fw-bold text-dark fs-6" id="detNombre">María Fernanda López Mendoza</div>
+                    </div>
+                    <div class="col-md-3">
+                      <label class="form-label text-muted small mb-0">Cédula</label>
+                      <div class="fw-semibold text-dark" id="detCedula">0928374651</div>
+                    </div>
+                    <div class="col-md-3">
+                      <label class="form-label text-muted small mb-0">Estado Actual</label>
+                      <div id="detEstadoBadge">
+                        <span class="badge badge-estado bg-warning text-dark">En Progreso</span>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label text-muted small mb-0">Carrera Universitaria</label>
+                      <div class="text-dark fw-semibold" id="detCarrera">Ing. en Software</div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label text-muted small mb-0">Correo Institucional</label>
+                      <div class="text-dark" id="detCorreo">maria.lopezm@ug.edu.ec</div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label text-muted small mb-0">Empresa Receptora</label>
+                      <div class="text-dark fw-bold" id="detEmpresa">Banco Pichincha</div>
+                      <small class="text-muted" id="detSucursal">Sede Guayaquil Centro (9 de Octubre)</small>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label text-muted small mb-0">Tutor Académico (UG)</label>
+                      <div class="text-dark fw-semibold" id="detTutor">Ing. Roberto Vélez Castro, Msc.</div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label text-muted small mb-0">Supervisor Empresarial</label>
+                      <div class="text-dark" id="detSupervisor">Ing. Patricio Almeida (Líder TI)</div>
+                    </div>
+                    <div class="col-md-3">
+                      <label class="form-label text-muted small mb-0">Fecha Inicio</label>
+                      <div class="text-dark fw-semibold" id="detFechaInicio">15/08/2026</div>
+                    </div>
+                    <div class="col-md-3">
+                      <label class="form-label text-muted small mb-0">Fecha Fin Prevista</label>
+                      <div class="text-dark fw-semibold" id="detFechaFin">30/11/2026</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Sección 2: Avance y Control de Horas (Form-section) -->
+                <div class="form-section mb-4">
+                  <div class="form-section-title">
+                    <i class="bi bi-clock-history"></i> Cumplimiento de Horas Reglamentarias
+                  </div>
+                  <div class="row align-items-center mb-3">
+                    <div class="col-sm-6">
+                      <div class="d-flex align-items-baseline gap-2">
+                        <span class="fs-4 fw-bold text-dark" id="detHorasCompletadas">180</span>
+                        <span class="text-muted">/ 240 Horas Exigidas</span>
+                      </div>
+                      <small class="text-muted">Horas validadas por el tutor académico y supervisor</small>
+                    </div>
+                    <div class="col-sm-6 text-sm-end mt-2 mt-sm-0">
+                      <span class="fs-4 fw-bold text-primary" id="detPorcentajeTexto">75%</span>
+                      <span class="text-muted d-block small">Nivel de Ejecución</span>
+                    </div>
+                  </div>
+                  <div class="progress mb-3" style="height: 10px;" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" id="detProgressBar" style="width: 75%"></div>
+                  </div>
+                  <div class="row g-2 text-center pt-2 border-top">
+                    <div class="col-4">
+                      <small class="text-muted d-block">Horas Aprobadas</small>
+                      <span class="fw-bold text-success" id="detHorasAprobadas">180 hrs</span>
+                    </div>
+                    <div class="col-4">
+                      <small class="text-muted d-block">Horas Restantes</small>
+                      <span class="fw-bold text-warning" id="detHorasRestantes">60 hrs</span>
+                    </div>
+                    <div class="col-4">
+                      <small class="text-muted d-block">Total Convenio</small>
+                      <span class="fw-bold text-dark">240 hrs</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Sección 3: Formulario de Actualización y Observaciones (Form-section) -->
+                <div class="form-section mb-0">
+                  <div class="form-section-title">
+                    <i class="bi bi-pencil-square"></i> Registro de Novedades y Modificación de Estado
+                  </div>
+                  <form id="formActualizarDetalle">
+                    <div class="row g-3">
+                      <div class="col-md-6">
+                        <label class="form-label" for="selectNuevoEstadoModal">Actualizar Estado</label>
+                        <select id="selectNuevoEstadoModal" class="form-select">
+                          <option value="En Progreso">En Progreso</option>
+                          <option value="Completada">Completada</option>
+                          <option value="Pendiente">Pendiente</option>
+                        </select>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="form-label" for="inputSumarHoras">Adicionar Horas Validadas</label>
+                        <div class="input-group">
+                          <input type="number" id="inputSumarHoras" class="form-control" placeholder="Ej. 20" min="0" max="240">
+                          <span class="input-group-text">Horas</span>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <label class="form-label" for="textareaObservaciones">Observaciones o Retroalimentación Institucional</label>
+                        <textarea id="textareaObservaciones" class="form-control" rows="3" placeholder="Ingrese comentarios del seguimiento presencial o virtual..."></textarea>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <!-- Acciones del Modal alineadas a la derecha (Gestalt: Continuidad) -->
+              <div class="modal-footer border-top d-flex justify-content-end gap-2">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                  <i class="bi bi-x-lg me-1"></i> Cerrar
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                  <i class="bi bi-check2-circle me-1"></i> Guardar Cambios
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal: Registrar Avance Rápido (Form-section) -->
+        <div class="modal fade" id="modalActualizarEstado" tabindex="-1" aria-labelledby="modalActualizarLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header border-bottom">
+                <h5 class="modal-title fw-bold" id="modalActualizarLabel">
+                  <i class="bi bi-plus-circle text-primary me-2"></i>Registrar Avance de Práctica
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body p-4">
+                <div class="form-section mb-0">
+                  <div class="form-section-title">
+                    <i class="bi bi-clipboard-check"></i> Formulario de Registro
+                  </div>
+                  <form id="formRegistroAvance">
+                    <div class="mb-3">
+                      <label class="form-label" for="selectEstudianteAvance">Seleccionar Estudiante</label>
+                      <select class="form-select" id="selectEstudianteAvance" required>
+                        <option value="" selected disabled>Seleccione un estudiante...</option>
+                        <option value="1">María Fernanda López Mendoza — Banco Pichincha</option>
+                        <option value="2">Carlos Andrés Moreira Zambrano — CNT EP</option>
+                        <option value="3">Valeria Sofía Alarcón Cedeño — Holcim Ecuador</option>
+                        <option value="4">Kevin Daniel Intriago Vera — CNEL EP</option>
+                        <option value="5">Doménica Beatriz Reyes Macías — Nestlé Ecuador</option>
+                        <option value="6">Bryan Josué Chóez Quimis — Pronaca</option>
+                        <option value="7">Andrea Nicole Solórzano Pino — Banco Pichincha</option>
+                        <option value="8">Gabriel Alexander Briones Tumbaco — Holcim Ecuador</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label" for="inputHorasReportar">Horas a Registrar</label>
+                      <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-clock"></i></span>
+                        <input type="number" class="form-control" id="inputHorasReportar" placeholder="Horas cumplidas esta semana" min="1" max="80" required>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label" for="selectEstadoAvance">Estado resultante</label>
+                      <select class="form-select" id="selectEstadoAvance">
+                        <option value="En Progreso" selected>En Progreso</option>
+                        <option value="Completada">Completada (Culmina 240 hrs)</option>
+                        <option value="Pendiente">Pendiente de Aprobación</option>
+                      </select>
+                    </div>
+                    <div class="mb-0">
+                      <label class="form-label" for="inputDetalleAvance">Descripción de Actividades</label>
+                      <textarea class="form-control" id="inputDetalleAvance" rows="2" placeholder="Resumen de tareas desarrolladas en la empresa..."></textarea>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="modal-footer border-top d-flex justify-content-end gap-2">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                  Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                  <i class="bi bi-save me-1"></i> Guardar Registro
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Script de Funcionalidad para Modal y Filtros Combinados -->
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            // Manejador dinámico del Modal de Detalle
+            const botonesDetalle = document.querySelectorAll('.btn-ver-detalle');
+            botonesDetalle.forEach(function (btn) {
+              btn.addEventListener('click', function () {
+                const nombre = this.getAttribute('data-nombre');
+                const cedula = this.getAttribute('data-cedula');
+                const carrera = this.getAttribute('data-carrera');
+                const correo = this.getAttribute('data-correo');
+                const empresa = this.getAttribute('data-empresa');
+                const sucursal = this.getAttribute('data-sucursal');
+                const tutor = this.getAttribute('data-tutor');
+                const supervisor = this.getAttribute('data-supervisor');
+                const progreso = parseInt(this.getAttribute('data-progreso') || '0', 10);
+                const horas = this.getAttribute('data-horas');
+                const horasNum = parseInt(this.getAttribute('data-horas-num') || '0', 10);
+                const estado = this.getAttribute('data-estado');
+                const badgeClass = this.getAttribute('data-estado-badge');
+                const fechaInicio = this.getAttribute('data-fecha-inicio');
+                const fechaFin = this.getAttribute('data-fecha-fin');
+
+                // Inyectar datos en el modal
+                document.getElementById('detNombre').textContent = nombre;
+                document.getElementById('detCedula').textContent = cedula;
+                document.getElementById('detCarrera').textContent = carrera;
+                document.getElementById('detCorreo').textContent = correo;
+                document.getElementById('detEmpresa').textContent = empresa;
+                document.getElementById('detSucursal').textContent = sucursal;
+                document.getElementById('detTutor').textContent = tutor;
+                document.getElementById('detSupervisor').textContent = supervisor;
+                document.getElementById('detFechaInicio').textContent = fechaInicio;
+                document.getElementById('detFechaFin').textContent = fechaFin;
+                document.getElementById('detHorasCompletadas').textContent = horasNum;
+                document.getElementById('detPorcentajeTexto').textContent = progreso + '%';
+                document.getElementById('detHorasAprobadas').textContent = horasNum + ' hrs';
+                document.getElementById('detHorasRestantes').textContent = Math.max(0, 240 - horasNum) + ' hrs';
+
+                // Barra de progreso del modal
+                const progressBar = document.getElementById('detProgressBar');
+                progressBar.style.width = progreso + '%';
+                progressBar.className = 'progress-bar progress-bar-striped progress-bar-animated';
+                if (progreso === 100) {
+                  progressBar.classList.add('bg-success');
+                } else if (progreso === 0) {
+                  progressBar.classList.add('bg-danger');
+                } else {
+                  progressBar.classList.add('bg-primary');
+                }
+
+                // Badge de estado en modal
+                const badgeContainer = document.getElementById('detEstadoBadge');
+                badgeContainer.innerHTML = '<span class="badge badge-estado ' + badgeClass + '">' + estado + '</span>';
+
+                // Selección del select en el modal
+                const selectEstado = document.getElementById('selectNuevoEstadoModal');
+                if (selectEstado) {
+                  selectEstado.value = estado;
+                }
+              });
+            });
+
+            // Filtros Combinados (Búsqueda + Filtro por Estado + Filtro por Carrera)
+            const table = document.getElementById('tablaEstadoPractica');
+            const searchInput = document.getElementById('busquedaTabla');
+            const estadoSelect = document.getElementById('filtroEstadoSelect');
+            const carreraSelect = document.getElementById('filtroCarreraSelect');
+            const btnReset = document.getElementById('btnRestablecerFiltros');
+
+            function filtrarFilas() {
+              if (!table) return;
+              const term = (searchInput ? searchInput.value : '').toLowerCase().trim();
+              const estadoFiltro = (estadoSelect ? estadoSelect.value : '').toLowerCase().trim();
+              const carreraFiltro = (carreraSelect ? carreraSelect.value : '').toLowerCase().trim();
+
+              const rows = table.querySelectorAll('tbody tr');
+              let visibles = 0;
+
+              rows.forEach(function (row) {
+                const text = row.textContent.toLowerCase();
+                const rowEstado = (row.getAttribute('data-estado') || '').toLowerCase();
+                const rowCarrera = (row.getAttribute('data-carrera') || '').toLowerCase();
+
+                const coincideTexto = !term || text.includes(term);
+                const coincideEstado = !estadoFiltro || rowEstado.includes(estadoFiltro);
+                const coincideCarrera = !carreraFiltro || rowCarrera.includes(carreraFiltro);
+
+                if (coincideTexto && coincideEstado && coincideCarrera) {
+                  row.style.display = '';
+                  visibles++;
+                } else {
+                  row.style.display = 'none';
+                }
+              });
+
+              const contador = document.getElementById('registroContador');
+              if (contador) {
+                contador.textContent = visibles;
+              }
+            }
+
+            if (estadoSelect) estadoSelect.addEventListener('change', filtrarFilas);
+            if (carreraSelect) carreraSelect.addEventListener('change', filtrarFilas);
+            if (searchInput) searchInput.addEventListener('input', filtrarFilas);
+
+            if (btnReset) {
+              btnReset.addEventListener('click', function () {
+                if (searchInput) searchInput.value = '';
+                if (estadoSelect) estadoSelect.value = '';
+                if (carreraSelect) carreraSelect.value = '';
+                filtrarFilas();
+              });
+            }
+          });
+        </script>
+
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

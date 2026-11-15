@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reporte por Carrera — Gestión de Prácticas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="../assets/css/custom.css" rel="stylesheet">
+</head>
+<body data-page="rep-carrera" data-section="Reportes">
+  <div class="wrapper">
+    <aside id="sidebar"></aside>
+    <div class="sidebar-overlay"></div>
+    <div class="main-content">
+      <nav id="topbar"></nav>
+      <div class="content">
+
+        <!-- Header de Página -->
+        <div class="page-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+          <div>
+            <h2>Reporte por Carrera</h2>
+            <p>Consolidado y métricas de desempeño de prácticas preprofesionales por carrera de la Universidad de Guayaquil</p>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <button type="button" class="btn btn-outline-secondary" onclick="window.print()">
+              <i class="bi bi-printer me-1"></i>Imprimir
+            </button>
+            <div class="dropdown">
+              <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-download me-1"></i>Exportar Reporte
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                <li><h6 class="dropdown-header text-uppercase small fw-bold">Formatos disponibles</h6></li>
+                <li><a class="dropdown-item" href="reportes-exportar.html?formato=pdf&modulo=carrera"><i class="bi bi-file-earmark-pdf-fill text-danger me-2"></i>Reporte en PDF (.pdf)</a></li>
+                <li><a class="dropdown-item" href="reportes-exportar.html?formato=excel&modulo=carrera"><i class="bi bi-file-earmark-excel-fill text-success me-2"></i>Consolidado Excel (.xlsx)</a></li>
+                <li><a class="dropdown-item" href="reportes-exportar.html?formato=csv&modulo=carrera"><i class="bi bi-file-earmark-spreadsheet-fill text-primary me-2"></i>Datos CSV (.csv)</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjetas de Resumen Global (stat-card) -->
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-4 g-3 mb-4">
+          <div class="col">
+            <div class="card stat-card">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Total Estudiantes</div>
+                  <div class="stat-value my-1">1,420</div>
+                  <small class="text-muted"><i class="bi bi-mortarboard-fill me-1"></i>6 Carreras Registradas</small>
+                </div>
+                <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                  <i class="bi bi-people-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card stat-card">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">En Práctica</div>
+                  <div class="stat-value my-1 text-info">685</div>
+                  <small class="text-info fw-semibold"><i class="bi bi-clock-history me-1"></i>48.2% en ejecución</small>
+                </div>
+                <div class="stat-icon bg-info bg-opacity-10 text-info">
+                  <i class="bi bi-person-workspace"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card stat-card">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Completados</div>
+                  <div class="stat-value my-1 text-success">590</div>
+                  <small class="text-success fw-semibold"><i class="bi bi-check-circle-fill me-1"></i>41.5% culminadas</small>
+                </div>
+                <div class="stat-icon bg-success bg-opacity-10 text-success">
+                  <i class="bi bi-patch-check-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card stat-card">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Pendientes</div>
+                  <div class="stat-value my-1 text-warning">145</div>
+                  <small class="text-warning fw-semibold"><i class="bi bi-hourglass-split me-1"></i>10.2% por asignar</small>
+                </div>
+                <div class="stat-icon bg-warning bg-opacity-10 text-warning">
+                  <i class="bi bi-exclamation-triangle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de Filtros -->
+        <div class="filter-bar">
+          <div class="form-group">
+            <label class="form-label" for="filtroCarrera"><i class="bi bi-mortarboard me-1"></i>Carrera</label>
+            <select class="form-select" id="filtroCarrera">
+              <option value="">Todas las carreras</option>
+              <option value="sistemas">Ing. en Sistemas Computacionales</option>
+              <option value="software">Ing. en Software</option>
+              <option value="civil">Ing. Civil</option>
+              <option value="industrial">Ing. Industrial</option>
+              <option value="quimica">Ing. Química</option>
+              <option value="ti">Ing. en Tecnologías de la Información</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filtroPeriodo"><i class="bi bi-calendar3 me-1"></i>Periodo Académico</label>
+            <select class="form-select" id="filtroPeriodo">
+              <option value="2026-c1" selected>2026 - 2027 CI (Vigente)</option>
+              <option value="2025-c2">2025 - 2026 CII</option>
+              <option value="2025-c1">2025 - 2026 CI</option>
+              <option value="2024-c2">2024 - 2025 CII</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filtroEstado"><i class="bi bi-funnel me-1"></i>Estado de Práctica</label>
+            <select class="form-select" id="filtroEstado">
+              <option value="">Todos los estados</option>
+              <option value="en_practica">En Práctica</option>
+              <option value="completado">Completados</option>
+              <option value="pendiente">Pendientes</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="buscarCarreraInput"><i class="bi bi-search me-1"></i>Búsqueda Rápida</label>
+            <input type="text" class="form-control" id="buscarCarreraInput" placeholder="Buscar por carrera o facultad..." data-search-table="tablaReporteCarrera">
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary" id="btnLimpiarFiltros" title="Restablecer filtros">
+              <i class="bi bi-arrow-counterclockwise me-1"></i>Limpiar
+            </button>
+            <button type="button" class="btn btn-primary" id="btnAplicarFiltros">
+              <i class="bi bi-funnel-fill me-1"></i>Filtrar
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabla Detallada por Carrera -->
+        <div class="table-container mb-4">
+          <div class="p-3 border-bottom d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <div>
+              <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-table text-primary me-2"></i>Consolidado por Carreras de la Universidad de Guayaquil</h5>
+              <small class="text-muted">Periodo Lectivo 2026 - 2027 CI — Corte al 14 de Noviembre de 2026</small>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge bg-light text-dark border"><i class="bi bi-check2-circle text-success me-1"></i>Datos Validados</span>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="tablaReporteCarrera">
+              <thead>
+                <tr>
+                  <th scope="col" class="ps-4">Carrera</th>
+                  <th scope="col">Facultad</th>
+                  <th scope="col" class="text-center">Estudiantes Inscritos</th>
+                  <th scope="col" class="text-center">En Práctica</th>
+                  <th scope="col" class="text-center">Completados</th>
+                  <th scope="col" class="text-center">Pendientes</th>
+                  <th scope="col" style="min-width: 170px;">Tasa de Éxito</th>
+                  <th scope="col" class="text-end pe-4">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="ps-4">
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="p-2 rounded bg-primary-subtle text-primary">
+                        <i class="bi bi-laptop fs-5"></i>
+                      </div>
+                      <div>
+                        <span class="fw-bold text-dark d-block">Ing. en Sistemas Computacionales</span>
+                        <small class="text-muted">Código: CIS-UG-2018</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Facultad de Ciencias Matemáticas y Físicas</td>
+                  <td class="text-center fw-bold">340</td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-info text-dark">
+                      <i class="bi bi-clock-history me-1"></i>165
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle me-1"></i>145
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-warning text-dark">
+                      <i class="bi bi-hourglass-split me-1"></i>30
+                    </span>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="fw-bold small text-dark">85.3%</span>
+                      <span class="badge bg-success-subtle text-success border border-success-subtle py-0 px-1" style="font-size:0.68rem;">Alto</span>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 85.3%;" aria-valuenow="85.3" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </td>
+                  <td class="text-end pe-4">
+                    <div class="d-inline-flex gap-1">
+                      <button type="button" class="btn btn-outline-primary btn-action" data-bs-toggle="modal" data-bs-target="#modalDetalleCarrera" data-carrera="Ingeniería en Sistemas Computacionales" data-facultad="Facultad de Ciencias Matemáticas y Físicas" data-total="340" data-en-practica="165" data-completados="145" data-pendientes="30" title="Ver estudiantes">
+                        <i class="bi bi-eye-fill"></i>
+                      </button>
+                      <a href="reportes-exportar.html?carrera=sistemas" class="btn btn-outline-secondary btn-action" title="Descargar reporte PDF">
+                        <i class="bi bi-download"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="ps-4">
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="p-2 rounded bg-success-subtle text-success">
+                        <i class="bi bi-code-slash fs-5"></i>
+                      </div>
+                      <div>
+                        <span class="fw-bold text-dark d-block">Ing. en Software</span>
+                        <small class="text-muted">Código: SOF-UG-2019</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Facultad de Ciencias Matemáticas y Físicas</td>
+                  <td class="text-center fw-bold">285</td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-info text-dark">
+                      <i class="bi bi-clock-history me-1"></i>142
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle me-1"></i>121
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-warning text-dark">
+                      <i class="bi bi-hourglass-split me-1"></i>22
+                    </span>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="fw-bold small text-dark">88.5%</span>
+                      <span class="badge bg-success-subtle text-success border border-success-subtle py-0 px-1" style="font-size:0.68rem;">Excelente</span>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                      <div class="progress-bar bg-success" role="progressbar" style="width: 88.5%;" aria-valuenow="88.5" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </td>
+                  <td class="text-end pe-4">
+                    <div class="d-inline-flex gap-1">
+                      <button type="button" class="btn btn-outline-primary btn-action" data-bs-toggle="modal" data-bs-target="#modalDetalleCarrera" data-carrera="Ingeniería en Software" data-facultad="Facultad de Ciencias Matemáticas y Físicas" data-total="285" data-en-practica="142" data-completados="121" data-pendientes="22" title="Ver estudiantes">
+                        <i class="bi bi-eye-fill"></i>
+                      </button>
+                      <a href="reportes-exportar.html?carrera=software" class="btn btn-outline-secondary btn-action" title="Descargar reporte PDF">
+                        <i class="bi bi-download"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="ps-4">
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="p-2 rounded bg-warning-subtle text-warning-emphasis">
+                        <i class="bi bi-building-gear fs-5"></i>
+                      </div>
+                      <div>
+                        <span class="fw-bold text-dark d-block">Ing. Civil</span>
+                        <small class="text-muted">Código: CIV-UG-2017</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Facultad de Ciencias Matemáticas y Físicas</td>
+                  <td class="text-center fw-bold">260</td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-info text-dark">
+                      <i class="bi bi-clock-history me-1"></i>118
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle me-1"></i>106
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-warning text-dark">
+                      <i class="bi bi-hourglass-split me-1"></i>36
+                    </span>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="fw-bold small text-dark">79.2%</span>
+                      <span class="badge bg-warning-subtle text-warning border border-warning-subtle py-0 px-1" style="font-size:0.68rem;">Regular</span>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                      <div class="progress-bar bg-warning" role="progressbar" style="width: 79.2%;" aria-valuenow="79.2" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </td>
+                  <td class="text-end pe-4">
+                    <div class="d-inline-flex gap-1">
+                      <button type="button" class="btn btn-outline-primary btn-action" data-bs-toggle="modal" data-bs-target="#modalDetalleCarrera" data-carrera="Ingeniería Civil" data-facultad="Facultad de Ciencias Matemáticas y Físicas" data-total="260" data-en-practica="118" data-completados="106" data-pendientes="36" title="Ver estudiantes">
+                        <i class="bi bi-eye-fill"></i>
+                      </button>
+                      <a href="reportes-exportar.html?carrera=civil" class="btn btn-outline-secondary btn-action" title="Descargar reporte PDF">
+                        <i class="bi bi-download"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="ps-4">
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="p-2 rounded bg-danger-subtle text-danger">
+                        <i class="bi bi-gear-wide-connected fs-5"></i>
+                      </div>
+                      <div>
+                        <span class="fw-bold text-dark d-block">Ing. Industrial</span>
+                        <small class="text-muted">Código: IND-UG-2016</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Facultad de Ingeniería Industrial</td>
+                  <td class="text-center fw-bold">230</td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-info text-dark">
+                      <i class="bi bi-clock-history me-1"></i>110
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle me-1"></i>98
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-warning text-dark">
+                      <i class="bi bi-hourglass-split me-1"></i>22
+                    </span>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="fw-bold small text-dark">82.6%</span>
+                      <span class="badge bg-success-subtle text-success border border-success-subtle py-0 px-1" style="font-size:0.68rem;">Alto</span>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 82.6%;" aria-valuenow="82.6" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </td>
+                  <td class="text-end pe-4">
+                    <div class="d-inline-flex gap-1">
+                      <button type="button" class="btn btn-outline-primary btn-action" data-bs-toggle="modal" data-bs-target="#modalDetalleCarrera" data-carrera="Ingeniería Industrial" data-facultad="Facultad de Ingeniería Industrial" data-total="230" data-en-practica="110" data-completados="98" data-pendientes="22" title="Ver estudiantes">
+                        <i class="bi bi-eye-fill"></i>
+                      </button>
+                      <a href="reportes-exportar.html?carrera=industrial" class="btn btn-outline-secondary btn-action" title="Descargar reporte PDF">
+                        <i class="bi bi-download"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="ps-4">
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="p-2 rounded bg-info-subtle text-info-emphasis">
+                        <i class="bi bi-eyedropper fs-5"></i>
+                      </div>
+                      <div>
+                        <span class="fw-bold text-dark d-block">Ing. Química</span>
+                        <small class="text-muted">Código: QUI-UG-2018</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Facultad de Ingeniería Química</td>
+                  <td class="text-center fw-bold">175</td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-info text-dark">
+                      <i class="bi bi-clock-history me-1"></i>78
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle me-1"></i>74
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-warning text-dark">
+                      <i class="bi bi-hourglass-split me-1"></i>23
+                    </span>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="fw-bold small text-dark">80.0%</span>
+                      <span class="badge bg-success-subtle text-success border border-success-subtle py-0 px-1" style="font-size:0.68rem;">Alto</span>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 80.0%;" aria-valuenow="80.0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </td>
+                  <td class="text-end pe-4">
+                    <div class="d-inline-flex gap-1">
+                      <button type="button" class="btn btn-outline-primary btn-action" data-bs-toggle="modal" data-bs-target="#modalDetalleCarrera" data-carrera="Ingeniería Química" data-facultad="Facultad de Ingeniería Química" data-total="175" data-en-practica="78" data-completados="74" data-pendientes="23" title="Ver estudiantes">
+                        <i class="bi bi-eye-fill"></i>
+                      </button>
+                      <a href="reportes-exportar.html?carrera=quimica" class="btn btn-outline-secondary btn-action" title="Descargar reporte PDF">
+                        <i class="bi bi-download"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="ps-4">
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="p-2 rounded bg-secondary-subtle text-secondary-emphasis">
+                        <i class="bi bi-hdd-network fs-5"></i>
+                      </div>
+                      <div>
+                        <span class="fw-bold text-dark d-block">Ing. en Tecnologías de la Información</span>
+                        <small class="text-muted">Código: CTI-UG-2020</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Facultad de Ciencias Matemáticas y Físicas</td>
+                  <td class="text-center fw-bold">130</td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-info text-dark">
+                      <i class="bi bi-clock-history me-1"></i>72
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle me-1"></i>46
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-warning text-dark">
+                      <i class="bi bi-hourglass-split me-1"></i>12
+                    </span>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="fw-bold small text-dark">84.6%</span>
+                      <span class="badge bg-success-subtle text-success border border-success-subtle py-0 px-1" style="font-size:0.68rem;">Alto</span>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 84.6%;" aria-valuenow="84.6" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </td>
+                  <td class="text-end pe-4">
+                    <div class="d-inline-flex gap-1">
+                      <button type="button" class="btn btn-outline-primary btn-action" data-bs-toggle="modal" data-bs-target="#modalDetalleCarrera" data-carrera="Ingeniería en Tecnologías de la Información" data-facultad="Facultad de Ciencias Matemáticas y Físicas" data-total="130" data-en-practica="72" data-completados="46" data-pendientes="12" title="Ver estudiantes">
+                        <i class="bi bi-eye-fill"></i>
+                      </button>
+                      <a href="reportes-exportar.html?carrera=ti" class="btn btn-outline-secondary btn-action" title="Descargar reporte PDF">
+                        <i class="bi bi-download"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot class="table-light fw-bold border-top">
+                <tr>
+                  <td class="ps-4">
+                    <div class="d-flex align-items-center gap-2">
+                      <i class="bi bi-calculator text-primary fs-5"></i>
+                      <span>TOTAL GENERAL (6 CARRERAS)</span>
+                    </div>
+                  </td>
+                  <td class="text-muted">Universidad de Guayaquil</td>
+                  <td class="text-center text-primary fs-6">1,420</td>
+                  <td class="text-center text-info fs-6">685</td>
+                  <td class="text-center text-success fs-6">590</td>
+                  <td class="text-center text-warning fs-6">145</td>
+                  <td>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="small text-primary">83.1% Promedio</span>
+                      <span class="badge bg-primary text-white py-0 px-1" style="font-size:0.68rem;">Global</span>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 83.1%;" aria-valuenow="83.1" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </td>
+                  <td class="text-end pe-4">
+                    <a href="reportes-exportar.html" class="btn btn-sm btn-primary">
+                      <i class="bi bi-file-earmark-excel me-1"></i>Consolidado
+                    </a>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <!-- Paginación -->
+          <div class="pagination-container">
+            <div class="pagination-info">
+              Mostrando <span class="fw-semibold">1</span> a <span class="fw-semibold">6</span> de <span class="fw-semibold">6</span> carreras universitarias registradas
+            </div>
+            <nav aria-label="Navegación de páginas">
+              <ul class="pagination pagination-sm mb-0">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i class="bi bi-chevron-left"></i> Anterior</a>
+                </li>
+                <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Siguiente <i class="bi bi-chevron-right"></i></a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <!-- Sección de Análisis Complementario y Formulario de Solicitud de Reporte -->
+        <div class="row g-4 mb-4">
+          <!-- Tarjeta de Empresas Aliadas con Mayor Participación en Guayaquil -->
+          <div class="col-lg-6">
+            <div class="card h-100">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="fw-bold"><i class="bi bi-buildings text-primary me-2"></i>Principales Empresas Receptoras en Guayaquil</span>
+                <span class="badge bg-secondary-subtle text-secondary">Convenios Activos</span>
+              </div>
+              <div class="card-body">
+                <p class="text-muted small mb-3">Distribución de practicantes asignados en las instituciones y empresas con mayor demanda de plazas:</p>
+                <div class="list-group list-group-flush">
+                  <div class="list-group-item d-flex justify-content-between align-items-center px-0 py-2 border-bottom">
+                    <div>
+                      <div class="fw-semibold text-dark">Holcim Ecuador S.A.</div>
+                      <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>Guayaquil &bull; Ing. Civil, Industrial y Química</small>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">148 estudiantes</span>
+                  </div>
+                  <div class="list-group-item d-flex justify-content-between align-items-center px-0 py-2 border-bottom">
+                    <div>
+                      <div class="fw-semibold text-dark">Banco Pichincha C.A.</div>
+                      <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>Guayaquil &bull; Ing. en Sistemas y Software</small>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">126 estudiantes</span>
+                  </div>
+                  <div class="list-group-item d-flex justify-content-between align-items-center px-0 py-2 border-bottom">
+                    <div>
+                      <div class="fw-semibold text-dark">Pronaca</div>
+                      <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>Durán / Guayaquil &bull; Ing. Industrial y Química</small>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">114 estudiantes</span>
+                  </div>
+                  <div class="list-group-item d-flex justify-content-between align-items-center px-0 py-2 border-bottom">
+                    <div>
+                      <div class="fw-semibold text-dark">Corporación Nacional de Telecomunicaciones (CNT EP)</div>
+                      <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>Guayaquil &bull; Sistemas, Software y TI</small>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">98 estudiantes</span>
+                  </div>
+                  <div class="list-group-item d-flex justify-content-between align-items-center px-0 py-2 border-bottom">
+                    <div>
+                      <div class="fw-semibold text-dark">Nestlé Ecuador S.A.</div>
+                      <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>Guayaquil &bull; Ing. Química e Industrial</small>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">85 estudiantes</span>
+                  </div>
+                  <div class="list-group-item d-flex justify-content-between align-items-center px-0 py-2">
+                    <div>
+                      <div class="fw-semibold text-dark">CNEL EP Unidad de Negocio Guayaquil</div>
+                      <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>Guayaquil &bull; Sistemas, TI y Civil</small>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">74 estudiantes</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formulario de Emisión de Reportes (form-section) -->
+          <div class="col-lg-6">
+            <div class="form-section h-100">
+              <div class="form-section-title">
+                <i class="bi bi-file-earmark-ruled-fill"></i> Solicitud de Reporte Institucional
+              </div>
+              <form action="reportes-exportar.html" method="get">
+                <div class="mb-3">
+                  <label class="form-label" for="reporteCarrera"><i class="bi bi-mortarboard me-1"></i>Carrera a Consultar</label>
+                  <select class="form-select" id="reporteCarrera" name="carrera" required>
+                    <option value="todas">Todas las carreras universitarias</option>
+                    <option value="sistemas">Ing. en Sistemas Computacionales</option>
+                    <option value="software">Ing. en Software</option>
+                    <option value="civil">Ing. Civil</option>
+                    <option value="industrial">Ing. Industrial</option>
+                    <option value="quimica">Ing. Química</option>
+                    <option value="ti">Ing. en Tecnologías de la Información</option>
+                  </select>
+                </div>
+
+                <div class="row g-2 mb-3">
+                  <div class="col-md-6">
+                    <label class="form-label" for="reporteTipo"><i class="bi bi-layers me-1"></i>Tipo de Reporte</label>
+                    <select class="form-select" id="reporteTipo" name="tipo">
+                      <option value="consolidado" selected>Consolidado Estadístico</option>
+                      <option value="nomina">Nómina Nominal con Empresas</option>
+                      <option value="auditoria">Auditoría de Horas y Tutores</option>
+                      <option value="evaluacion">Rendimiento y Calificaciones</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="reportePeriodo"><i class="bi bi-calendar-check me-1"></i>Periodo Académico</label>
+                    <select class="form-select" id="reportePeriodo" name="periodo">
+                      <option value="2026-c1" selected>2026 - 2027 CI</option>
+                      <option value="2025-c2">2025 - 2026 CII</option>
+                      <option value="2025-c1">2025 - 2026 CI</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label"><i class="bi bi-sliders2 me-1"></i>Opciones Adicionales de Inclusión</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="checkTutores" name="inc_tutores" checked>
+                    <label class="form-check-label small" for="checkTutores">
+                      Incluir datos de contacto del tutor académico institucional
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="checkEvaluacion" name="inc_eval" checked>
+                    <label class="form-check-label small" for="checkEvaluacion">
+                      Adjuntar índice de satisfacción emitido por la empresa receptora
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="checkGraficos" name="inc_graficos">
+                    <label class="form-check-label small" for="checkGraficos">
+                      Incorporar gráficos comparativos de porcentaje de cumplimiento
+                    </label>
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label" for="formatoDescarga"><i class="bi bi-file-earmark-text me-1"></i>Formato de Archivo</label>
+                  <select class="form-select" id="formatoDescarga" name="formato">
+                    <option value="pdf">Documento Portátil PDF (.pdf)</option>
+                    <option value="xlsx">Hoja de Cálculo Microsoft Excel (.xlsx)</option>
+                    <option value="csv">Valores Separados por Comas CSV (.csv)</option>
+                  </select>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                  <button type="reset" class="btn btn-outline-secondary">
+                    <i class="bi bi-x-circle me-1"></i>Limpiar
+                  </button>
+                  <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-file-earmark-arrow-down-fill me-1"></i>Generar y Descargar
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Detalle de Carrera -->
+        <div class="modal fade" id="modalDetalleCarrera" tabindex="-1" aria-labelledby="modalDetalleCarreraLabel" aria-hidden="true">
+          <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header bg-light">
+                <div>
+                  <h5 class="modal-title fw-bold text-dark" id="modalDetalleCarreraLabel">
+                    <i class="bi bi-mortarboard-fill text-primary me-2"></i><span id="modalTituloCarrera">Ingeniería en Sistemas Computacionales</span>
+                  </h5>
+                  <small class="text-muted" id="modalSubtituloCarrera">Facultad de Ciencias Matemáticas y Físicas &bull; Periodo 2026 - 2027 CI</small>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body p-4">
+                <!-- Tarjetas rápidas dentro del modal -->
+                <div class="row g-3 mb-4">
+                  <div class="col-sm-6 col-md-3">
+                    <div class="p-3 bg-light rounded text-center">
+                      <div class="text-muted small text-uppercase fw-semibold">Inscritos</div>
+                      <div class="fs-4 fw-bold text-dark" id="modalTotalInscritos">340</div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-md-3">
+                    <div class="p-3 bg-info bg-opacity-10 rounded text-center">
+                      <div class="text-info small text-uppercase fw-semibold">En Práctica</div>
+                      <div class="fs-4 fw-bold text-info" id="modalTotalEnPractica">165</div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-md-3">
+                    <div class="p-3 bg-success bg-opacity-10 rounded text-center">
+                      <div class="text-success small text-uppercase fw-semibold">Completados</div>
+                      <div class="fs-4 fw-bold text-success" id="modalTotalCompletados">145</div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-md-3">
+                    <div class="p-3 bg-warning bg-opacity-10 rounded text-center">
+                      <div class="text-warning small text-uppercase fw-semibold">Pendientes</div>
+                      <div class="fs-4 fw-bold text-warning" id="modalTotalPendientes">30</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Buscador de practicante dentro del modal -->
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                  <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-people me-1"></i>Muestra Representativa de Practicantes Registrados</h6>
+                  <div style="min-width: 250px;">
+                    <input type="text" class="form-control form-control-sm" placeholder="Buscar por nombre o empresa..." data-search-table="tablaEstudiantesModal">
+                  </div>
+                </div>
+
+                <!-- Tabla de practicantes del modal -->
+                <div class="table-container">
+                  <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0" id="tablaEstudiantesModal">
+                      <thead>
+                        <tr>
+                          <th scope="col" class="ps-3">Estudiante</th>
+                          <th scope="col">Cédula / Matrícula</th>
+                          <th scope="col">Empresa Receptora</th>
+                          <th scope="col">Tutor Académico</th>
+                          <th scope="col" class="text-center">Horas</th>
+                          <th scope="col" class="text-center">Estado</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="ps-3">
+                            <div class="fw-bold text-dark">María Fernanda López Cevallos</div>
+                            <small class="text-muted">maria.lopezc@ug.edu.ec</small>
+                          </td>
+                          <td><code>0928374612</code></td>
+                          <td>
+                            <div class="fw-semibold text-dark">Holcim Ecuador S.A.</div>
+                            <small class="text-muted">Área de Infraestructura TI</small>
+                          </td>
+                          <td>Ing. Carlos Morán P.</td>
+                          <td class="text-center">
+                            <span class="fw-bold">190</span> <span class="text-muted small">/ 240</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge badge-estado bg-info text-dark">En Práctica</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="ps-3">
+                            <div class="fw-bold text-dark">Carlos Andrés Moreira Villamar</div>
+                            <small class="text-muted">carlos.moreirav@ug.edu.ec</small>
+                          </td>
+                          <td><code>0954128970</code></td>
+                          <td>
+                            <div class="fw-semibold text-dark">Banco Pichincha C.A.</div>
+                            <small class="text-muted">Desarrollo e Innovación</small>
+                          </td>
+                          <td>Lcda. Elena Campuzano</td>
+                          <td class="text-center">
+                            <span class="fw-bold text-success">240</span> <span class="text-muted small">/ 240</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge badge-estado bg-success">Completado</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="ps-3">
+                            <div class="fw-bold text-dark">Diana Carolina Yánez Macías</div>
+                            <small class="text-muted">diana.yanezm@ug.edu.ec</small>
+                          </td>
+                          <td><code>0938475621</code></td>
+                          <td>
+                            <div class="fw-semibold text-dark">CNT EP Guayaquil</div>
+                            <small class="text-muted">Soporte y Telecomunicaciones</small>
+                          </td>
+                          <td>Ing. Roberto Carlos Mero</td>
+                          <td class="text-center">
+                            <span class="fw-bold">160</span> <span class="text-muted small">/ 240</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge badge-estado bg-info text-dark">En Práctica</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="ps-3">
+                            <div class="fw-bold text-dark">Kevin Josué Zambrano Vera</div>
+                            <small class="text-muted">kevin.zambranov@ug.edu.ec</small>
+                          </td>
+                          <td><code>0947291845</code></td>
+                          <td>
+                            <div class="fw-semibold text-dark">Pronaca</div>
+                            <small class="text-muted">Automatización de Procesos</small>
+                          </td>
+                          <td>Ing. Maritza Salazar</td>
+                          <td class="text-center">
+                            <span class="fw-bold">85</span> <span class="text-muted small">/ 240</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge badge-estado bg-info text-dark">En Práctica</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="ps-3">
+                            <div class="fw-bold text-dark">Andrea Nicole Morales Castro</div>
+                            <small class="text-muted">andrea.moralesc@ug.edu.ec</small>
+                          </td>
+                          <td><code>0961829374</code></td>
+                          <td>
+                            <div class="fw-semibold text-dark">Nestlé Ecuador S.A.</div>
+                            <small class="text-muted">Sistemas y Calidad</small>
+                          </td>
+                          <td>Ing. Carlos Morán P.</td>
+                          <td class="text-center">
+                            <span class="fw-bold text-success">240</span> <span class="text-muted small">/ 240</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge badge-estado bg-success">Completado</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="ps-3">
+                            <div class="fw-bold text-dark">Bryan Alexander Cedeño Solórzano</div>
+                            <small class="text-muted">bryan.cedenos@ug.edu.ec</small>
+                          </td>
+                          <td><code>0919283745</code></td>
+                          <td>
+                            <div class="fw-semibold text-dark">CNEL EP Unidad Guayaquil</div>
+                            <small class="text-muted">Por asignar área técnica</small>
+                          </td>
+                          <td>Ing. Roberto Carlos Mero</td>
+                          <td class="text-center">
+                            <span class="fw-bold text-warning">0</span> <span class="text-muted small">/ 240</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge badge-estado bg-warning text-dark">Pendiente</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer d-flex justify-content-between align-items-center">
+                <small class="text-muted"><i class="bi bi-info-circle me-1"></i>Se muestran los practicantes más recientes de la carrera seleccionada.</small>
+                <div class="d-flex gap-2">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  <a href="reportes-exportar.html" class="btn btn-primary">
+                    <i class="bi bi-file-earmark-pdf me-1"></i>Descargar Nómina Completa
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Script de interacción y filtros -->
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            // Actualizar datos del modal según la carrera seleccionada
+            const modalDetalle = document.getElementById('modalDetalleCarrera');
+            if (modalDetalle) {
+              modalDetalle.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                if (!button) return;
+                const carrera = button.getAttribute('data-carrera') || 'Carrera Universitaria';
+                const facultad = button.getAttribute('data-facultad') || 'Universidad de Guayaquil';
+                const total = button.getAttribute('data-total') || '0';
+                const enPractica = button.getAttribute('data-en-practica') || '0';
+                const completados = button.getAttribute('data-completados') || '0';
+                const pendientes = button.getAttribute('data-pendientes') || '0';
+
+                document.getElementById('modalTituloCarrera').textContent = carrera;
+                document.getElementById('modalSubtituloCarrera').innerHTML = facultad + ' &bull; Periodo 2026 - 2027 CI';
+                document.getElementById('modalTotalInscritos').textContent = total;
+                document.getElementById('modalTotalEnPractica').textContent = enPractica;
+                document.getElementById('modalTotalCompletados').textContent = completados;
+                document.getElementById('modalTotalPendientes').textContent = pendientes;
+              });
+            }
+
+            // Limpiar filtros
+            const btnLimpiar = document.getElementById('btnLimpiarFiltros');
+            if (btnLimpiar) {
+              btnLimpiar.addEventListener('click', function () {
+                document.getElementById('filtroCarrera').value = '';
+                document.getElementById('filtroPeriodo').value = '2026-c1';
+                document.getElementById('filtroEstado').value = '';
+                const searchInput = document.getElementById('buscarCarreraInput');
+                if (searchInput) {
+                  searchInput.value = '';
+                  searchInput.dispatchEvent(new Event('input'));
+                }
+              });
+            }
+          });
+        </script>
+
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

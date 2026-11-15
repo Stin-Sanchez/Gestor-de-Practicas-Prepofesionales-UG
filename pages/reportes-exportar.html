@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exportar Reportes — Gestión de Prácticas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="../assets/css/custom.css" rel="stylesheet">
+</head>
+<body data-page="rep-exportar" data-section="Reportes">
+  <div class="wrapper">
+    <aside id="sidebar"></aside>
+    <div class="sidebar-overlay"></div>
+    <div class="main-content">
+      <nav id="topbar"></nav>
+      <div class="content">
+
+        <!-- Encabezado de Página (Gestalt: Continuidad) -->
+        <div class="page-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+          <div>
+            <h2>Exportar Reportes</h2>
+            <p>Generación y descarga de informes institucionales y estadísticos en formatos PDF y Excel.</p>
+          </div>
+          <div class="d-flex gap-2 justify-content-md-end">
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalProgramar">
+              <i class="bi bi-clock-history me-1"></i> Programar Envío
+            </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalExportarMasivo">
+              <i class="bi bi-cloud-arrow-down-fill me-1"></i> Exportar Paquete Completo
+            </button>
+          </div>
+        </div>
+
+        <!-- Tarjetas de Estadísticas Resumen (Gestalt: Región Común) -->
+        <div class="row g-3 mb-4">
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="stat-label">Total Exportados</div>
+                  <div class="stat-value my-1">154</div>
+                  <small class="text-success"><i class="bi bi-arrow-up-short"></i> +18% este ciclo</small>
+                </div>
+                <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                  <i class="bi bi-file-earmark-arrow-down"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="stat-label">Documentos PDF</div>
+                  <div class="stat-value my-1">98</div>
+                  <small class="text-muted">Informes oficiales</small>
+                </div>
+                <div class="stat-icon bg-danger bg-opacity-10 text-danger">
+                  <i class="bi bi-file-pdf"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="stat-label">Archivos Excel</div>
+                  <div class="stat-value my-1">56</div>
+                  <small class="text-success"><i class="bi bi-check-circle"></i> Matrices tabulares</small>
+                </div>
+                <div class="stat-icon bg-success bg-opacity-10 text-success">
+                  <i class="bi bi-file-earmark-excel"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="stat-label">Almacenamiento</div>
+                  <div class="stat-value my-1">428 MB</div>
+                  <small class="text-muted">De 2.0 GB asignados</small>
+                </div>
+                <div class="stat-icon bg-info bg-opacity-10 text-info">
+                  <i class="bi bi-hdd-network"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Section: Parámetros Globales de Generación (Gestalt: Proximidad) -->
+        <div class="form-section mb-4">
+          <div class="form-section-title">
+            <i class="bi bi-sliders"></i>
+            <span>Criterios y Parámetros de Generación</span>
+          </div>
+          <form id="formParametrosExportacion" class="row g-3">
+            <div class="col-12 col-md-3">
+              <label for="filtroPeriodo" class="form-label">Periodo Académico</label>
+              <select id="filtroPeriodo" class="form-select">
+                <option value="2026-c1" selected>2026 - Ciclo I (Ordinario)</option>
+                <option value="2025-c2">2025 - Ciclo II</option>
+                <option value="2025-c1">2025 - Ciclo I</option>
+                <option value="todos">Histórico General</option>
+              </select>
+            </div>
+            <div class="col-12 col-md-3">
+              <label for="filtroCarrera" class="form-label">Carrera Universitaria</label>
+              <select id="filtroCarrera" class="form-select">
+                <option value="" selected>Todas las carreras</option>
+                <option value="sistemas">Ing. en Sistemas Computacionales</option>
+                <option value="software">Ing. en Software</option>
+                <option value="civil">Ing. Civil</option>
+                <option value="industrial">Ing. Industrial</option>
+                <option value="quimica">Ing. Química</option>
+              </select>
+            </div>
+            <div class="col-12 col-md-3">
+              <label for="filtroEmpresa" class="form-label">Empresa / Institución Receptora</label>
+              <select id="filtroEmpresa" class="form-select">
+                <option value="" selected>Todas las empresas</option>
+                <option value="holcim">Holcim Ecuador</option>
+                <option value="pronaca">Pronaca</option>
+                <option value="nestle">Nestlé Ecuador</option>
+                <option value="cnt">CNT EP</option>
+                <option value="cnel">CNEL EP</option>
+                <option value="pichincha">Banco Pichincha</option>
+              </select>
+            </div>
+            <div class="col-12 col-md-3">
+              <label for="filtroRangoFechas" class="form-label">Corte Temporal</label>
+              <select id="filtroRangoFechas" class="form-select">
+                <option value="actual" selected>Periodo Vigente (Actual)</option>
+                <option value="mes">Últimos 30 días</option>
+                <option value="trimestre">Último trimestre</option>
+                <option value="anual">Año lectivo 2026</option>
+              </select>
+            </div>
+            <div class="col-12 d-flex justify-content-end gap-2 mt-3">
+              <button type="reset" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-counterclockwise me-1"></i> Restablecer Filtros
+              </button>
+              <button type="button" class="btn btn-primary" id="btnAplicarParametros">
+                <i class="bi bi-check2-circle me-1"></i> Aplicar Parámetros
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Alerta de Confirmación Dinámica -->
+        <div id="alertaExportacion" class="alert alert-success alert-dismissible fade show d-none" role="alert">
+          <i class="bi bi-check-circle-fill me-2"></i>
+          <span id="mensajeAlerta">El reporte ha sido generado exitosamente y la descarga comenzará en breve.</span>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+
+        <!-- Sección de Catálogo: Cards de Tipos de Reporte (Grid 3x2) -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <h4 class="fw-bold mb-1 text-dark">Tipos de Reportes Disponibles</h4>
+            <p class="text-muted small mb-0">Seleccione el tipo de informe institucional y el formato deseado para su descarga inmediata.</p>
+          </div>
+          <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill">6 Plantillas Activas</span>
+        </div>
+
+        <div class="row g-4 mb-5">
+          <!-- Card 1: Reporte General -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex align-items-start gap-3 mb-3">
+                  <div class="stat-icon bg-primary bg-opacity-10 text-primary rounded-3 flex-shrink-0">
+                    <i class="bi bi-bar-chart-line-fill"></i>
+                  </div>
+                  <div>
+                    <h5 class="card-title mb-1 fw-bold text-dark">Reporte General</h5>
+                    <span class="badge bg-light text-secondary border">Consolidado Institucional</span>
+                  </div>
+                </div>
+                <p class="card-text text-muted small flex-grow-1">
+                  Resumen ejecutivo integral con métricas globales de prácticas preprofesionales, distribución de practicantes por estado y tasas de cumplimiento del periodo.
+                </p>
+                <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-3">
+                  <span class="text-muted small"><i class="bi bi-clock me-1"></i>Actualizado hoy</span>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalConfigurarExportacion" data-reporte="Reporte General" data-formato="PDF">
+                      <i class="bi bi-file-pdf me-1"></i> PDF
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalConfigurarExportacion" data-reporte="Reporte General" data-formato="Excel">
+                      <i class="bi bi-file-earmark-excel me-1"></i> Excel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Por Carrera -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex align-items-start gap-3 mb-3">
+                  <div class="stat-icon bg-info bg-opacity-10 text-info rounded-3 flex-shrink-0">
+                    <i class="bi bi-mortarboard-fill"></i>
+                  </div>
+                  <div>
+                    <h5 class="card-title mb-1 fw-bold text-dark">Por Carrera</h5>
+                    <span class="badge bg-light text-secondary border">Facultades y Mallas</span>
+                  </div>
+                </div>
+                <p class="card-text text-muted small flex-grow-1">
+                  Estadísticas comparativas por carrera: Ing. en Sistemas Computacionales, Software, Civil, Industrial y Química con porcentajes de asignación y avance curricular.
+                </p>
+                <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-3">
+                  <span class="text-muted small"><i class="bi bi-mortarboard me-1"></i>5 Carreras UG</span>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalConfigurarExportacion" data-reporte="Reporte Por Carrera" data-formato="PDF">
+                      <i class="bi bi-file-pdf me-1"></i> PDF
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalConfigurarExportacion" data-reporte="Reporte Por Carrera" data-formato="Excel">
+                      <i class="bi bi-file-earmark-excel me-1"></i> Excel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Por Empresa -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex align-items-start gap-3 mb-3">
+                  <div class="stat-icon bg-warning bg-opacity-10 text-warning rounded-3 flex-shrink-0">
+                    <i class="bi bi-building-fill"></i>
+                  </div>
+                  <div>
+                    <h5 class="card-title mb-1 fw-bold text-dark">Por Empresa</h5>
+                    <span class="badge bg-light text-secondary border">Sector Productivo</span>
+                  </div>
+                </div>
+                <p class="card-text text-muted small flex-grow-1">
+                  Registro de convenios interinstitucionales en Guayaquil (Holcim Ecuador, Pronaca, Nestlé, CNT EP, CNEL EP, Banco Pichincha), capacidad y plazas activas.
+                </p>
+                <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-3">
+                  <span class="text-muted small"><i class="bi bi-building-check me-1"></i>42 Empresas</span>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalConfigurarExportacion" data-reporte="Reporte Por Empresa" data-formato="PDF">
+                      <i class="bi bi-file-pdf me-1"></i> PDF
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalConfigurarExportacion" data-reporte="Reporte Por Empresa" data-formato="Excel">
+                      <i class="bi bi-file-earmark-excel me-1"></i> Excel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Por Estudiante -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex align-items-start gap-3 mb-3">
+                  <div class="stat-icon bg-success bg-opacity-10 text-success rounded-3 flex-shrink-0">
+                    <i class="bi bi-person-lines-fill"></i>
+                  </div>
+                  <div>
+                    <h5 class="card-title mb-1 fw-bold text-dark">Por Estudiante</h5>
+                    <span class="badge bg-light text-secondary border">Ficha Individual</span>
+                  </div>
+                </div>
+                <p class="card-text text-muted small flex-grow-1">
+                  Expediente de cada practicante con historial de postulaciones, empresa receptora asignada, tutores designados y cartas oficiales emitidas.
+                </p>
+                <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-3">
+                  <span class="text-muted small"><i class="bi bi-people me-1"></i>1,240 Alumnos</span>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalConfigurarExportacion" data-reporte="Reporte Por Estudiante" data-formato="PDF">
+                      <i class="bi bi-file-pdf me-1"></i> PDF
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalConfigurarExportacion" data-reporte="Reporte Por Estudiante" data-formato="Excel">
+                      <i class="bi bi-file-earmark-excel me-1"></i> Excel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: Horas Registradas -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex align-items-start gap-3 mb-3">
+                  <div class="stat-icon bg-purple bg-opacity-10 rounded-3 flex-shrink-0" style="color:#6f42c1;background-color:rgba(111,66,193,0.1);">
+                    <i class="bi bi-clock-history"></i>
+                  </div>
+                  <div>
+                    <h5 class="card-title mb-1 fw-bold text-dark">Horas Registradas</h5>
+                    <span class="badge bg-light text-secondary border">Control de Asistencia</span>
+                  </div>
+                </div>
+                <p class="card-text text-muted small flex-grow-1">
+                  Consolidado detallado de horas ejecutadas, bitácoras semanales validadas por supervisores y progreso hacia las 240 o 480 horas reglamentarias.
+                </p>
+                <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-3">
+                  <span class="text-muted small"><i class="bi bi-check2-circle me-1"></i>Firmas digitales</span>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalConfigurarExportacion" data-reporte="Reporte de Horas Registradas" data-formato="PDF">
+                      <i class="bi bi-file-pdf me-1"></i> PDF
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalConfigurarExportacion" data-reporte="Reporte de Horas Registradas" data-formato="Excel">
+                      <i class="bi bi-file-earmark-excel me-1"></i> Excel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6: Evaluaciones -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex align-items-start gap-3 mb-3">
+                  <div class="stat-icon bg-danger bg-opacity-10 text-danger rounded-3 flex-shrink-0">
+                    <i class="bi bi-clipboard2-check-fill"></i>
+                  </div>
+                  <div>
+                    <h5 class="card-title mb-1 fw-bold text-dark">Evaluaciones</h5>
+                    <span class="badge bg-light text-secondary border">Rúbricas & Calificaciones</span>
+                  </div>
+                </div>
+                <p class="card-text text-muted small flex-grow-1">
+                  Rúbricas cualitativas y cuantitativas emitidas por tutores académicos y empresariales, actas de sustentación y notas de validación final.
+                </p>
+                <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-3">
+                  <span class="text-muted small"><i class="bi bi-patch-check me-1"></i>Validación final</span>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalConfigurarExportacion" data-reporte="Reporte de Evaluaciones" data-formato="PDF">
+                      <i class="bi bi-file-pdf me-1"></i> PDF
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalConfigurarExportacion" data-reporte="Reporte de Evaluaciones" data-formato="Excel">
+                      <i class="bi bi-file-earmark-excel me-1"></i> Excel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección Inferior: Historial de Exportaciones Recientes -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-3">
+          <div>
+            <h4 class="fw-bold mb-1 text-dark">Historial de Exportaciones Recientes</h4>
+            <p class="text-muted small mb-0">Listado de archivos generados recientemente con enlaces directos de descarga y auditoría de solicitudes.</p>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.reload()">
+              <i class="bi bi-arrow-clockwise me-1"></i> Refrescar
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Bar para Historial (Gestalt: Región Común) -->
+        <div class="filter-bar">
+          <div class="form-group" style="flex: 2; min-width: 220px;">
+            <label class="form-label" for="inputBuscarHistorial">Buscar en historial</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+              <input type="text" class="form-control" id="inputBuscarHistorial" placeholder="Buscar por tipo, usuario o empresa..." data-search-table="tablaHistorialExportaciones">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filtroFormatoHistorial">Formato</label>
+            <select class="form-select" id="filtroFormatoHistorial">
+              <option value="">Todos los formatos</option>
+              <option value="PDF">PDF (.pdf)</option>
+              <option value="Excel">Excel (.xlsx)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filtroEstadoHistorial">Estado</label>
+            <select class="form-select" id="filtroEstadoHistorial">
+              <option value="">Todos los estados</option>
+              <option value="Completado">Completado</option>
+              <option value="Listo">Listo</option>
+              <option value="En proceso">En proceso</option>
+            </select>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary" id="btnLimpiarFiltroHistorial" title="Limpiar filtros">
+              <i class="bi bi-x-circle me-1"></i> Limpiar
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabla de Historial (Gestalt: Similitud y Continuidad) -->
+        <div class="table-container mb-4">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="tablaHistorialExportaciones">
+              <thead>
+                <tr>
+                  <th scope="col">Tipo de Reporte</th>
+                  <th scope="col">Generado Por</th>
+                  <th scope="col">Fecha y Hora</th>
+                  <th scope="col">Formato</th>
+                  <th scope="col">Tamaño</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col" class="text-end">Descargar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="p-2 rounded bg-primary bg-opacity-10 text-primary">
+                        <i class="bi bi-bar-chart-line-fill"></i>
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Reporte General Consolidado</div>
+                        <div class="text-muted small">Periodo 2026-C1 &bull; Todas las Carreras UG</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Ing. Carlos Andrés Moreira</div>
+                    <div class="text-muted small">Coordinación de Prácticas</div>
+                  </td>
+                  <td>
+                    <div class="text-dark">14 Nov 2026</div>
+                    <div class="text-muted small">18:45</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-2 py-1">
+                      <i class="bi bi-file-pdf me-1"></i>PDF
+                    </span>
+                  </td>
+                  <td class="text-muted">2.4 MB</td>
+                  <td>
+                    <span class="badge badge-estado bg-success">Completado</span>
+                  </td>
+                  <td class="text-end">
+                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="simularDescarga('Reporte_General_2026_C1.pdf')">
+                      <i class="bi bi-download me-1"></i> Descargar
+                    </button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="p-2 rounded bg-info bg-opacity-10 text-info">
+                        <i class="bi bi-mortarboard-fill"></i>
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Reporte Por Carrera — Ing. en Software</div>
+                        <div class="text-muted small">Avance curricular y horas acumuladas (184 alumnos)</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Lcda. María Fernanda López</div>
+                    <div class="text-muted small">Gestión Académica</div>
+                  </td>
+                  <td>
+                    <div class="text-dark">14 Nov 2026</div>
+                    <div class="text-muted small">16:20</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2 py-1">
+                      <i class="bi bi-file-earmark-excel me-1"></i>Excel
+                    </span>
+                  </td>
+                  <td class="text-muted">1.1 MB</td>
+                  <td>
+                    <span class="badge badge-estado bg-success">Completado</span>
+                  </td>
+                  <td class="text-end">
+                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="simularDescarga('Reporte_Ing_Software_2026.xlsx')">
+                      <i class="bi bi-download me-1"></i> Descargar
+                    </button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="p-2 rounded bg-warning bg-opacity-10 text-warning">
+                        <i class="bi bi-building-fill"></i>
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Reporte Por Empresa — Holcim Ecuador & Pronaca</div>
+                        <div class="text-muted small">Convenios interinstitucionales y plazas activas</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Ing. Diana Carolina Zambrano</div>
+                    <div class="text-muted small">Vinculación Empresarial</div>
+                  </td>
+                  <td>
+                    <div class="text-dark">13 Nov 2026</div>
+                    <div class="text-muted small">14:15</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-2 py-1">
+                      <i class="bi bi-file-pdf me-1"></i>PDF
+                    </span>
+                  </td>
+                  <td class="text-muted">3.8 MB</td>
+                  <td>
+                    <span class="badge badge-estado bg-success">Completado</span>
+                  </td>
+                  <td class="text-end">
+                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="simularDescarga('Reporte_Empresas_Holcim_Pronaca.pdf')">
+                      <i class="bi bi-download me-1"></i> Descargar
+                    </button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="p-2 rounded bg-success bg-opacity-10 text-success">
+                        <i class="bi bi-person-lines-fill"></i>
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Reporte Por Estudiante — Jorge Luis Cedeño</div>
+                        <div class="text-muted small">Ing. en Sistemas Computacionales &bull; Nestlé Ecuador</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Stin Sánchez Mosquera</div>
+                    <div class="text-muted small">Tutor Académico UG</div>
+                  </td>
+                  <td>
+                    <div class="text-dark">12 Nov 2026</div>
+                    <div class="text-muted small">11:30</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-2 py-1">
+                      <i class="bi bi-file-pdf me-1"></i>PDF
+                    </span>
+                  </td>
+                  <td class="text-muted">850 KB</td>
+                  <td>
+                    <span class="badge badge-estado bg-success">Completado</span>
+                  </td>
+                  <td class="text-end">
+                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="simularDescarga('Expediente_Estudiante_Cedeno.pdf')">
+                      <i class="bi bi-download me-1"></i> Descargar
+                    </button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="p-2 rounded bg-purple bg-opacity-10" style="color:#6f42c1;background-color:rgba(111,66,193,0.1);">
+                        <i class="bi bi-clock-history"></i>
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Horas Registradas — Banco Pichincha & CNT EP</div>
+                        <div class="text-muted small">Consolidado quincenal de asistencias y turnos validados</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Bryan Josue Alcívar</div>
+                    <div class="text-muted small">Supervisor Técnico</div>
+                  </td>
+                  <td>
+                    <div class="text-dark">11 Nov 2026</div>
+                    <div class="text-muted small">09:40</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2 py-1">
+                      <i class="bi bi-file-earmark-excel me-1"></i>Excel
+                    </span>
+                  </td>
+                  <td class="text-muted">1.9 MB</td>
+                  <td>
+                    <span class="badge badge-estado bg-success">Completado</span>
+                  </td>
+                  <td class="text-end">
+                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="simularDescarga('Horas_Pichincha_CNT.xlsx')">
+                      <i class="bi bi-download me-1"></i> Descargar
+                    </button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="p-2 rounded bg-danger bg-opacity-10 text-danger">
+                        <i class="bi bi-clipboard2-check-fill"></i>
+                      </div>
+                      <div>
+                        <div class="fw-semibold text-dark">Evaluaciones — CNEL EP & Guayaquil Tech</div>
+                        <div class="text-muted small">Ing. Civil & Ing. Industrial &bull; Rúbricas empresariales</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-medium text-dark">Andrea Paola Cevallos</div>
+                    <div class="text-muted small">Comisión de Validación</div>
+                  </td>
+                  <td>
+                    <div class="text-dark">10 Nov 2026</div>
+                    <div class="text-muted small">17:05</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-2 py-1">
+                      <i class="bi bi-file-pdf me-1"></i>PDF
+                    </span>
+                  </td>
+                  <td class="text-muted">4.2 MB</td>
+                  <td>
+                    <span class="badge badge-estado bg-success">Completado</span>
+                  </td>
+                  <td class="text-end">
+                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="simularDescarga('Evaluaciones_Finales_CNEL.pdf')">
+                      <i class="bi bi-download me-1"></i> Descargar
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Contenedor de Paginación (Gestalt: Proximidad) -->
+          <div class="pagination-container">
+            <div class="pagination-info">
+              Mostrando <strong>1</strong> a <strong>6</strong> de <strong>38</strong> exportaciones registradas
+            </div>
+            <nav aria-label="Navegación de páginas del historial">
+              <ul class="pagination pagination-sm mb-0">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i class="bi bi-chevron-left"></i></a>
+                </li>
+                <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <!-- Modal: Configurar y Confirmar Exportación -->
+        <div class="modal fade" id="modalConfigurarExportacion" tabindex="-1" aria-labelledby="modalConfigurarLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+              <div class="modal-header border-bottom">
+                <h5 class="modal-title fw-bold" id="modalConfigurarLabel">
+                  <i class="bi bi-sliders me-2 text-primary"></i>Configuración de Exportación
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body p-4">
+                <div class="alert alert-light border d-flex align-items-center gap-3 mb-3">
+                  <div id="modalIconoFormato" class="p-2 rounded bg-danger bg-opacity-10 text-danger fs-4">
+                    <i class="bi bi-file-pdf"></i>
+                  </div>
+                  <div>
+                    <div class="fw-bold text-dark" id="modalTituloReporte">Reporte General</div>
+                    <div class="text-muted small" id="modalSubtituloFormato">Formato seleccionado: Documento PDF</div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label" for="modalPeriodo">Periodo de Reporte</label>
+                  <select class="form-select" id="modalPeriodo">
+                    <option value="2026-c1" selected>2026 - Ciclo I (Actual)</option>
+                    <option value="2025-c2">2025 - Ciclo II</option>
+                    <option value="historico">Todo el periodo académico</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label" for="modalCarrera">Carrera / Área Académica</label>
+                  <select class="form-select" id="modalCarrera">
+                    <option value="todas" selected>Todas las Carreras</option>
+                    <option value="sistemas">Ing. en Sistemas Computacionales</option>
+                    <option value="software">Ing. en Software</option>
+                    <option value="civil">Ing. Civil</option>
+                    <option value="industrial">Ing. Industrial</option>
+                    <option value="quimica">Ing. Química</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Opciones Adicionales</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="checkFirmas" checked>
+                    <label class="form-check-label small" for="checkFirmas">
+                      Incluir sellos y firmas digitales de validación institucional
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="checkDetalleAlumnos" checked>
+                    <label class="form-check-label small" for="checkDetalleAlumnos">
+                      Incluir desglose individual por estudiante y tutor
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="checkNotificar">
+                    <label class="form-check-label small" for="checkNotificar">
+                      Enviar copia al correo institucional del solicitante
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer border-top bg-light">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnConfirmarExportacion">
+                  <i class="bi bi-cloud-arrow-down me-1"></i> Generar y Descargar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal: Programar Envío Automático -->
+        <div class="modal fade" id="modalProgramar" tabindex="-1" aria-labelledby="modalProgramarLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+              <div class="modal-header border-bottom">
+                <h5 class="modal-title fw-bold" id="modalProgramarLabel">
+                  <i class="bi bi-clock-history me-2 text-primary"></i>Programar Envío Recurrente
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body p-4">
+                <div class="mb-3">
+                  <label class="form-label" for="progTipoReporte">Tipo de Reporte</label>
+                  <select class="form-select" id="progTipoReporte">
+                    <option value="general" selected>Reporte General Consolidado</option>
+                    <option value="carrera">Reporte por Carrera</option>
+                    <option value="empresa">Reporte por Empresa</option>
+                    <option value="horas">Horas Registradas</option>
+                    <option value="evaluaciones">Evaluaciones Finales</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="progFrecuencia">Frecuencia de Envío</label>
+                  <select class="form-select" id="progFrecuencia">
+                    <option value="semanal" selected>Semanal (Todos los viernes)</option>
+                    <option value="quincenal">Quincenal (Día 15 y 30)</option>
+                    <option value="mensual">Mensual (Fin de mes)</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="progDestinatarios">Correos Institucionales Destinatarios</label>
+                  <input type="text" class="form-control" id="progDestinatarios" placeholder="ejemplo: coordinacion.practicas@ug.edu.ec" value="stin.sanchez@ug.edu.ec, maria.lopez@ug.edu.ec">
+                  <small class="text-muted">Separe múltiples direcciones con comas.</small>
+                </div>
+              </div>
+              <div class="modal-footer border-top bg-light">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="mostrarNotificacion('Programación guardada. Los reportes se enviarán automáticamente a los correos indicados.')">
+                  <i class="bi bi-check2-circle me-1"></i> Guardar Programación
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal: Exportación Masiva Completa -->
+        <div class="modal fade" id="modalExportarMasivo" tabindex="-1" aria-labelledby="modalExportarMasivoLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+              <div class="modal-header border-bottom">
+                <h5 class="modal-title fw-bold" id="modalExportarMasivoLabel">
+                  <i class="bi bi-cloud-arrow-down-fill me-2 text-primary"></i>Exportar Paquete Institucional Completo
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body p-4 text-center">
+                <div class="mb-3">
+                  <i class="bi bi-archive-fill text-primary" style="font-size: 3rem;"></i>
+                </div>
+                <h6 class="fw-bold text-dark">Archivo Comprimido ZIP Institucional</h6>
+                <p class="text-muted small">
+                  Se compilarán todos los reportes (General, Carreras UG, Empresas de Guayaquil, Horas y Evaluaciones) en formatos PDF y Excel estructurados en carpetas oficiales del ciclo 2026-C1.
+                </p>
+                <div class="p-3 bg-light rounded text-start small text-muted">
+                  <div class="d-flex justify-content-between mb-1">
+                    <span>Archivos incluidos:</span>
+                    <strong>12 documentos</strong>
+                  </div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span>Tamaño estimado:</span>
+                    <strong>~16.5 MB</strong>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <span>Seguridad:</span>
+                    <span class="text-success"><i class="bi bi-shield-check"></i> Firmado Digitalmente UG</span>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer border-top bg-light">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="simularDescarga('Paquete_Completo_Practicas_UG_2026_C1.zip')">
+                  <i class="bi bi-download me-1"></i> Descargar Archivo ZIP
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Script de Comportamiento e Interacciones Específicas de la Página -->
+        <script>
+          // Función para mostrar alertas dinámicas de exportación
+          function mostrarNotificacion(mensaje) {
+            const alerta = document.getElementById('alertaExportacion');
+            const texto = document.getElementById('mensajeAlerta');
+            if (alerta && texto) {
+              texto.textContent = mensaje;
+              alerta.classList.remove('d-none');
+              alerta.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              setTimeout(() => {
+                alerta.classList.add('d-none');
+              }, 6000);
+            }
+          }
+
+          // Simulación de descarga de archivo con mensaje institucional
+          function simularDescarga(nombreArchivo) {
+            mostrarNotificacion('Descargando archivo: ' + nombreArchivo + '. El archivo está listo para su uso.');
+          }
+
+          // Configuración dinámica del modal al hacer clic en botones de cards
+          document.addEventListener('DOMContentLoaded', function () {
+            const modalExportacion = document.getElementById('modalConfigurarExportacion');
+            if (modalExportacion) {
+              modalExportacion.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                if (!button) return;
+
+                const reporte = button.getAttribute('data-reporte') || 'Reporte General';
+                const formato = button.getAttribute('data-formato') || 'PDF';
+
+                document.getElementById('modalTituloReporte').textContent = reporte;
+                document.getElementById('modalSubtituloFormato').textContent = 'Formato seleccionado: Documento ' + formato;
+
+                const iconoContainer = document.getElementById('modalIconoFormato');
+                if (formato === 'PDF') {
+                  iconoContainer.className = 'p-2 rounded bg-danger bg-opacity-10 text-danger fs-4';
+                  iconoContainer.innerHTML = '<i class="bi bi-file-pdf"></i>';
+                } else {
+                  iconoContainer.className = 'p-2 rounded bg-success bg-opacity-10 text-success fs-4';
+                  iconoContainer.innerHTML = '<i class="bi bi-file-earmark-excel"></i>';
+                }
+
+                // Configurar acción del botón de confirmación
+                const btnConfirmar = document.getElementById('btnConfirmarExportacion');
+                btnConfirmar.onclick = function () {
+                  const extension = formato === 'PDF' ? '.pdf' : '.xlsx';
+                  const nombreDescarga = reporte.replace(/\\s+/g, '_') + '_2026_C1' + extension;
+                  const modalInstance = bootstrap.Modal.getInstance(modalExportacion);
+                  if (modalInstance) modalInstance.hide();
+                  simularDescarga(nombreDescarga);
+                };
+              });
+            }
+
+            // Botón de aplicar parámetros del form superior
+            const btnParametros = document.getElementById('btnAplicarParametros');
+            if (btnParametros) {
+              btnParametros.addEventListener('click', function () {
+                const periodo = document.getElementById('filtroPeriodo').selectedOptions[0].text;
+                const carrera = document.getElementById('filtroCarrera').selectedOptions[0].text;
+                mostrarNotificacion('Parámetros aplicados: ' + periodo + ' | ' + carrera + '. El catálogo y las métricas han sido actualizados.');
+              });
+            }
+
+            // Filtro de formato en la tabla de historial
+            const selectFormatoHistorial = document.getElementById('filtroFormatoHistorial');
+            const selectEstadoHistorial = document.getElementById('filtroEstadoHistorial');
+            const btnLimpiar = document.getElementById('btnLimpiarFiltroHistorial');
+            const inputBuscar = document.getElementById('inputBuscarHistorial');
+
+            function filtrarTablaHistorial() {
+              const formatoFiltro = selectFormatoHistorial.value.toLowerCase();
+              const estadoFiltro = selectEstadoHistorial.value.toLowerCase();
+              const filas = document.querySelectorAll('#tablaHistorialExportaciones tbody tr');
+
+              filas.forEach(fila => {
+                const texto = fila.textContent.toLowerCase();
+                const coincideFormato = !formatoFiltro || texto.includes(formatoFiltro);
+                const coincideEstado = !estadoFiltro || texto.includes(estadoFiltro);
+                fila.style.display = (coincideFormato && coincideEstado) ? '' : 'none';
+              });
+            }
+
+            if (selectFormatoHistorial) selectFormatoHistorial.addEventListener('change', filtrarTablaHistorial);
+            if (selectEstadoHistorial) selectEstadoHistorial.addEventListener('change', filtrarTablaHistorial);
+
+            if (btnLimpiar) {
+              btnLimpiar.addEventListener('click', function () {
+                if (inputBuscar) {
+                  inputBuscar.value = '';
+                  inputBuscar.dispatchEvent(new Event('input'));
+                }
+                if (selectFormatoHistorial) selectFormatoHistorial.value = '';
+                if (selectEstadoHistorial) selectEstadoHistorial.value = '';
+                filtrarTablaHistorial();
+              });
+            }
+          });
+        </script>
+
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notificaciones — Gestión de Prácticas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="../assets/css/custom.css" rel="stylesheet">
+</head>
+<body data-page="notificaciones" data-section="Notificaciones">
+  <div class="wrapper">
+    <aside id="sidebar"></aside>
+    <div class="sidebar-overlay"></div>
+    <div class="main-content">
+      <nav id="topbar"></nav>
+      <div class="content">
+
+        <!-- Alerta interactiva de confirmación -->
+        <div id="alertMarcarLeido" class="alert alert-success alert-dismissible fade show d-none mb-3" role="alert">
+          <i class="bi bi-check-circle-fill me-2"></i> Todas las notificaciones pendientes han sido marcadas como leídas correctamente.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+
+        <!-- Encabezado de Página -->
+        <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+          <div>
+            <h2>Notificaciones del Sistema</h2>
+            <p>Bandeja de avisos institucionales, alertas de bitácoras, convenios y seguimiento de prácticas preprofesionales</p>
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-outline-secondary" id="btnMarcarTodoLeido">
+              <i class="bi bi-check2-all me-1"></i> Marcar todo como leído
+            </button>
+            <a href="#configuracion-notificaciones" class="btn btn-primary">
+              <i class="bi bi-gear-fill me-1"></i> Configurar notificaciones
+            </a>
+          </div>
+        </div>
+
+        <!-- Tarjetas de Estadísticas (KPIs) -->
+        <div class="row g-3 mb-4">
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-value">24</div>
+                  <div class="stat-label">Total Notificaciones</div>
+                </div>
+                <div class="stat-icon bg-primary-subtle text-primary">
+                  <i class="bi bi-bell-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-value" id="statNoLeidasVal">4</div>
+                  <div class="stat-label">No Leídas</div>
+                </div>
+                <div class="stat-icon bg-warning-subtle text-warning">
+                  <i class="bi bi-envelope-exclamation-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-value">2</div>
+                  <div class="stat-label">Alertas Urgentes</div>
+                </div>
+                <div class="stat-icon bg-danger-subtle text-danger">
+                  <i class="bi bi-exclamation-octagon-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-value">18</div>
+                  <div class="stat-label">Procesadas / Éxito</div>
+                </div>
+                <div class="stat-icon bg-success-subtle text-success">
+                  <i class="bi bi-check2-circle"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de Filtros -->
+        <div class="filter-bar">
+          <div class="form-group">
+            <label class="form-label" for="filterSearch">Buscar notificación</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-search"></i></span>
+              <input type="text" class="form-control" id="filterSearch" placeholder="Estudiante, empresa o palabra clave...">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filterTipo">Tipo de evento</label>
+            <select class="form-select" id="filterTipo">
+              <option value="">Todos los tipos</option>
+              <option value="asignacion">Asignación nueva</option>
+              <option value="completada">Práctica completada</option>
+              <option value="documento">Documento pendiente</option>
+              <option value="evaluacion">Evaluación recibida</option>
+              <option value="horas">Recordatorio de horas</option>
+              <option value="convenio">Convenio institucional</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filterCarrera">Carrera UG</label>
+            <select class="form-select" id="filterCarrera">
+              <option value="">Todas las carreras</option>
+              <option value="sistemas">Ing. en Sistemas Computacionales</option>
+              <option value="software">Ing. en Software</option>
+              <option value="civil">Ing. Civil</option>
+              <option value="industrial">Ing. Industrial</option>
+              <option value="quimica">Ing. Química</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filterFecha">Fecha desde</label>
+            <input type="date" class="form-control" id="filterFecha">
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-primary" id="btnFiltrar">
+              <i class="bi bi-funnel-fill me-1"></i> Filtrar
+            </button>
+            <button type="button" class="btn btn-outline-secondary" id="btnLimpiarFiltros">
+              <i class="bi bi-arrow-clockwise me-1"></i> Limpiar
+            </button>
+          </div>
+        </div>
+
+        <!-- Contenedor de Pestañas de Notificaciones -->
+        <div class="card mb-4">
+          <div class="card-header bg-white border-bottom-0 pt-3 px-3 pb-0">
+            <ul class="nav nav-tabs card-header-tabs" id="notifTabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="todas-tab" data-bs-toggle="tab" data-bs-target="#tab-todas" type="button" role="tab" aria-controls="tab-todas" aria-selected="true">
+                  <i class="bi bi-inbox-fill me-1"></i> Todas <span class="badge bg-secondary ms-1">8</span>
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="no-leidas-tab" data-bs-toggle="tab" data-bs-target="#tab-no-leidas" type="button" role="tab" aria-controls="tab-no-leidas" aria-selected="false">
+                  <i class="bi bi-envelope-fill me-1"></i> No Leídas <span class="badge bg-danger ms-1" id="tabNoLeidasBadge">4</span>
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="enviadas-tab" data-bs-toggle="tab" data-bs-target="#tab-enviadas" type="button" role="tab" aria-controls="tab-enviadas" aria-selected="false">
+                  <i class="bi bi-send-fill me-1"></i> Enviadas <span class="badge bg-primary ms-1">5</span>
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div class="card-body p-0">
+            <div class="tab-content" id="notifTabsContent">
+
+              <!-- ========================================== -->
+              <!-- PESTAÑA 1: TODAS LAS NOTIFICACIONES       -->
+              <!-- ========================================== -->
+              <div class="tab-pane fade show active" id="tab-todas" role="tabpanel" aria-labelledby="todas-tab">
+
+                <!-- Notificación 1: Documento pendiente (warning) [No Leída] -->
+                <div class="notification-item unread">
+                  <div class="notification-icon bg-warning-subtle text-warning">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                  </div>
+                  <div class="notification-body">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                      <div class="title">Documento pendiente de validación</div>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="badge-estado bg-warning text-dark">Documento Pendiente</span>
+                        <div class="dropdown">
+                          <button class="btn btn-sm btn-icon" data-bs-toggle="dropdown" aria-expanded="false" title="Opciones">
+                            <i class="bi bi-three-dots-vertical"></i>
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" onclick="marcarComoLeida(this); return false;"><i class="bi bi-check2 me-2"></i>Marcar como leída</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalDetalleNotificacion" data-titulo="Documento pendiente de validación" data-detalle="El estudiante Carlos Andrés Moreira (Ing. en Sistemas Computacionales) en Holcim Ecuador no ha adjuntado el Convenio Específico de Prácticas firmado."><i class="bi bi-eye me-2"></i>Ver detalles</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="eliminarNotificacion(this); return false;"><i class="bi bi-trash me-2"></i>Descartar</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text">
+                      El estudiante <strong>Carlos Andrés Moreira</strong> (Carrera de <strong>Ing. en Sistemas Computacionales</strong>) en <strong>Holcim Ecuador</strong> no ha adjuntado el Convenio Específico de Prácticas debidamente firmado por la empresa y el tutor institucional. Plazo límite de regularización: 48 horas.
+                    </div>
+                    <div class="time">
+                      <i class="bi bi-clock me-1"></i> Hace 15 minutos &bull; Carrera: Ing. en Sistemas Computacionales &bull; Módulo de Gestión Documental
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Notificación 2: Asignación nueva (info) [No Leída] -->
+                <div class="notification-item unread">
+                  <div class="notification-icon bg-info-subtle text-info">
+                    <i class="bi bi-person-plus-fill"></i>
+                  </div>
+                  <div class="notification-body">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                      <div class="title">Nueva asignación de práctica preprofesional</div>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="badge-estado bg-info text-dark">Nueva Asignación</span>
+                        <div class="dropdown">
+                          <button class="btn btn-sm btn-icon" data-bs-toggle="dropdown" aria-expanded="false" title="Opciones">
+                            <i class="bi bi-three-dots-vertical"></i>
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" onclick="marcarComoLeida(this); return false;"><i class="bi bi-check2 me-2"></i>Marcar como leída</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalDetalleNotificacion" data-titulo="Nueva asignación de práctica preprofesional" data-detalle="Se ha registrado la vinculación formal de la estudiante María Fernanda López (Ing. en Software) con la empresa Banco Pichincha bajo la tutoría empresarial del Ing. Roberto Viteri."><i class="bi bi-eye me-2"></i>Ver detalles</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="eliminarNotificacion(this); return false;"><i class="bi bi-trash me-2"></i>Descartar</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text">
+                      Se ha formalizado la vinculación de la estudiante <strong>María Fernanda López</strong> (Carrera de <strong>Ing. en Software</strong>) con la empresa <strong>Banco Pichincha</strong> en el Departamento de Desarrollo de Sistemas, bajo la supervisión del tutor empresarial <strong>Ing. Roberto Viteri</strong>.
+                    </div>
+                    <div class="time">
+                      <i class="bi bi-clock me-1"></i> Hace 45 minutos &bull; Carrera: Ing. en Software &bull; Módulo de Asignación y Selección
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Notificación 3: Evaluación recibida (success) [No Leída] -->
+                <div class="notification-item unread">
+                  <div class="notification-icon bg-success-subtle text-success">
+                    <i class="bi bi-clipboard-check-fill"></i>
+                  </div>
+                  <div class="notification-body">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                      <div class="title">Evaluación final de tutor empresarial recibida</div>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="badge-estado bg-success">Evaluación Recibida</span>
+                        <div class="dropdown">
+                          <button class="btn btn-sm btn-icon" data-bs-toggle="dropdown" aria-expanded="false" title="Opciones">
+                            <i class="bi bi-three-dots-vertical"></i>
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" onclick="marcarComoLeida(this); return false;"><i class="bi bi-check2 me-2"></i>Marcar como leída</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalDetalleNotificacion" data-titulo="Evaluación final recibida" data-detalle="El tutor empresarial de Nestlé Ecuador remitió la rúbrica de desempeño de la estudiante Diana Elizabeth Quintero con calificación sobresaliente 98/100."><i class="bi bi-eye me-2"></i>Ver detalles</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="eliminarNotificacion(this); return false;"><i class="bi bi-trash me-2"></i>Descartar</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text">
+                      El supervisor institucional de <strong>Nestlé Ecuador</strong> ha emitido y suscrito la rúbrica oficial de desempeño técnico de la estudiante <strong>Diana Elizabeth Quintero</strong> (Carrera de <strong>Ing. Industrial</strong>), obteniendo una calificación ponderada de <strong>98/100</strong>. Pendiente revisión de tutor académico UG.
+                    </div>
+                    <div class="time">
+                      <i class="bi bi-clock me-1"></i> Hace 2 horas &bull; Carrera: Ing. Industrial &bull; Módulo de Validación y Calificación
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Notificación 4: Recordatorio horas (danger) [No Leída] -->
+                <div class="notification-item unread">
+                  <div class="notification-icon bg-danger-subtle text-danger">
+                    <i class="bi bi-alarm-fill"></i>
+                  </div>
+                  <div class="notification-body">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                      <div class="title">Alerta por déficit en registro de horas de bitácora</div>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="badge-estado bg-danger">Alerta de Horas</span>
+                        <div class="dropdown">
+                          <button class="btn btn-sm btn-icon" data-bs-toggle="dropdown" aria-expanded="false" title="Opciones">
+                            <i class="bi bi-three-dots-vertical"></i>
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" onclick="marcarComoLeida(this); return false;"><i class="bi bi-check2 me-2"></i>Marcar como leída</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalDetalleNotificacion" data-titulo="Alerta por déficit de horas" data-detalle="El practicante Gabriel Antonio Cedeño en CNEL EP registra únicamente 12 de las 40 horas mensuales requeridas en su bitácora digital."><i class="bi bi-eye me-2"></i>Ver detalles</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="eliminarNotificacion(this); return false;"><i class="bi bi-trash me-2"></i>Descartar</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text">
+                      El estudiante practicante <strong>Gabriel Antonio Cedeño</strong> (Carrera de <strong>Ing. Civil</strong>) en <strong>CNEL EP</strong> reporta un retraso crítico con tan solo 12 horas acumuladas de las 40 horas mensuales requeridas en el corte de supervisión intermedio.
+                    </div>
+                    <div class="time">
+                      <i class="bi bi-clock me-1"></i> Hace 3 horas &bull; Carrera: Ing. Civil &bull; Control y Seguimiento Académico
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Notificación 5: Práctica completada (success) [Leída] -->
+                <div class="notification-item">
+                  <div class="notification-icon bg-success-subtle text-success">
+                    <i class="bi bi-award-fill"></i>
+                  </div>
+                  <div class="notification-body">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                      <div class="title">Práctica preprofesional culminada con éxito</div>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="badge-estado bg-success">Práctica Culminada</span>
+                        <div class="dropdown">
+                          <button class="btn btn-sm btn-icon" data-bs-toggle="dropdown" aria-expanded="false" title="Opciones">
+                            <i class="bi bi-three-dots-vertical"></i>
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalDetalleNotificacion" data-titulo="Práctica preprofesional culminada" data-detalle="El estudiante Kevin Josué Alvarado culminó sus 240 horas reglamentarias en Pronaca (Planta Durán). Su expediente se encuentra listo para expedición del certificado oficial."><i class="bi bi-eye me-2"></i>Ver detalles</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="eliminarNotificacion(this); return false;"><i class="bi bi-trash me-2"></i>Descartar</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text">
+                      El estudiante <strong>Kevin Josué Alvarado</strong> (Carrera de <strong>Ing. Química</strong>) ha culminado satisfactoriamente sus <strong>240 horas</strong> reglamentarias de prácticas en <strong>Pronaca (Planta Durán)</strong>. Todos los requisitos e informes fueron verificados y el expediente fue remitido para la expedición del certificado institucional.
+                    </div>
+                    <div class="time">
+                      <i class="bi bi-clock me-1"></i> Ayer a las 16:30 &bull; Carrera: Ing. Química &bull; Secretaría de Decanato
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Notificación 6: Convenio por vencer (warning) [Leída] -->
+                <div class="notification-item">
+                  <div class="notification-icon bg-warning-subtle text-warning">
+                    <i class="bi bi-file-earmark-medical-fill"></i>
+                  </div>
+                  <div class="notification-body">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                      <div class="title">Próximo vencimiento de convenio interinstitucional</div>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="badge-estado bg-warning text-dark">Convenio por Vencer</span>
+                        <div class="dropdown">
+                          <button class="btn btn-sm btn-icon" data-bs-toggle="dropdown" aria-expanded="false" title="Opciones">
+                            <i class="bi bi-three-dots-vertical"></i>
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalDetalleNotificacion" data-titulo="Próximo vencimiento de convenio" data-detalle="El Convenio Marco de Cooperación con CNT EP caducará en 15 días calendario. Involucra a 6 practicantes vigentes de Ing. en Sistemas Computacionales."><i class="bi bi-eye me-2"></i>Ver detalles</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="eliminarNotificacion(this); return false;"><i class="bi bi-trash me-2"></i>Descartar</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text">
+                      El Convenio Marco de Cooperación Interinstitucional suscrito entre la Universidad de Guayaquil y la empresa pública <strong>CNT EP</strong> expirará en 15 días calendario. Esta situación afecta directamente a 6 estudiantes activos de la carrera de <strong>Ing. en Sistemas Computacionales</strong>. Se solicita iniciar trámite de adenda de renovación.
+                    </div>
+                    <div class="time">
+                      <i class="bi bi-clock me-1"></i> Ayer a las 11:15 &bull; Carrera: Ing. en Sistemas Computacionales &bull; Dirección de Vinculación con la Sociedad
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Notificación 7: Solicitud de reasignación (info) [Leída] -->
+                <div class="notification-item">
+                  <div class="notification-icon bg-info-subtle text-info">
+                    <i class="bi bi-arrow-left-right"></i>
+                  </div>
+                  <div class="notification-body">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                      <div class="title">Solicitud de reasignación de área aprobada</div>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="badge-estado bg-info text-dark">Reasignación Aprobada</span>
+                        <div class="dropdown">
+                          <button class="btn btn-sm btn-icon" data-bs-toggle="dropdown" aria-expanded="false" title="Opciones">
+                            <i class="bi bi-three-dots-vertical"></i>
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalDetalleNotificacion" data-titulo="Reasignación de área aprobada" data-detalle="Se aprobó la reubicación técnica de la estudiante Valeria Sofía Murillo en Banco Pichincha hacia el Departamento de Arquitectura Cloud."><i class="bi bi-eye me-2"></i>Ver detalles</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="eliminarNotificacion(this); return false;"><i class="bi bi-trash me-2"></i>Descartar</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text">
+                      La Comisión de Prácticas Preprofesionales autorizó el cambio de área solicitado para la estudiante <strong>Valeria Sofía Murillo</strong> (Carrera de <strong>Ing. en Software</strong>), quien pasará del soporte de infraestructura al Departamento de Arquitectura Cloud en <strong>Banco Pichincha (Sede Colón)</strong>.
+                    </div>
+                    <div class="time">
+                      <i class="bi bi-clock me-1"></i> Hace 2 días &bull; Carrera: Ing. en Software &bull; Comisión de Reasignaciones
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Notificación 8: Documentación observada (danger) [Leída] -->
+                <div class="notification-item">
+                  <div class="notification-icon bg-danger-subtle text-danger">
+                    <i class="bi bi-x-octagon-fill"></i>
+                  </div>
+                  <div class="notification-body">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                      <div class="title">Informe mensual devuelto con observaciones</div>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="badge-estado bg-danger">Informe Observado</span>
+                        <div class="dropdown">
+                          <button class="btn btn-sm btn-icon" data-bs-toggle="dropdown" aria-expanded="false" title="Opciones">
+                            <i class="bi bi-three-dots-vertical"></i>
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalDetalleNotificacion" data-titulo="Informe devuelto con observaciones" data-detalle="El informe de avance N° 3 de Jorge Luis Zambrano en Holcim Ecuador fue observado por omisión de sellos de control en bitácora."><i class="bi bi-eye me-2"></i>Ver detalles</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="eliminarNotificacion(this); return false;"><i class="bi bi-trash me-2"></i>Descartar</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text">
+                      El informe de avance N° 3 presentado por el estudiante <strong>Jorge Luis Zambrano</strong> (Carrera de <strong>Ing. Industrial</strong>) en <strong>Holcim Ecuador</strong> fue devuelto por el tutor académico debido a discrepancias en el conteo de horas presenciales y omisión del sello institucional del departamento de operaciones.
+                    </div>
+                    <div class="time">
+                      <i class="bi bi-clock me-1"></i> Hace 3 días &bull; Carrera: Ing. Industrial &bull; Tutoría Académica UG
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Paginación de Pestaña Todas -->
+                <div class="pagination-container">
+                  <div class="pagination-info">Mostrando 1 a 8 de 24 notificaciones registradas</div>
+                  <nav aria-label="Paginación de notificaciones">
+                    <ul class="pagination pagination-sm mb-0">
+                      <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1"><i class="bi bi-chevron-left"></i></a></li>
+                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item"><a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a></li>
+                    </ul>
+                  </nav>
+                </div>
+
+              </div>
+
+              <!-- ========================================== -->
+              <!-- PESTAÑA 2: NO LEÍDAS                      -->
+              <!-- ========================================== -->
+              <div class="tab-pane fade" id="tab-no-leidas" role="tabpanel" aria-labelledby="no-leidas-tab">
+
+                <!-- Item 1 No Leído: Documento pendiente (warning) -->
+                <div class="notification-item unread">
+                  <div class="notification-icon bg-warning-subtle text-warning">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                  </div>
+                  <div class="notification-body">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                      <div class="title">Documento pendiente de validación</div>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="badge-estado bg-warning text-dark">Documento Pendiente</span>
+                        <button class="btn btn-sm btn-outline-primary" onclick="marcarComoLeida(this)" title="Marcar como leída">
+                          <i class="bi bi-check2"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="text">
+                      El estudiante <strong>Carlos Andrés Moreira</strong> (Carrera de <strong>Ing. en Sistemas Computacionales</strong>) en <strong>Holcim Ecuador</strong> no ha adjuntado el Convenio Específico de Prácticas debidamente firmado. Plazo límite: 48 horas.
+                    </div>
+                    <div class="time">
+                      <i class="bi bi-clock me-1"></i> Hace 15 minutos &bull; Carrera: Ing. en Sistemas Computacionales
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Item 2 No Leído: Asignación nueva (info) -->
+                <div class="notification-item unread">
+                  <div class="notification-icon bg-info-subtle text-info">
+                    <i class="bi bi-person-plus-fill"></i>
+                  </div>
+                  <div class="notification-body">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                      <div class="title">Nueva asignación de práctica preprofesional</div>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="badge-estado bg-info text-dark">Nueva Asignación</span>
+                        <button class="btn btn-sm btn-outline-primary" onclick="marcarComoLeida(this)" title="Marcar como leída">
+                          <i class="bi bi-check2"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="text">
+                      Se ha formalizado la vinculación de la estudiante <strong>María Fernanda López</strong> (Carrera de <strong>Ing. en Software</strong>) con la empresa <strong>Banco Pichincha</strong> bajo la supervisión del tutor <strong>Ing. Roberto Viteri</strong>.
+                    </div>
+                    <div class="time">
+                      <i class="bi bi-clock me-1"></i> Hace 45 minutos &bull; Carrera: Ing. en Software
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Item 3 No Leído: Evaluación recibida (success) -->
+                <div class="notification-item unread">
+                  <div class="notification-icon bg-success-subtle text-success">
+                    <i class="bi bi-clipboard-check-fill"></i>
+                  </div>
+                  <div class="notification-body">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                      <div class="title">Evaluación final de tutor empresarial recibida</div>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="badge-estado bg-success">Evaluación Recibida</span>
+                        <button class="btn btn-sm btn-outline-primary" onclick="marcarComoLeida(this)" title="Marcar como leída">
+                          <i class="bi bi-check2"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="text">
+                      El supervisor de <strong>Nestlé Ecuador</strong> remitió la rúbrica oficial de desempeño de <strong>Diana Elizabeth Quintero</strong> (Carrera de <strong>Ing. Industrial</strong>) con nota de <strong>98/100</strong>.
+                    </div>
+                    <div class="time">
+                      <i class="bi bi-clock me-1"></i> Hace 2 horas &bull; Carrera: Ing. Industrial
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Item 4 No Leído: Recordatorio horas (danger) -->
+                <div class="notification-item unread">
+                  <div class="notification-icon bg-danger-subtle text-danger">
+                    <i class="bi bi-alarm-fill"></i>
+                  </div>
+                  <div class="notification-body">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                      <div class="title">Alerta por déficit en registro de horas de bitácora</div>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="badge-estado bg-danger">Alerta de Horas</span>
+                        <button class="btn btn-sm btn-outline-primary" onclick="marcarComoLeida(this)" title="Marcar como leída">
+                          <i class="bi bi-check2"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="text">
+                      El practicante <strong>Gabriel Antonio Cedeño</strong> (Carrera de <strong>Ing. Civil</strong>) en <strong>CNEL EP</strong> reporta retraso acumulado con tan solo 12 horas registradas de las 40 requeridas en el corte del mes.
+                    </div>
+                    <div class="time">
+                      <i class="bi bi-clock me-1"></i> Hace 3 horas &bull; Carrera: Ing. Civil
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Paginación de Pestaña No Leídas -->
+                <div class="pagination-container">
+                  <div class="pagination-info">Mostrando 1 a 4 de 4 notificaciones pendientes</div>
+                  <nav aria-label="Paginación de no leídas">
+                    <ul class="pagination pagination-sm mb-0">
+                      <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1"><i class="bi bi-chevron-left"></i></a></li>
+                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item disabled"><a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a></li>
+                    </ul>
+                  </nav>
+                </div>
+
+              </div>
+
+              <!-- ========================================== -->
+              <!-- PESTAÑA 3: NOTIFICACIONES ENVIADAS        -->
+              <!-- ========================================== -->
+              <div class="tab-pane fade" id="tab-enviadas" role="tabpanel" aria-labelledby="enviadas-tab">
+
+                <!-- Tabla de Notificaciones Emitidas -->
+                <div class="table-container">
+                  <div class="p-3 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2 bg-light">
+                    <div>
+                      <h6 class="mb-0 fw-bold text-dark"><i class="bi bi-send-check me-2 text-primary"></i>Historial de Comunicaciones y Notificaciones Emitidas</h6>
+                      <small class="text-muted">Registro institucional de avisos automáticos y alertas despachadas a estudiantes, tutores y empresas</small>
+                    </div>
+                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalNuevaNotificacion">
+                      <i class="bi bi-plus-lg me-1"></i> Redactar Aviso
+                    </button>
+                  </div>
+
+                  <table class="table table-hover" id="tablaNotificacionesEnviadas">
+                    <thead>
+                      <tr>
+                        <th style="width: 40px;">
+                          <input type="checkbox" class="form-check-input" data-select-all="tablaNotificacionesEnviadas">
+                        </th>
+                        <th>Destinatario</th>
+                        <th>Carrera / Entidad</th>
+                        <th>Asunto del Mensaje</th>
+                        <th>Canal</th>
+                        <th>Fecha de Envío</th>
+                        <th>Estado de Entrega</th>
+                        <th class="text-end">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><input type="checkbox" class="form-check-input row-check"></td>
+                        <td>
+                          <strong>Carlos Andrés Moreira</strong>
+                          <div class="text-muted" style="font-size: 0.75rem;">moreira.carlos@ug.edu.ec</div>
+                        </td>
+                        <td>
+                          <div>Ing. en Sistemas Computacionales</div>
+                          <span class="badge bg-light text-secondary border">Holcim Ecuador</span>
+                        </td>
+                        <td>
+                          <span class="fw-semibold">Requerimiento urgente de entrega de convenio</span>
+                        </td>
+                        <td>
+                          <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                            <i class="bi bi-envelope me-1"></i> Email + Sistema
+                          </span>
+                        </td>
+                        <td>14 Nov 2026, 17:30</td>
+                        <td>
+                          <span class="badge-estado bg-success">Entregado</span>
+                        </td>
+                        <td class="text-end">
+                          <button class="btn btn-action btn-outline-secondary" title="Reenviar comunicación"><i class="bi bi-arrow-repeat"></i></button>
+                          <button class="btn btn-action btn-outline-primary" title="Ver comprobante de envío"><i class="bi bi-receipt"></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="form-check-input row-check"></td>
+                        <td>
+                          <strong>Ing. Roberto Viteri</strong>
+                          <div class="text-muted" style="font-size: 0.75rem;">rviteri@pichincha.com</div>
+                        </td>
+                        <td>
+                          <div>Tutor Empresarial</div>
+                          <span class="badge bg-light text-secondary border">Banco Pichincha</span>
+                        </td>
+                        <td>
+                          <span class="fw-semibold">Notificación de asignación de practicante (María Fernanda López)</span>
+                        </td>
+                        <td>
+                          <span class="badge bg-info-subtle text-info border border-info-subtle">
+                            <i class="bi bi-envelope me-1"></i> Email
+                          </span>
+                        </td>
+                        <td>14 Nov 2026, 16:45</td>
+                        <td>
+                          <span class="badge-estado bg-info text-dark">Leído</span>
+                        </td>
+                        <td class="text-end">
+                          <button class="btn btn-action btn-outline-secondary" title="Reenviar comunicación"><i class="bi bi-arrow-repeat"></i></button>
+                          <button class="btn btn-action btn-outline-primary" title="Ver comprobante de envío"><i class="bi bi-receipt"></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="form-check-input row-check"></td>
+                        <td>
+                          <strong>Diana Elizabeth Quintero</strong>
+                          <div class="text-muted" style="font-size: 0.75rem;">quintero.diana@ug.edu.ec</div>
+                        </td>
+                        <td>
+                          <div>Ing. Industrial</div>
+                          <span class="badge bg-light text-secondary border">Nestlé Ecuador</span>
+                        </td>
+                        <td>
+                          <span class="fw-semibold">Confirmación de recepción de rúbrica de desempeño</span>
+                        </td>
+                        <td>
+                          <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle">
+                            <i class="bi bi-bell me-1"></i> Sistema
+                          </span>
+                        </td>
+                        <td>14 Nov 2026, 15:10</td>
+                        <td>
+                          <span class="badge-estado bg-success">Entregado</span>
+                        </td>
+                        <td class="text-end">
+                          <button class="btn btn-action btn-outline-secondary" title="Reenviar comunicación"><i class="bi bi-arrow-repeat"></i></button>
+                          <button class="btn btn-action btn-outline-primary" title="Ver comprobante de envío"><i class="bi bi-receipt"></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="form-check-input row-check"></td>
+                        <td>
+                          <strong>Gabriel Antonio Cedeño</strong>
+                          <div class="text-muted" style="font-size: 0.75rem;">cedeno.gabriel@ug.edu.ec</div>
+                        </td>
+                        <td>
+                          <div>Ing. Civil</div>
+                          <span class="badge bg-light text-secondary border">CNEL EP</span>
+                        </td>
+                        <td>
+                          <span class="fw-semibold">Aviso preventivo de retraso en bitácora quincenal</span>
+                        </td>
+                        <td>
+                          <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                            <i class="bi bi-envelope me-1"></i> Email + Sistema
+                          </span>
+                        </td>
+                        <td>14 Nov 2026, 14:00</td>
+                        <td>
+                          <span class="badge-estado bg-warning text-dark">Pendiente Apertura</span>
+                        </td>
+                        <td class="text-end">
+                          <button class="btn btn-action btn-outline-secondary" title="Reenviar comunicación"><i class="bi bi-arrow-repeat"></i></button>
+                          <button class="btn btn-action btn-outline-primary" title="Ver comprobante de envío"><i class="bi bi-receipt"></i></button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="form-check-input row-check"></td>
+                        <td>
+                          <strong>Kevin Josué Alvarado</strong>
+                          <div class="text-muted" style="font-size: 0.75rem;">alvarado.kevin@ug.edu.ec</div>
+                        </td>
+                        <td>
+                          <div>Ing. Química</div>
+                          <span class="badge bg-light text-secondary border">Pronaca</span>
+                        </td>
+                        <td>
+                          <span class="fw-semibold">Constancia de cumplimiento satisfactorio de 240 horas</span>
+                        </td>
+                        <td>
+                          <span class="badge bg-info-subtle text-info border border-info-subtle">
+                            <i class="bi bi-envelope me-1"></i> Email
+                          </span>
+                        </td>
+                        <td>13 Nov 2026, 18:00</td>
+                        <td>
+                          <span class="badge-estado bg-success">Entregado</span>
+                        </td>
+                        <td class="text-end">
+                          <button class="btn btn-action btn-outline-secondary" title="Reenviar comunicación"><i class="bi bi-arrow-repeat"></i></button>
+                          <button class="btn btn-action btn-outline-primary" title="Ver comprobante de envío"><i class="bi bi-receipt"></i></button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- Paginación de Tabla de Enviadas -->
+                  <div class="pagination-container">
+                    <div class="pagination-info">Mostrando 1 a 5 de 48 notificaciones despachadas</div>
+                    <nav aria-label="Paginación de notificaciones enviadas">
+                      <ul class="pagination pagination-sm mb-0">
+                        <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1"><i class="bi bi-chevron-left"></i></a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a></li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- SECCIÓN DE CONFIGURACIÓN DE NOTIFICACIONES (FORM-SECTION) -->
+        <!-- ======================================================== -->
+        <div class="form-section" id="configuracion-notificaciones">
+          <div class="form-section-title">
+            <i class="bi bi-sliders"></i> Configuración de Notificaciones y Canales de Alerta
+          </div>
+          <p class="text-muted small mb-4">
+            Gestione los canales mediante los cuales la Coordinación de Prácticas y los estudiantes reciben alertas en tiempo real. Configure el comportamiento del correo electrónico institucional y los avisos internos del sistema.
+          </p>
+
+          <form id="formConfiguracion" onsubmit="guardarPreferencias(event)">
+            <div class="row g-4">
+
+              <!-- Canales Globales Principales -->
+              <div class="col-12 col-lg-4">
+                <div class="card h-100 border">
+                  <div class="card-header bg-light">
+                    <h6 class="mb-0 fw-bold"><i class="bi bi-broadcast me-2 text-primary"></i>Canales de Notificación</h6>
+                  </div>
+                  <div class="card-body">
+                    <p class="text-muted small">Seleccione los medios de difusión activos para su cuenta institucional:</p>
+
+                    <div class="form-check form-switch mb-3">
+                      <input class="form-check-input" type="checkbox" id="checkCanalEmail" checked>
+                      <label class="form-check-label fw-semibold" for="checkCanalEmail">
+                        <i class="bi bi-envelope-at me-1 text-primary"></i> Correo Electrónico Institucional
+                      </label>
+                      <div class="text-muted" style="font-size: 0.75rem;">Despacho de copias y resúmenes al buzón @ug.edu.ec</div>
+                    </div>
+
+                    <div class="form-check form-switch mb-3">
+                      <input class="form-check-input" type="checkbox" id="checkCanalSistema" checked>
+                      <label class="form-check-label fw-semibold" for="checkCanalSistema">
+                        <i class="bi bi-bell me-1 text-primary"></i> Alertas en el Sistema Web
+                      </label>
+                      <div class="text-muted" style="font-size: 0.75rem;">Insignias en topbar y panel interactivo en tiempo real</div>
+                    </div>
+
+                    <div class="form-check form-switch mb-3">
+                      <input class="form-check-input" type="checkbox" id="checkCanalSonido">
+                      <label class="form-check-label fw-semibold" for="checkCanalSonido">
+                        <i class="bi bi-volume-up me-1 text-primary"></i> Notificaciones Sonoras
+                      </label>
+                      <div class="text-muted" style="font-size: 0.75rem;">Tono audible al recibir avisos de prioridad alta</div>
+                    </div>
+
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="checkCanalResumenDiario" checked>
+                      <label class="form-check-label fw-semibold" for="checkCanalResumenDiario">
+                        <i class="bi bi-calendar-check me-1 text-primary"></i> Resumen Matutino Consolidado
+                      </label>
+                      <div class="text-muted" style="font-size: 0.75rem;">Envío diario a las 08:00 con el estado general de carreras</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Matriz de Preferencias por Evento (Gestalt: Proximidad y Región Común) -->
+              <div class="col-12 col-lg-8">
+                <div class="card h-100 border">
+                  <div class="card-header bg-light">
+                    <h6 class="mb-0 fw-bold"><i class="bi bi-ui-checks-grid me-2 text-primary"></i>Eventos y Canales Específicos</h6>
+                  </div>
+                  <div class="card-body p-0">
+                    <div class="table-responsive">
+                      <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                          <tr>
+                            <th>Tipo de Notificación / Evento</th>
+                            <th class="text-center" style="width: 140px;"><i class="bi bi-envelope me-1"></i> Por Email</th>
+                            <th class="text-center" style="width: 140px;"><i class="bi bi-bell me-1"></i> En Sistema</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <div class="fw-semibold">Nuevas Asignaciones de Estudiantes</div>
+                              <small class="text-muted">Asignación formal de practicante a empresa y designación de tutor</small>
+                            </td>
+                            <td class="text-center">
+                              <input class="form-check-input" type="checkbox" name="cfg_asig_email" checked>
+                            </td>
+                            <td class="text-center">
+                              <input class="form-check-input" type="checkbox" name="cfg_asig_sistema" checked>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="fw-semibold">Documentación Pendiente y Vencimientos</div>
+                              <small class="text-muted">Convenios específicos, cartas de aceptación y bitácoras sin firma</small>
+                            </td>
+                            <td class="text-center">
+                              <input class="form-check-input" type="checkbox" name="cfg_doc_email" checked>
+                            </td>
+                            <td class="text-center">
+                              <input class="form-check-input" type="checkbox" name="cfg_doc_sistema" checked>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="fw-semibold">Evaluaciones de Tutores Recibidas</div>
+                              <small class="text-muted">Calificaciones empresariales y rúbricas de desempeño de alumnos</small>
+                            </td>
+                            <td class="text-center">
+                              <input class="form-check-input" type="checkbox" name="cfg_eval_email" checked>
+                            </td>
+                            <td class="text-center">
+                              <input class="form-check-input" type="checkbox" name="cfg_eval_sistema" checked>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="fw-semibold">Alertas de Déficit de Horas Semanales</div>
+                              <small class="text-muted">Aviso cuando un estudiante no cumple el registro de horas estipulado</small>
+                            </td>
+                            <td class="text-center">
+                              <input class="form-check-input" type="checkbox" name="cfg_horas_email" checked>
+                            </td>
+                            <td class="text-center">
+                              <input class="form-check-input" type="checkbox" name="cfg_horas_sistema" checked>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="fw-semibold">Culminación de Prácticas y Certificados</div>
+                              <small class="text-muted">Aviso de expedición de certificados finales y validación institucional</small>
+                            </td>
+                            <td class="text-center">
+                              <input class="form-check-input" type="checkbox" name="cfg_cert_email" checked>
+                            </td>
+                            <td class="text-center">
+                              <input class="form-check-input" type="checkbox" name="cfg_cert_sistema" checked>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="fw-semibold">Vencimiento de Convenios Interinstitucionales</div>
+                              <small class="text-muted">Alertas tempranas de convenios marco que vencen en 30 días o menos</small>
+                            </td>
+                            <td class="text-center">
+                              <input class="form-check-input" type="checkbox" name="cfg_conv_email" checked>
+                            </td>
+                            <td class="text-center">
+                              <input class="form-check-input" type="checkbox" name="cfg_conv_sistema" checked>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Parámetros Adicionales de Entrega -->
+              <div class="col-12 col-md-6">
+                <label class="form-label" for="cfgFrecuencia">Frecuencia de envío de resúmenes por correo</label>
+                <select class="form-select" id="cfgFrecuencia">
+                  <option value="inmediato">Inmediato (Notificación instantánea por evento)</option>
+                  <option value="diario" selected>Resumen diario matutino (08:00 AM)</option>
+                  <option value="semanal">Resumen semanal consolidado (Lunes 07:00 AM)</option>
+                </select>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label class="form-label" for="cfgEmailCopia">Correo institucional alternativo para respaldo</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                  <input type="email" class="form-control" id="cfgEmailCopia" value="coordinacion.practicas@ug.edu.ec" placeholder="nombre@ug.edu.ec">
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Botones de Acción (Regla 11: Alineados a la derecha) -->
+            <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+              <button type="reset" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-counterclockwise me-1"></i> Restablecer Valores
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check2-circle me-1"></i> Guardar Preferencias
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- MODAL: DETALLE DE NOTIFICACIÓN                           -->
+        <!-- ======================================================== -->
+        <div class="modal fade" id="modalDetalleNotificacion" tabindex="-1" aria-labelledby="modalDetalleLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalDetalleLabel">
+                  <i class="bi bi-info-circle text-primary me-2"></i>Detalle de Notificación
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body">
+                <h6 class="fw-bold mb-2" id="modalNotifTitulo">Documento pendiente de validación</h6>
+                <div class="alert alert-light border small text-muted mb-3">
+                  <i class="bi bi-building me-1"></i> Universidad de Guayaquil &bull; Sistema de Gestión de Prácticas
+                </div>
+                <p id="modalNotifCuerpo" class="text-secondary small">
+                  Información complementaria del registro y acciones sugeridas para la resolución del evento.
+                </p>
+                <div class="p-3 bg-light rounded-3 small">
+                  <div class="row g-2">
+                    <div class="col-6"><strong>Prioridad:</strong> <span class="badge bg-warning text-dark">Alta</span></div>
+                    <div class="col-6"><strong>Medio:</strong> Email y Sistema Web</div>
+                    <div class="col-12"><strong>Acción sugerida:</strong> Revisar el módulo de validación documental o contactar al tutor designado.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                  <i class="bi bi-box-arrow-up-right me-1"></i> Ir al Módulo Correspondiente
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- MODAL: NUEVA NOTIFICACIÓN / EMISIÓN DE AVISO             -->
+        <!-- ======================================================== -->
+        <div class="modal fade" id="modalNuevaNotificacion" tabindex="-1" aria-labelledby="modalNuevaNotifLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalNuevaNotifLabel">
+                  <i class="bi bi-send-plus-fill text-primary me-2"></i>Emitir Notificación Institucional
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <form onsubmit="emitirNotificacion(event)">
+                <div class="modal-body">
+                  <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                      <label class="form-label" for="nuevaCarrera">Carrera Destino</label>
+                      <select class="form-select" id="nuevaCarrera" required>
+                        <option value="">Seleccione carrera...</option>
+                        <option value="sistemas">Ing. en Sistemas Computacionales</option>
+                        <option value="software">Ing. en Software</option>
+                        <option value="civil">Ing. Civil</option>
+                        <option value="industrial">Ing. Industrial</option>
+                        <option value="quimica">Ing. Química</option>
+                        <option value="todas">Todas las Carreras</option>
+                      </select>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label class="form-label" for="nuevaGrupo">Grupo de Destinatarios</label>
+                      <select class="form-select" id="nuevaGrupo" required>
+                        <option value="">Seleccione grupo...</option>
+                        <option value="estudiantes">Estudiantes Practicantes</option>
+                        <option value="tutores">Tutores Empresariales</option>
+                        <option value="academicos">Tutores Académicos UG</option>
+                        <option value="empresas">Empresas en Convenio</option>
+                      </select>
+                    </div>
+                    <div class="col-12">
+                      <label class="form-label" for="nuevaAsunto">Asunto de la Notificación</label>
+                      <input type="text" class="form-control" id="nuevaAsunto" placeholder="Ej: Recordatorio de entrega de informe final de prácticas..." required>
+                    </div>
+                    <div class="col-12">
+                      <label class="form-label" for="nuevaMensaje">Cuerpo del Mensaje</label>
+                      <textarea class="form-control" id="nuevaMensaje" rows="4" placeholder="Escriba el contenido del aviso formal para los destinatarios seleccionados..." required></textarea>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label class="form-label">Canales de Despacho</label>
+                      <div class="d-flex gap-3 mt-1">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="envioEmail" checked>
+                          <label class="form-check-label small" for="envioEmail">Correo (@ug.edu.ec)</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="envioSistema" checked>
+                          <label class="form-check-label small" for="envioSistema">Bandeja Sistema</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label class="form-label" for="nuevaPrioridad">Nivel de Prioridad</label>
+                      <select class="form-select" id="nuevaPrioridad">
+                        <option value="normal">Informativa (Normal)</option>
+                        <option value="media">Media (Seguimiento)</option>
+                        <option value="urgente">Urgente (48 horas límite)</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-send-fill me-1"></i> Despachar Aviso
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- SCRIPTS ESPECÍFICOS DE INTERACCIÓN                        -->
+        <!-- ======================================================== -->
+        <script>
+          // Marcar todas como leídas
+          document.addEventListener('DOMContentLoaded', function () {
+            const btnMarcar = document.getElementById('btnMarcarTodoLeido');
+            if (btnMarcar) {
+              btnMarcar.addEventListener('click', function () {
+                document.querySelectorAll('.notification-item.unread').forEach(item => {
+                  item.classList.remove('unread');
+                });
+                const tabBadge = document.getElementById('tabNoLeidasBadge');
+                if (tabBadge) tabBadge.textContent = '0';
+                const statVal = document.getElementById('statNoLeidasVal');
+                if (statVal) statVal.textContent = '0';
+
+                const alertBox = document.getElementById('alertMarcarLeido');
+                if (alertBox) {
+                  alertBox.classList.remove('d-none');
+                  setTimeout(() => {
+                    alertBox.classList.add('d-none');
+                  }, 4000);
+                }
+              });
+            }
+
+            // Búsqueda en vivo en la lista de notificaciones
+            const searchInput = document.getElementById('filterSearch');
+            if (searchInput) {
+              searchInput.addEventListener('input', function () {
+                const term = this.value.toLowerCase();
+                document.querySelectorAll('#tab-todas .notification-item').forEach(item => {
+                  const txt = item.textContent.toLowerCase();
+                  item.style.display = txt.includes(term) ? '' : 'none';
+                });
+              });
+            }
+
+            // Limpieza de filtros
+            const btnLimpiar = document.getElementById('btnLimpiarFiltros');
+            if (btnLimpiar) {
+              btnLimpiar.addEventListener('click', function () {
+                if (searchInput) searchInput.value = '';
+                const fTipo = document.getElementById('filterTipo');
+                if (fTipo) fTipo.value = '';
+                const fCarrera = document.getElementById('filterCarrera');
+                if (fCarrera) fCarrera.value = '';
+                const fFecha = document.getElementById('filterFecha');
+                if (fFecha) fFecha.value = '';
+
+                document.querySelectorAll('#tab-todas .notification-item').forEach(item => {
+                  item.style.display = '';
+                });
+              });
+            }
+
+            // Botón filtrar
+            const btnFiltrar = document.getElementById('btnFiltrar');
+            if (btnFiltrar) {
+              btnFiltrar.addEventListener('click', function () {
+                const tipo = document.getElementById('filterTipo').value.toLowerCase();
+                const carrera = document.getElementById('filterCarrera').value.toLowerCase();
+                const term = searchInput ? searchInput.value.toLowerCase() : '';
+
+                document.querySelectorAll('#tab-todas .notification-item').forEach(item => {
+                  const txt = item.textContent.toLowerCase();
+                  const matchTerm = !term || txt.includes(term);
+                  const matchCarrera = !carrera || txt.includes(carrera);
+                  const matchTipo = !tipo || txt.includes(tipo);
+
+                  item.style.display = (matchTerm && matchCarrera && matchTipo) ? '' : 'none';
+                });
+              });
+            }
+
+            // Configuración del modal de detalle
+            const modalDetalle = document.getElementById('modalDetalleNotificacion');
+            if (modalDetalle) {
+              modalDetalle.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                if (!button) return;
+                const titulo = button.getAttribute('data-titulo') || 'Detalle de Notificación';
+                const detalle = button.getAttribute('data-detalle') || '';
+                
+                const modalTitle = document.getElementById('modalNotifTitulo');
+                const modalBody = document.getElementById('modalNotifCuerpo');
+                if (modalTitle) modalTitle.textContent = titulo;
+                if (modalBody) modalBody.textContent = detalle;
+              });
+            }
+          });
+
+          // Marcar elemento individual como leído
+          function marcarComoLeida(element) {
+            const notifItem = element.closest('.notification-item');
+            if (notifItem) {
+              notifItem.classList.remove('unread');
+              const remainingUnread = document.querySelectorAll('#tab-todas .notification-item.unread').length;
+              const tabBadge = document.getElementById('tabNoLeidasBadge');
+              if (tabBadge) tabBadge.textContent = remainingUnread;
+              const statVal = document.getElementById('statNoLeidasVal');
+              if (statVal) statVal.textContent = remainingUnread;
+            }
+          }
+
+          // Eliminar notificación visualmente
+          function eliminarNotificacion(element) {
+            const notifItem = element.closest('.notification-item');
+            if (notifItem) {
+              notifItem.style.opacity = '0';
+              setTimeout(() => {
+                notifItem.remove();
+              }, 200);
+            }
+          }
+
+          // Guardar formulario de preferencias
+          function guardarPreferencias(e) {
+            e.preventDefault();
+            const alertBox = document.getElementById('alertMarcarLeido');
+            if (alertBox) {
+              alertBox.classList.remove('d-none', 'alert-success');
+              alertBox.classList.add('alert-primary');
+              alertBox.innerHTML = '<i class="bi bi-save-fill me-2"></i> ¡Preferencias de notificación y canales actualizados exitosamente!';
+              setTimeout(() => {
+                alertBox.classList.add('d-none');
+              }, 4000);
+            }
+          }
+
+          // Despacho de nueva notificación
+          function emitirNotificacion(e) {
+            e.preventDefault();
+            const modalEl = document.getElementById('modalNuevaNotificacion');
+            const modalInstance = bootstrap.Modal.getInstance(modalEl);
+            if (modalInstance) modalInstance.hide();
+
+            const alertBox = document.getElementById('alertMarcarLeido');
+            if (alertBox) {
+              alertBox.classList.remove('d-none', 'alert-primary');
+              alertBox.classList.add('alert-success');
+              alertBox.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i> Notificación institucional emitida y enviada a los destinatarios.';
+              setTimeout(() => {
+                alertBox.classList.add('d-none');
+              }, 4000);
+            }
+          }
+        </script>
+
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

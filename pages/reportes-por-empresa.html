@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reporte por Empresa — Gestión de Prácticas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="../assets/css/custom.css" rel="stylesheet">
+</head>
+<body data-page="rep-empresa" data-section="Reportes">
+  <div class="wrapper">
+    <aside id="sidebar"></aside>
+    <div class="sidebar-overlay"></div>
+    <div class="main-content">
+      <nav id="topbar"></nav>
+      <div class="content">
+
+        <!-- Encabezado de Página (Gestalt: Continuidad) -->
+        <div class="page-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+          <div>
+            <h2>Reporte por Empresa</h2>
+            <p>Supervisión de entidades formadoras, convenios interinstitucionales vigentes y capacidad de recepción de practicantes preprofesionales UG.</p>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <button type="button" class="btn btn-outline-secondary" onclick="window.print()">
+              <i class="bi bi-printer me-1"></i>Imprimir
+            </button>
+            <div class="dropdown">
+              <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownExportar" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-download me-1"></i>Exportar Reporte
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="dropdownExportar">
+                <li><h6 class="dropdown-header">Formatos Disponibles</h6></li>
+                <li>
+                  <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalExportar">
+                    <i class="bi bi-file-earmark-pdf text-danger me-2"></i>Exportar como PDF (.pdf)
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalExportar">
+                    <i class="bi bi-file-earmark-excel text-success me-2"></i>Exportar como Excel (.xlsx)
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalExportar">
+                    <i class="bi bi-filetype-csv text-primary me-2"></i>Exportar como CSV (.csv)
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjetas de Estadísticas (Gestalt: Proximidad, Región Común y Cierre) -->
+        <div class="row g-3 mb-4">
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Empresas Vinculadas</div>
+                  <div class="stat-value text-primary mt-1">48</div>
+                  <small class="text-muted"><i class="bi bi-buildings me-1"></i>Guayaquil y zona metropolitana</small>
+                </div>
+                <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                  <i class="bi bi-building"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Convenios Vigentes</div>
+                  <div class="stat-value text-success mt-1">42 <small class="fs-6 text-muted">/ 48</small></div>
+                  <small class="text-success"><i class="bi bi-shield-check me-1"></i>87.5% de cobertura formal</small>
+                </div>
+                <div class="stat-icon bg-success bg-opacity-10 text-success">
+                  <i class="bi bi-patch-check"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Estudiantes Asignados</div>
+                  <div class="stat-value text-info mt-1">127</div>
+                  <small class="text-muted"><i class="bi bi-people me-1"></i>Prácticas en curso UG</small>
+                </div>
+                <div class="stat-icon bg-info bg-opacity-10 text-info">
+                  <i class="bi bi-person-workspace"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-label">Cupos Disponibles</div>
+                  <div class="stat-value text-warning mt-1">38</div>
+                  <small class="text-muted"><i class="bi bi-door-open me-1"></i>Plazas habilitadas para postulación</small>
+                </div>
+                <div class="stat-icon bg-warning bg-opacity-10 text-warning">
+                  <i class="bi bi-briefcase"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de Filtros (Gestalt: Proximidad y Región Común) -->
+        <div class="filter-bar">
+          <div class="form-group flex-grow-1">
+            <label class="form-label" for="searchEmpresa"><i class="bi bi-search me-1"></i>Búsqueda de Empresa</label>
+            <div class="input-group input-group-sm">
+              <span class="input-group-text bg-white"><i class="bi bi-buildings text-muted"></i></span>
+              <input type="text" id="searchEmpresa" class="form-control" placeholder="Buscar por nombre, RUC o sector económico..." data-search-table="tablaEmpresas">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="filterSector"><i class="bi bi-briefcase me-1"></i>Sector Económico</label>
+            <select id="filterSector" class="form-select form-select-sm">
+              <option value="">Todos los sectores</option>
+              <option value="Industrial">Industrial y Manufactura</option>
+              <option value="Banca">Banca y Finanzas</option>
+              <option value="Energía">Energía y Servicios Básicos</option>
+              <option value="Alimentos">Consumo Masivo / Alimentos</option>
+              <option value="Tecnología">Tecnología y Telecomunicaciones</option>
+              <option value="Retail">Retail, Logística y Tecnología</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="filterConvenio"><i class="bi bi-file-earmark-check me-1"></i>Estado del Convenio</label>
+            <select id="filterConvenio" class="form-select form-select-sm">
+              <option value="">Todos los estados</option>
+              <option value="vigente">Convenio Vigente (Sí)</option>
+              <option value="no-vigente">Sin Convenio / Por Renovar (No)</option>
+            </select>
+          </div>
+
+          <div class="d-flex gap-2 align-self-end">
+            <button type="button" class="btn btn-sm btn-primary" id="btnFiltrar">
+              <i class="bi bi-funnel-fill me-1"></i>Filtrar
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="btnResetFilters">
+              <i class="bi bi-arrow-counterclockwise me-1"></i>Limpiar
+            </button>
+          </div>
+        </div>
+
+        <!-- Contenedor de Tabla (Gestalt: Cierre, Similitud y Continuidad) -->
+        <div class="table-container mb-4">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="tablaEmpresas">
+              <thead class="table-light">
+                <tr>
+                  <th scope="col" class="ps-3">Empresa</th>
+                  <th scope="col">Sector</th>
+                  <th scope="col" class="text-center">Convenio Vigente</th>
+                  <th scope="col" class="text-center">Estudiantes Asignados</th>
+                  <th scope="col" class="text-center">Cupos Disponibles</th>
+                  <th scope="col">Calificación</th>
+                  <th scope="col" class="text-end pe-3">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Empresa 1: Holcim Ecuador S.A. -->
+                <tr data-sector="Industrial" data-convenio="vigente">
+                  <td class="ps-3">
+                    <div class="d-flex align-items-center">
+                      <div class="rounded-3 bg-primary bg-opacity-10 text-primary fw-bold d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 44px; height: 44px; font-size: 0.9rem;">
+                        HE
+                      </div>
+                      <div>
+                        <div class="fw-bold text-dark">Holcim Ecuador S.A.</div>
+                        <div class="small text-muted"><i class="bi bi-geo-alt me-1"></i>Vía a la Costa Km 18.5 &bull; RUC: 0990004183001</div>
+                        <div class="small text-secondary"><i class="bi bi-person-badge me-1"></i>Tutor: Ing. Carlos Andrés Moreira</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border">
+                      <i class="bi bi-gear-wide-connected text-secondary me-1"></i>Industrial y Construcción
+                    </span>
+                    <div class="small text-muted mt-1">Ing. Civil, Ing. Industrial</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle-fill me-1"></i>Sí
+                    </span>
+                    <div class="small text-muted mt-1" style="font-size: 0.72rem;">Expira: 15/12/2027</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="fw-bold text-dark fs-6">18</span>
+                    <span class="text-muted small">/ 24</span>
+                    <div class="progress mt-1 mx-auto" style="height: 5px; max-width: 90px;">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-light text-primary border border-primary-subtle px-2 py-1">
+                      <i class="bi bi-person-plus me-1"></i>6 cupos
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-warning text-nowrap">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-half"></i>
+                      <span class="text-dark fw-bold ms-1">4.8</span>
+                    </div>
+                    <small class="text-muted" style="font-size: 0.72rem;">(32 evaluaciones)</small>
+                  </td>
+                  <td class="text-end pe-3">
+                    <div class="d-flex justify-content-end gap-1">
+                      <button type="button" class="btn btn-action btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalDetalleEmpresa" data-empresa="Holcim Ecuador S.A." title="Ver detalle de empresa y convenio">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button type="button" class="btn btn-action btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalEstudiantes" data-empresa="Holcim Ecuador S.A." title="Ver estudiantes asignados">
+                        <i class="bi bi-people"></i>
+                      </button>
+                      <button type="button" class="btn btn-action btn-outline-secondary" title="Descargar informe en PDF" onclick="alert('Descargando ficha técnica de Holcim Ecuador S.A...')">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Empresa 2: Banco Pichincha C.A. -->
+                <tr data-sector="Banca" data-convenio="vigente">
+                  <td class="ps-3">
+                    <div class="d-flex align-items-center">
+                      <div class="rounded-3 bg-warning bg-opacity-10 text-dark fw-bold d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 44px; height: 44px; font-size: 0.9rem;">
+                        BP
+                      </div>
+                      <div>
+                        <div class="fw-bold text-dark">Banco Pichincha C.A.</div>
+                        <div class="small text-muted"><i class="bi bi-geo-alt me-1"></i>Av. 9 de Octubre y Pichincha, Guayaquil &bull; RUC: 1790010937001</div>
+                        <div class="small text-secondary"><i class="bi bi-person-badge me-1"></i>Tutor: Msc. María Fernanda López</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border">
+                      <i class="bi bi-bank text-secondary me-1"></i>Banca y Finanzas
+                    </span>
+                    <div class="small text-muted mt-1">Ing. en Software, Ing. en Sistemas</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle-fill me-1"></i>Sí
+                    </span>
+                    <div class="small text-muted mt-1" style="font-size: 0.72rem;">Expira: 20/08/2026</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="fw-bold text-dark fs-6">24</span>
+                    <span class="text-muted small">/ 32</span>
+                    <div class="progress mt-1 mx-auto" style="height: 5px; max-width: 90px;">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-light text-primary border border-primary-subtle px-2 py-1">
+                      <i class="bi bi-person-plus me-1"></i>8 cupos
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-warning text-nowrap">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <span class="text-dark fw-bold ms-1">4.9</span>
+                    </div>
+                    <small class="text-muted" style="font-size: 0.72rem;">(45 evaluaciones)</small>
+                  </td>
+                  <td class="text-end pe-3">
+                    <div class="d-flex justify-content-end gap-1">
+                      <button type="button" class="btn btn-action btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalDetalleEmpresa" data-empresa="Banco Pichincha C.A." title="Ver detalle de empresa y convenio">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button type="button" class="btn btn-action btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalEstudiantes" data-empresa="Banco Pichincha C.A." title="Ver estudiantes asignados">
+                        <i class="bi bi-people"></i>
+                      </button>
+                      <button type="button" class="btn btn-action btn-outline-secondary" title="Descargar informe en PDF" onclick="alert('Descargando ficha técnica de Banco Pichincha C.A...')">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Empresa 3: CNEL EP -->
+                <tr data-sector="Energía" data-convenio="vigente">
+                  <td class="ps-3">
+                    <div class="d-flex align-items-center">
+                      <div class="rounded-3 bg-info bg-opacity-10 text-info fw-bold d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 44px; height: 44px; font-size: 0.9rem;">
+                        CN
+                      </div>
+                      <div>
+                        <div class="fw-bold text-dark">CNEL EP (Unidad Guayaquil)</div>
+                        <div class="small text-muted"><i class="bi bi-geo-alt me-1"></i>Cdla. Garzota Mz. 110, Guayaquil &bull; RUC: 0968599020001</div>
+                        <div class="small text-secondary"><i class="bi bi-person-badge me-1"></i>Tutor: Ing. Roberto Xavier Cevallos</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border">
+                      <i class="bi bi-lightning-charge text-secondary me-1"></i>Energía y Servicios Básicos
+                    </span>
+                    <div class="small text-muted mt-1">Ing. en Sistemas, Ing. Industrial</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle-fill me-1"></i>Sí
+                    </span>
+                    <div class="small text-muted mt-1" style="font-size: 0.72rem;">Expira: 10/11/2026</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="fw-bold text-dark fs-6">15</span>
+                    <span class="text-muted small">/ 20</span>
+                    <div class="progress mt-1 mx-auto" style="height: 5px; max-width: 90px;">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-light text-primary border border-primary-subtle px-2 py-1">
+                      <i class="bi bi-person-plus me-1"></i>5 cupos
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-warning text-nowrap">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-half"></i>
+                      <span class="text-dark fw-bold ms-1">4.5</span>
+                    </div>
+                    <small class="text-muted" style="font-size: 0.72rem;">(28 evaluaciones)</small>
+                  </td>
+                  <td class="text-end pe-3">
+                    <div class="d-flex justify-content-end gap-1">
+                      <button type="button" class="btn btn-action btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalDetalleEmpresa" data-empresa="CNEL EP (Unidad Guayaquil)" title="Ver detalle de empresa y convenio">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button type="button" class="btn btn-action btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalEstudiantes" data-empresa="CNEL EP (Unidad Guayaquil)" title="Ver estudiantes asignados">
+                        <i class="bi bi-people"></i>
+                      </button>
+                      <button type="button" class="btn btn-action btn-outline-secondary" title="Descargar informe en PDF" onclick="alert('Descargando ficha técnica de CNEL EP...')">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Empresa 4: Pronaca -->
+                <tr data-sector="Alimentos" data-convenio="vigente">
+                  <td class="ps-3">
+                    <div class="d-flex align-items-center">
+                      <div class="rounded-3 bg-danger bg-opacity-10 text-danger fw-bold d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 44px; height: 44px; font-size: 0.9rem;">
+                        PR
+                      </div>
+                      <div>
+                        <div class="fw-bold text-dark">Pronaca (Planta Durán - Guayaquil)</div>
+                        <div class="small text-muted"><i class="bi bi-geo-alt me-1"></i>Km 6.5 Vía Durán - Tambo &bull; RUC: 1790082717001</div>
+                        <div class="small text-secondary"><i class="bi bi-person-badge me-1"></i>Tutor: Dra. Gabriela Patricia Salazar</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border">
+                      <i class="bi bi-basket text-secondary me-1"></i>Consumo Masivo / Alimentos
+                    </span>
+                    <div class="small text-muted mt-1">Ing. Industrial, Ing. Química</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle-fill me-1"></i>Sí
+                    </span>
+                    <div class="small text-muted mt-1" style="font-size: 0.72rem;">Expira: 05/03/2027</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="fw-bold text-dark fs-6">12</span>
+                    <span class="text-muted small">/ 16</span>
+                    <div class="progress mt-1 mx-auto" style="height: 5px; max-width: 90px;">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-light text-primary border border-primary-subtle px-2 py-1">
+                      <i class="bi bi-person-plus me-1"></i>4 cupos
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-warning text-nowrap">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-half"></i>
+                      <span class="text-dark fw-bold ms-1">4.7</span>
+                    </div>
+                    <small class="text-muted" style="font-size: 0.72rem;">(22 evaluaciones)</small>
+                  </td>
+                  <td class="text-end pe-3">
+                    <div class="d-flex justify-content-end gap-1">
+                      <button type="button" class="btn btn-action btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalDetalleEmpresa" data-empresa="Pronaca (Planta Durán - Guayaquil)" title="Ver detalle de empresa y convenio">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button type="button" class="btn btn-action btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalEstudiantes" data-empresa="Pronaca (Planta Durán - Guayaquil)" title="Ver estudiantes asignados">
+                        <i class="bi bi-people"></i>
+                      </button>
+                      <button type="button" class="btn btn-action btn-outline-secondary" title="Descargar informe en PDF" onclick="alert('Descargando ficha técnica de Pronaca...')">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Empresa 5: CNT EP -->
+                <tr data-sector="Tecnología" data-convenio="vigente">
+                  <td class="ps-3">
+                    <div class="d-flex align-items-center">
+                      <div class="rounded-3 bg-primary bg-opacity-10 text-primary fw-bold d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 44px; height: 44px; font-size: 0.9rem;">
+                        CT
+                      </div>
+                      <div>
+                        <div class="fw-bold text-dark">CNT EP (Guayas - Guayaquil)</div>
+                        <div class="small text-muted"><i class="bi bi-geo-alt me-1"></i>Av. Las Américas y Benjamín Rosales &bull; RUC: 1768152560001</div>
+                        <div class="small text-secondary"><i class="bi bi-person-badge me-1"></i>Tutor: Ing. Diego Fernando Villacís</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border">
+                      <i class="bi bi-hdd-network text-secondary me-1"></i>Tecnología y Telecomunicaciones
+                    </span>
+                    <div class="small text-muted mt-1">Ing. en Software, Ing. en Sistemas</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle-fill me-1"></i>Sí
+                    </span>
+                    <div class="small text-muted mt-1" style="font-size: 0.72rem;">Expira: 30/09/2025</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="fw-bold text-dark fs-6">20</span>
+                    <span class="text-muted small">/ 22</span>
+                    <div class="progress mt-1 mx-auto" style="height: 5px; max-width: 90px;">
+                      <div class="progress-bar bg-warning" role="progressbar" style="width: 91%;" aria-valuenow="91" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-light text-warning border border-warning-subtle px-2 py-1">
+                      <i class="bi bi-exclamation-circle me-1"></i>2 cupos
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-warning text-nowrap">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star text-muted"></i>
+                      <span class="text-dark fw-bold ms-1">4.3</span>
+                    </div>
+                    <small class="text-muted" style="font-size: 0.72rem;">(38 evaluaciones)</small>
+                  </td>
+                  <td class="text-end pe-3">
+                    <div class="d-flex justify-content-end gap-1">
+                      <button type="button" class="btn btn-action btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalDetalleEmpresa" data-empresa="CNT EP (Guayas - Guayaquil)" title="Ver detalle de empresa y convenio">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button type="button" class="btn btn-action btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalEstudiantes" data-empresa="CNT EP (Guayas - Guayaquil)" title="Ver estudiantes asignados">
+                        <i class="bi bi-people"></i>
+                      </button>
+                      <button type="button" class="btn btn-action btn-outline-secondary" title="Descargar informe en PDF" onclick="alert('Descargando ficha técnica de CNT EP...')">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Empresa 6: Nestlé Ecuador S.A. -->
+                <tr data-sector="Alimentos" data-convenio="vigente">
+                  <td class="ps-3">
+                    <div class="d-flex align-items-center">
+                      <div class="rounded-3 bg-success bg-opacity-10 text-success fw-bold d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 44px; height: 44px; font-size: 0.9rem;">
+                        NE
+                      </div>
+                      <div>
+                        <div class="fw-bold text-dark">Nestlé Ecuador S.A.</div>
+                        <div class="small text-muted"><i class="bi bi-geo-alt me-1"></i>Av. Juan Tanca Marengo Km 4.5, Guayaquil &bull; RUC: 1790016919001</div>
+                        <div class="small text-secondary"><i class="bi bi-person-badge me-1"></i>Tutor: Ing. Andrea Verónica Mendoza</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border">
+                      <i class="bi bi-egg-fried text-secondary me-1"></i>Consumo Masivo / Alimentos
+                    </span>
+                    <div class="small text-muted mt-1">Ing. Química, Ing. Industrial</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle-fill me-1"></i>Sí
+                    </span>
+                    <div class="small text-muted mt-1" style="font-size: 0.72rem;">Expira: 18/06/2027</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="fw-bold text-dark fs-6">14</span>
+                    <span class="text-muted small">/ 20</span>
+                    <div class="progress mt-1 mx-auto" style="height: 5px; max-width: 90px;">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-light text-primary border border-primary-subtle px-2 py-1">
+                      <i class="bi bi-person-plus me-1"></i>6 cupos
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-warning text-nowrap">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <span class="text-dark fw-bold ms-1">4.9</span>
+                    </div>
+                    <small class="text-muted" style="font-size: 0.72rem;">(30 evaluaciones)</small>
+                  </td>
+                  <td class="text-end pe-3">
+                    <div class="d-flex justify-content-end gap-1">
+                      <button type="button" class="btn btn-action btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalDetalleEmpresa" data-empresa="Nestlé Ecuador S.A." title="Ver detalle de empresa y convenio">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button type="button" class="btn btn-action btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalEstudiantes" data-empresa="Nestlé Ecuador S.A." title="Ver estudiantes asignados">
+                        <i class="bi bi-people"></i>
+                      </button>
+                      <button type="button" class="btn btn-action btn-outline-secondary" title="Descargar informe en PDF" onclick="alert('Descargando ficha técnica de Nestlé Ecuador S.A...')">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Empresa 7: Cervecería Nacional CN S.A. -->
+                <tr data-sector="Industrial" data-convenio="no-vigente">
+                  <td class="ps-3">
+                    <div class="d-flex align-items-center">
+                      <div class="rounded-3 bg-secondary bg-opacity-10 text-secondary fw-bold d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 44px; height: 44px; font-size: 0.9rem;">
+                        CN
+                      </div>
+                      <div>
+                        <div class="fw-bold text-dark">Cervecería Nacional CN S.A.</div>
+                        <div class="small text-muted"><i class="bi bi-geo-alt me-1"></i>Km 14.5 Vía a Daule, Pascuales &bull; RUC: 0990005236001</div>
+                        <div class="small text-secondary"><i class="bi bi-person-badge me-1"></i>Tutor: Ing. Washington Emilio Vera</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border">
+                      <i class="bi bi-funnel text-secondary me-1"></i>Industrial y Manufactura
+                    </span>
+                    <div class="small text-muted mt-1">Ing. Industrial, Ing. Química</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-danger">
+                      <i class="bi bi-x-circle-fill me-1"></i>No
+                    </span>
+                    <div class="small text-danger fw-semibold mt-1" style="font-size: 0.72rem;">En Renovación</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="fw-bold text-dark fs-6">8</span>
+                    <span class="text-muted small">/ 8</span>
+                    <div class="progress mt-1 mx-auto" style="height: 5px; max-width: 90px;">
+                      <div class="progress-bar bg-secondary" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-light text-secondary border border-secondary-subtle px-2 py-1">
+                      <i class="bi bi-slash-circle me-1"></i>0 cupos
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-warning text-nowrap">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-half"></i>
+                      <span class="text-dark fw-bold ms-1">4.6</span>
+                    </div>
+                    <small class="text-muted" style="font-size: 0.72rem;">(19 evaluaciones)</small>
+                  </td>
+                  <td class="text-end pe-3">
+                    <div class="d-flex justify-content-end gap-1">
+                      <button type="button" class="btn btn-action btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalDetalleEmpresa" data-empresa="Cervecería Nacional CN S.A." title="Ver detalle de empresa y convenio">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button type="button" class="btn btn-action btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalEstudiantes" data-empresa="Cervecería Nacional CN S.A." title="Ver estudiantes asignados">
+                        <i class="bi bi-people"></i>
+                      </button>
+                      <button type="button" class="btn btn-action btn-outline-secondary" title="Descargar informe en PDF" onclick="alert('Descargando ficha técnica de Cervecería Nacional CN S.A...')">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Empresa 8: Almacenes Tía S.A. -->
+                <tr data-sector="Retail" data-convenio="vigente">
+                  <td class="ps-3">
+                    <div class="d-flex align-items-center">
+                      <div class="rounded-3 bg-danger bg-opacity-10 text-danger fw-bold d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 44px; height: 44px; font-size: 0.9rem;">
+                        TÍA
+                      </div>
+                      <div>
+                        <div class="fw-bold text-dark">Almacenes Tía S.A.</div>
+                        <div class="small text-muted"><i class="bi bi-geo-alt me-1"></i>Av. Chimborazo y Luque, Guayaquil &bull; RUC: 0990017514001</div>
+                        <div class="small text-secondary"><i class="bi bi-person-badge me-1"></i>Tutor: Lcda. Mónica Elizabeth Zambrano</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border">
+                      <i class="bi bi-cart3 text-secondary me-1"></i>Retail, Logística y Tecnología
+                    </span>
+                    <div class="small text-muted mt-1">Ing. en Software, Ing. Industrial</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-estado bg-success">
+                      <i class="bi bi-check-circle-fill me-1"></i>Sí
+                    </span>
+                    <div class="small text-muted mt-1" style="font-size: 0.72rem;">Expira: 22/04/2028</div>
+                  </td>
+                  <td class="text-center">
+                    <span class="fw-bold text-dark fs-6">16</span>
+                    <span class="text-muted small">/ 23</span>
+                    <div class="progress mt-1 mx-auto" style="height: 5px; max-width: 90px;">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-light text-primary border border-primary-subtle px-2 py-1">
+                      <i class="bi bi-person-plus me-1"></i>7 cupos
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-warning text-nowrap">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-half"></i>
+                      <span class="text-dark fw-bold ms-1">4.6</span>
+                    </div>
+                    <small class="text-muted" style="font-size: 0.72rem;">(26 evaluaciones)</small>
+                  </td>
+                  <td class="text-end pe-3">
+                    <div class="d-flex justify-content-end gap-1">
+                      <button type="button" class="btn btn-action btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalDetalleEmpresa" data-empresa="Almacenes Tía S.A." title="Ver detalle de empresa y convenio">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button type="button" class="btn btn-action btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalEstudiantes" data-empresa="Almacenes Tía S.A." title="Ver estudiantes asignados">
+                        <i class="bi bi-people"></i>
+                      </button>
+                      <button type="button" class="btn btn-action btn-outline-secondary" title="Descargar informe en PDF" onclick="alert('Descargando ficha técnica de Almacenes Tía S.A...')">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Paginación (Gestalt: Continuidad) -->
+          <div class="pagination-container">
+            <div class="pagination-info">
+              Mostrando <span class="fw-bold">1</span> a <span class="fw-bold">8</span> de <span class="fw-bold">48</span> empresas registradas
+            </div>
+            <nav aria-label="Navegación de páginas">
+              <ul class="pagination pagination-sm mb-0">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i class="bi bi-chevron-left me-1"></i>Anterior</a>
+                </li>
+                <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">Siguiente <i class="bi bi-chevron-right ms-1"></i></a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <!-- MODAL: DETALLE DE EMPRESA Y CONVENIO (Gestalt: Proximidad y Región Común) -->
+        <div class="modal fade" id="modalDetalleEmpresa" tabindex="-1" aria-labelledby="modalDetalleEmpresaLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+              <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="modalDetalleEmpresaLabel">
+                  <i class="bi bi-building-check text-primary me-2"></i>Ficha Institucional de la Entidad Receptora
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body p-4">
+                <!-- Sección 1: Datos Generales -->
+                <div class="form-section mb-3">
+                  <div class="form-section-title">
+                    <i class="bi bi-info-circle"></i>Datos Generales y Razón Social
+                  </div>
+                  <div class="row g-3">
+                    <div class="col-md-7">
+                      <label class="form-label">Razón Social / Entidad Receptora</label>
+                      <input type="text" class="form-control" id="modalEmpresaNombre" value="Holcim Ecuador S.A." readonly>
+                    </div>
+                    <div class="col-md-5">
+                      <label class="form-label">Número de RUC</label>
+                      <input type="text" class="form-control" value="0990004183001" readonly>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Sector Económico</label>
+                      <input type="text" class="form-control" value="Industrial y Construcción" readonly>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Ubicación de Operaciones</label>
+                      <input type="text" class="form-control" value="Vía a la Costa Km 18.5, Guayaquil, Guayas" readonly>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Sección 2: Términos del Convenio -->
+                <div class="form-section mb-3">
+                  <div class="form-section-title">
+                    <i class="bi bi-file-earmark-text"></i>Convenio Marco de Cooperación Interinstitucional
+                  </div>
+                  <div class="row g-3">
+                    <div class="col-md-4">
+                      <label class="form-label">Código de Convenio</label>
+                      <input type="text" class="form-control" value="UG-CONV-2022-084" readonly>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label">Fecha de Suscripción</label>
+                      <input type="text" class="form-control" value="15/12/2022" readonly>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label">Fecha de Caducidad</label>
+                      <input type="text" class="form-control" value="15/12/2027" readonly>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Estado Jurídico del Convenio</label>
+                      <div>
+                        <span class="badge badge-estado bg-success"><i class="bi bi-shield-check me-1"></i>Vigente y Convalidado</span>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Carreras Habilitadas UG</label>
+                      <div class="small text-muted">Ing. Civil, Ing. Industrial, Ing. en Sistemas Computacionales</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Sección 3: Tutoría y Contacto Empresarial -->
+                <div class="form-section">
+                  <div class="form-section-title">
+                    <i class="bi bi-person-workspace"></i>Tutor Empresarial Designado
+                  </div>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label class="form-label">Nombre del Tutor Empresarial</label>
+                      <input type="text" class="form-control" value="Ing. Carlos Andrés Moreira Zambrano" readonly>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Cargo Departamental</label>
+                      <input type="text" class="form-control" value="Jefe de Desarrollo Operativo y Talento Humano" readonly>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Correo Electrónico</label>
+                      <input type="email" class="form-control" value="carlos.moreira@holcim.com" readonly>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Teléfono de Contacto Directo</label>
+                      <input type="text" class="form-control" value="+593 4 287-4500 ext. 204" readonly>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer justify-content-end gap-2">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="alert('Descargando copia legal certificada del convenio marco...')">
+                  <i class="bi bi-file-earmark-pdf me-1"></i>Descargar Convenio PDF
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODAL: ESTUDIANTES ASIGNADOS (Gestalt: Proximidad y Continuidad) -->
+        <div class="modal fade" id="modalEstudiantes" tabindex="-1" aria-labelledby="modalEstudiantesLabel" aria-hidden="true">
+          <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+              <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="modalEstudiantesLabel">
+                  <i class="bi bi-people text-info me-2"></i>Nómina de Practicantes Asignados a la Empresa
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body p-4">
+                <div class="alert alert-info d-flex align-items-center mb-3 py-2 px-3" role="alert">
+                  <i class="bi bi-info-circle-fill me-2 fs-5"></i>
+                  <div>
+                    Mostrando los estudiantes activos actualmente realizando sus 240 horas reglamentarias de prácticas preprofesionales bajo la supervisión de la Facultad y de la empresa receptora.
+                  </div>
+                </div>
+
+                <div class="table-container">
+                  <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                      <thead class="table-light">
+                        <tr>
+                          <th>Estudiante</th>
+                          <th>Cédula</th>
+                          <th>Carrera UG</th>
+                          <th>Horas Registradas</th>
+                          <th>Tutor Académico UG</th>
+                          <th>Estado</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <div class="fw-bold text-dark">Carlos Andrés Moreira Vélez</div>
+                            <small class="text-muted">carlos.moreirav@ug.edu.ec</small>
+                          </td>
+                          <td>0923485712</td>
+                          <td>Ing. Civil</td>
+                          <td>
+                            <div class="fw-semibold">180 / 240 h</div>
+                            <div class="progress" style="height: 5px; width: 100px;">
+                              <div class="progress-bar bg-success" style="width: 75%;"></div>
+                            </div>
+                          </td>
+                          <td>Ing. Washington Vera</td>
+                          <td><span class="badge badge-estado bg-success">En Curso</span></td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="fw-bold text-dark">María Fernanda López Cedeño</div>
+                            <small class="text-muted">maria.lopezc@ug.edu.ec</small>
+                          </td>
+                          <td>0934125890</td>
+                          <td>Ing. en Software</td>
+                          <td>
+                            <div class="fw-semibold">220 / 240 h</div>
+                            <div class="progress" style="height: 5px; width: 100px;">
+                              <div class="progress-bar bg-primary" style="width: 92%;"></div>
+                            </div>
+                          </td>
+                          <td>Msc. Stin Sánchez</td>
+                          <td><span class="badge badge-estado bg-success">En Curso</span></td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="fw-bold text-dark">Kevin Javier Tomalá Alvarado</div>
+                            <small class="text-muted">kevin.tomalaa@ug.edu.ec</small>
+                          </td>
+                          <td>0948751234</td>
+                          <td>Ing. Industrial</td>
+                          <td>
+                            <div class="fw-semibold">120 / 240 h</div>
+                            <div class="progress" style="height: 5px; width: 100px;">
+                              <div class="progress-bar bg-info" style="width: 50%;"></div>
+                            </div>
+                          </td>
+                          <td>Ing. Roberto Cevallos</td>
+                          <td><span class="badge badge-estado bg-success">En Curso</span></td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="fw-bold text-dark">Andrea Paola Barzola Intriago</div>
+                            <small class="text-muted">andrea.barzolai@ug.edu.ec</small>
+                          </td>
+                          <td>0951234789</td>
+                          <td>Ing. Química</td>
+                          <td>
+                            <div class="fw-semibold">240 / 240 h</div>
+                            <div class="progress" style="height: 5px; width: 100px;">
+                              <div class="progress-bar bg-success" style="width: 100%;"></div>
+                            </div>
+                          </td>
+                          <td>Dra. Gabriela Salazar</td>
+                          <td><span class="badge badge-estado bg-primary">Completada</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer justify-content-end gap-2">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-outline-primary" onclick="window.print()">
+                  <i class="bi bi-printer me-1"></i>Imprimir Nómina
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODAL: EXPORTAR REPORTE (Gestalt: Proximidad y Región Común) -->
+        <div class="modal fade" id="modalExportar" tabindex="-1" aria-labelledby="modalExportarLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+              <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="modalExportarLabel">
+                  <i class="bi bi-cloud-arrow-down text-primary me-2"></i>Exportar Matriz de Reporte
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body p-4">
+                <div class="form-section mb-3">
+                  <div class="form-section-title">
+                    <i class="bi bi-sliders"></i>Parámetros de Exportación
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label" for="exportFormat">Formato de Salida</label>
+                    <select class="form-select" id="exportFormat">
+                      <option value="pdf" selected>Documento PDF Institucional (.pdf)</option>
+                      <option value="excel">Libro de Microsoft Excel (.xlsx)</option>
+                      <option value="csv">Valores Separados por Comas (.csv)</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label" for="exportPeriodo">Periodo Académico</label>
+                    <select class="form-select" id="exportPeriodo">
+                      <option value="2026-CI" selected>Ciclo I 2026 - 2027</option>
+                      <option value="2025-CII">Ciclo II 2025 - 2026</option>
+                      <option value="todos">Todos los periodos históricos</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Carreras a Incluir</label>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="checkSoftware" checked>
+                      <label class="form-check-label" for="checkSoftware">Ing. en Software / Sistemas</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="checkIndustrial" checked>
+                      <label class="form-check-label" for="checkIndustrial">Ing. Industrial</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="checkCivil" checked>
+                      <label class="form-check-label" for="checkCivil">Ing. Civil</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="checkQuimica" checked>
+                      <label class="form-check-label" for="checkQuimica">Ing. Química</label>
+                    </div>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="checkIncluirEvaluaciones" checked>
+                    <label class="form-check-label text-muted small" for="checkIncluirEvaluaciones">
+                      Incluir calificaciones y observaciones de los tutores empresariales
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer justify-content-end gap-2">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="alert('Generando archivo de exportación con datos actualizados...'); bootstrap.Modal.getInstance(document.getElementById('modalExportar')).hide();">
+                  <i class="bi bi-download me-1"></i>Generar y Descargar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Script de Filtro y Dinamismo en la Vista -->
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('searchEmpresa');
+            const selectSector = document.getElementById('filterSector');
+            const selectConvenio = document.getElementById('filterConvenio');
+            const btnFiltrar = document.getElementById('btnFiltrar');
+            const btnReset = document.getElementById('btnResetFilters');
+            const rows = document.querySelectorAll('#tablaEmpresas tbody tr');
+
+            function filtrarTabla() {
+              const query = (searchInput.value || '').toLowerCase().trim();
+              const sector = (selectSector.value || '').toLowerCase().trim();
+              const convenio = (selectConvenio.value || '').toLowerCase().trim();
+
+              rows.forEach(function (row) {
+                const text = row.textContent.toLowerCase();
+                const rowSector = (row.getAttribute('data-sector') || '').toLowerCase();
+                const rowConvenio = (row.getAttribute('data-convenio') || '').toLowerCase();
+
+                const matchQuery = !query || text.includes(query);
+                const matchSector = !sector || rowSector.includes(sector);
+                const matchConvenio = !convenio || rowConvenio === convenio;
+
+                if (matchQuery && matchSector && matchConvenio) {
+                  row.style.display = '';
+                } else {
+                  row.style.display = 'none';
+                }
+              });
+            }
+
+            if (btnFiltrar) btnFiltrar.addEventListener('click', filtrarTabla);
+            if (selectSector) selectSector.addEventListener('change', filtrarTabla);
+            if (selectConvenio) selectConvenio.addEventListener('change', filtrarTabla);
+            if (searchInput) searchInput.addEventListener('input', filtrarTabla);
+
+            if (btnReset) {
+              btnReset.addEventListener('click', function () {
+                searchInput.value = '';
+                selectSector.value = '';
+                selectConvenio.value = '';
+                rows.forEach(function (row) { row.style.display = ''; });
+              });
+            }
+
+            // Actualizar datos del modal dinámicamente si se hace clic en una empresa
+            const modalDetalle = document.getElementById('modalDetalleEmpresa');
+            if (modalDetalle) {
+              modalDetalle.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                if (!button) return;
+                const empresa = button.getAttribute('data-empresa');
+                if (empresa) {
+                  const inputNombre = document.getElementById('modalEmpresaNombre');
+                  if (inputNombre) inputNombre.value = empresa;
+                }
+              });
+            }
+          });
+        </script>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

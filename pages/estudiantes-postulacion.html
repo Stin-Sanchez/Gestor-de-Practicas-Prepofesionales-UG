@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Postulación a Vacantes — Gestión de Prácticas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="../assets/css/custom.css" rel="stylesheet">
+</head>
+<body data-page="est-postulacion" data-section="Estudiantes">
+  <div class="wrapper">
+    <aside id="sidebar"></aside>
+    <div class="sidebar-overlay"></div>
+    <div class="main-content">
+      <nav id="topbar"></nav>
+      <div class="content">
+
+        <!-- Encabezado de Página (Gestalt: Continuidad y Alineación) -->
+        <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+          <div>
+            <h2>Postulación a Vacantes</h2>
+            <p>Explora las oportunidades de prácticas preprofesionales en empresas de Guayaquil y gestiona tus postulaciones activas.</p>
+          </div>
+          <div>
+            <a href="#mis-postulaciones-section" class="btn btn-outline-primary">
+              <i class="bi bi-clock-history me-1"></i>Ver Mis Postulaciones
+            </a>
+          </div>
+        </div>
+
+        <!-- Tarjetas de Estadísticas (Gestalt: Cierre, Región Común y Similitud) -->
+        <div class="row g-3 mb-4">
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-value">6</div>
+                  <div class="stat-label">Vacantes Activas</div>
+                </div>
+                <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                  <i class="bi bi-briefcase-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-value">15</div>
+                  <div class="stat-label">Cupos en Guayaquil</div>
+                </div>
+                <div class="stat-icon bg-info bg-opacity-10 text-info">
+                  <i class="bi bi-people-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-value">4</div>
+                  <div class="stat-label">Mis Postulaciones</div>
+                </div>
+                <div class="stat-icon bg-warning bg-opacity-10 text-warning">
+                  <i class="bi bi-send-check-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-value">1</div>
+                  <div class="stat-label">Aprobada / En Curso</div>
+                </div>
+                <div class="stat-icon bg-success bg-opacity-10 text-success">
+                  <i class="bi bi-patch-check-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alerta Informativa Institucional -->
+        <div class="alert alert-primary alert-dismissible fade show d-flex align-items-center mb-4" role="alert">
+          <i class="bi bi-info-circle-fill fs-5 me-3 flex-shrink-0"></i>
+          <div class="flex-grow-1">
+            <strong>Periodo Ordinario 2026-2027:</strong> Puedes postularte a un máximo de <strong>3 vacantes simultáneas</strong>. Una vez que tu postulación sea aprobada por la empresa y validada por la Coordinación de Carrera, el cupo quedará reservado automáticamente para iniciar tus 240 horas reglamentarias.
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+
+        <!-- Barra de Filtros (Gestalt: Región Común y Proximidad) -->
+        <div class="filter-bar">
+          <div class="form-group">
+            <label class="form-label" for="filterBusqueda">
+              <i class="bi bi-search me-1"></i>Buscar cargo o palabra clave
+            </label>
+            <input type="text" class="form-control" id="filterBusqueda" placeholder="Ej. Desarrollador, Automatización, Calidad...">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filterArea">
+              <i class="bi bi-tag-fill me-1"></i>Área / Especialidad
+            </label>
+            <select class="form-select" id="filterArea">
+              <option value="">Todas las áreas</option>
+              <option value="Operaciones y Mantenimiento">Operaciones y Mantenimiento</option>
+              <option value="Tecnología e Informática">Tecnología e Informática</option>
+              <option value="Aseguramiento de Calidad">Aseguramiento de Calidad</option>
+              <option value="Telecomunicaciones y Redes">Telecomunicaciones y Redes</option>
+              <option value="Seguridad y Salud Ocupacional">Seguridad y Salud Ocupacional</option>
+              <option value="Planificación y TI">Planificación y TI</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filterEmpresa">
+              <i class="bi bi-building me-1"></i>Empresa
+            </label>
+            <select class="form-select" id="filterEmpresa">
+              <option value="">Todas las empresas</option>
+              <option value="Holcim Ecuador">Holcim Ecuador</option>
+              <option value="Banco Pichincha">Banco Pichincha</option>
+              <option value="Pronaca">Pronaca</option>
+              <option value="CNT EP">CNT EP</option>
+              <option value="Nestlé Ecuador">Nestlé Ecuador</option>
+              <option value="CNEL EP">CNEL EP</option>
+            </select>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary" id="btnLimpiarFiltros" title="Restablecer filtros">
+              <i class="bi bi-arrow-counterclockwise me-1"></i>Limpiar
+            </button>
+            <button type="button" class="btn btn-primary" id="btnAplicarFiltros">
+              <i class="bi bi-funnel-fill me-1"></i>Filtrar
+            </button>
+          </div>
+        </div>
+
+        <!-- Sección de Vacantes Disponibles (Grid de 3 Columnas) -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="fw-bold mb-0 text-dark">
+            <i class="bi bi-grid-fill text-primary me-2"></i>Vacantes Disponibles
+          </h4>
+          <span class="text-muted small" id="contadorVacantes">Mostrando 6 vacantes</span>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5" id="gridVacantes">
+
+          <!-- Vacante 1: Holcim Ecuador -->
+          <div class="col item-vacante" data-empresa="Holcim Ecuador" data-area="Operaciones y Mantenimiento">
+            <div class="card h-100 d-flex flex-column border-0 shadow-sm">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle bg-danger bg-opacity-10 text-danger p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                      <i class="bi bi-buildings-fill fs-5"></i>
+                    </div>
+                    <div>
+                      <h6 class="fw-bold text-dark mb-0">Holcim Ecuador</h6>
+                      <small class="text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Planta San Eduardo, Guayaquil</small>
+                    </div>
+                  </div>
+                  <span class="badge bg-primary text-white">
+                    <i class="bi bi-people-fill me-1"></i>3 cupos
+                  </span>
+                </div>
+
+                <h5 class="card-title fw-bold text-dark fs-6 mb-2">Pasante de Automatización y Control Industrial</h5>
+
+                <div class="mb-3">
+                  <span class="badge bg-light text-secondary border me-1">
+                    <i class="bi bi-gear-wide-connected me-1"></i>Operaciones y Mantenimiento
+                  </span>
+                  <span class="badge bg-light text-primary border">
+                    <i class="bi bi-mortarboard me-1"></i>Ing. Industrial / Ing. en Sistemas
+                  </span>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label text-muted small fw-bold mb-1">
+                    <i class="bi bi-card-checklist me-1 text-primary"></i>Requisitos:
+                  </label>
+                  <ul class="small text-secondary ps-3 mb-0">
+                    <li>Estudiantes de 7mo semestre en adelante.</li>
+                    <li>Manejo básico de PLC (Siemens) y sistemas SCADA.</li>
+                    <li>Disponibilidad de 6 horas diarias presenciales.</li>
+                    <li>Promedio ponderado mínimo de 8.0/10.</li>
+                  </ul>
+                </div>
+
+                <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                  <small class="text-muted"><i class="bi bi-calendar3 me-1"></i>Hasta 30 Nov 2026</small>
+                  <button type="button" class="btn btn-primary btn-sm btn-postular"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalPostulacion"
+                          data-empresa="Holcim Ecuador"
+                          data-cargo="Pasante de Automatización y Control Industrial"
+                          data-area="Operaciones y Mantenimiento"
+                          data-ubicacion="Planta San Eduardo, Av. Barcelona, Guayaquil"
+                          data-tutor="Ing. Carlos Andrés Moreira"
+                          data-cupos="3 cupos">
+                    <i class="bi bi-send-fill me-1"></i>Postularme
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vacante 2: Banco Pichincha -->
+          <div class="col item-vacante" data-empresa="Banco Pichincha" data-area="Tecnología e Informática">
+            <div class="card h-100 d-flex flex-column border-0 shadow-sm">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle bg-warning bg-opacity-10 text-warning p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                      <i class="bi bi-bank2 fs-5"></i>
+                    </div>
+                    <div>
+                      <h6 class="fw-bold text-dark mb-0">Banco Pichincha</h6>
+                      <small class="text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Centro Emp. Colón, Guayaquil</small>
+                    </div>
+                  </div>
+                  <span class="badge bg-primary text-white">
+                    <i class="bi bi-people-fill me-1"></i>2 cupos
+                  </span>
+                </div>
+
+                <h5 class="card-title fw-bold text-dark fs-6 mb-2">Desarrollador Junior Frontend (Prácticas)</h5>
+
+                <div class="mb-3">
+                  <span class="badge bg-light text-secondary border me-1">
+                    <i class="bi bi-laptop me-1"></i>Tecnología e Informática
+                  </span>
+                  <span class="badge bg-light text-primary border">
+                    <i class="bi bi-mortarboard me-1"></i>Ing. en Software / Sistemas
+                  </span>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label text-muted small fw-bold mb-1">
+                    <i class="bi bi-card-checklist me-1 text-primary"></i>Requisitos:
+                  </label>
+                  <ul class="small text-secondary ps-3 mb-0">
+                    <li>Cursando 6to semestre o superior.</li>
+                    <li>Conocimientos en HTML5, CSS3, JavaScript y Git.</li>
+                    <li>Comprensión de diseño responsivo y consumo de APIs.</li>
+                    <li>Modalidad híbrida (2 días presencial, 3 remoto).</li>
+                  </ul>
+                </div>
+
+                <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                  <small class="text-muted"><i class="bi bi-calendar3 me-1"></i>Hasta 28 Nov 2026</small>
+                  <button type="button" class="btn btn-primary btn-sm btn-postular"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalPostulacion"
+                          data-empresa="Banco Pichincha"
+                          data-cargo="Desarrollador Junior Frontend (Prácticas)"
+                          data-area="Tecnología e Informática"
+                          data-ubicacion="Centro Empresarial Colón, Av. Rodrigo Chávez, Guayaquil"
+                          data-tutor="Ing. María Fernanda López"
+                          data-cupos="2 cupos">
+                    <i class="bi bi-send-fill me-1"></i>Postularme
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vacante 3: Pronaca -->
+          <div class="col item-vacante" data-empresa="Pronaca" data-area="Aseguramiento de Calidad">
+            <div class="card h-100 d-flex flex-column border-0 shadow-sm">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle bg-success bg-opacity-10 text-success p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                      <i class="bi bi-shield-check fs-5"></i>
+                    </div>
+                    <div>
+                      <h6 class="fw-bold text-dark mb-0">Pronaca</h6>
+                      <small class="text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Km 16.5 Vía a Daule, Guayaquil</small>
+                    </div>
+                  </div>
+                  <span class="badge bg-primary text-white">
+                    <i class="bi bi-people-fill me-1"></i>4 cupos
+                  </span>
+                </div>
+
+                <h5 class="card-title fw-bold text-dark fs-6 mb-2">Asistente Técnico de Calidad y Procesos</h5>
+
+                <div class="mb-3">
+                  <span class="badge bg-light text-secondary border me-1">
+                    <i class="bi bi-clipboard2-check me-1"></i>Aseguramiento de Calidad
+                  </span>
+                  <span class="badge bg-light text-primary border">
+                    <i class="bi bi-mortarboard me-1"></i>Ing. Química / Ing. Industrial
+                  </span>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label text-muted small fw-bold mb-1">
+                    <i class="bi bi-card-checklist me-1 text-primary"></i>Requisitos:
+                  </label>
+                  <ul class="small text-secondary ps-3 mb-0">
+                    <li>Estudiante activo de 7mo semestre en adelante.</li>
+                    <li>Conocimientos de BPM, sistema HACCP y normas ISO 9001.</li>
+                    <li>Capacidad para muestreo de laboratorio y reportes.</li>
+                    <li>Disponibilidad de horario matutino presencial.</li>
+                  </ul>
+                </div>
+
+                <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                  <small class="text-muted"><i class="bi bi-calendar3 me-1"></i>Hasta 05 Dic 2026</small>
+                  <button type="button" class="btn btn-primary btn-sm btn-postular"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalPostulacion"
+                          data-empresa="Pronaca"
+                          data-cargo="Asistente Técnico de Calidad y Procesos"
+                          data-area="Aseguramiento de Calidad"
+                          data-ubicacion="Km 16.5 Vía a Daule, Complejo Industrial, Guayaquil"
+                          data-tutor="Mgs. Roberto Xavier Mendoza"
+                          data-cupos="4 cupos">
+                    <i class="bi bi-send-fill me-1"></i>Postularme
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vacante 4: CNT EP -->
+          <div class="col item-vacante" data-empresa="CNT EP" data-area="Telecomunicaciones y Redes">
+            <div class="card h-100 d-flex flex-column border-0 shadow-sm">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle bg-info bg-opacity-10 text-info p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                      <i class="bi bi-router-fill fs-5"></i>
+                    </div>
+                    <div>
+                      <h6 class="fw-bold text-dark mb-0">CNT EP</h6>
+                      <small class="text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Av. Malecón y P. Ycaza, Guayaquil</small>
+                    </div>
+                  </div>
+                  <span class="badge bg-primary text-white">
+                    <i class="bi bi-people-fill me-1"></i>2 cupos
+                  </span>
+                </div>
+
+                <h5 class="card-title fw-bold text-dark fs-6 mb-2">Pasante de Soporte de Redes e Infraestructura</h5>
+
+                <div class="mb-3">
+                  <span class="badge bg-light text-secondary border me-1">
+                    <i class="bi bi-hdd-network me-1"></i>Telecomunicaciones y Redes
+                  </span>
+                  <span class="badge bg-light text-primary border">
+                    <i class="bi bi-mortarboard me-1"></i>Ing. en Sistemas / Telemática
+                  </span>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label text-muted small fw-bold mb-1">
+                    <i class="bi bi-card-checklist me-1 text-primary"></i>Requisitos:
+                  </label>
+                  <ul class="small text-secondary ps-3 mb-0">
+                    <li>Estudiante de 6to a 9no semestre de carrera afín.</li>
+                    <li>Fundamentos de redes TCP/IP, switches y enrutadores.</li>
+                    <li>Conocimientos básicos en diagnóstico de fibra óptica.</li>
+                    <li>Trabajo en equipo y vocación de servicio técnico.</li>
+                  </ul>
+                </div>
+
+                <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                  <small class="text-muted"><i class="bi bi-calendar3 me-1"></i>Hasta 02 Dic 2026</small>
+                  <button type="button" class="btn btn-primary btn-sm btn-postular"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalPostulacion"
+                          data-empresa="CNT EP"
+                          data-cargo="Pasante de Soporte de Redes e Infraestructura"
+                          data-area="Telecomunicaciones y Redes"
+                          data-ubicacion="Edificio CNT, Av. Malecón Simón Bolívar y P. Ycaza, Guayaquil"
+                          data-tutor="Ing. Diana Patricia Villacreses"
+                          data-cupos="2 cupos">
+                    <i class="bi bi-send-fill me-1"></i>Postularme
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vacante 5: Nestlé Ecuador -->
+          <div class="col item-vacante" data-empresa="Nestlé Ecuador" data-area="Seguridad y Salud Ocupacional">
+            <div class="card h-100 d-flex flex-column border-0 shadow-sm">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle bg-danger bg-opacity-10 text-danger p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                      <i class="bi bi-cup-hot-fill fs-5"></i>
+                    </div>
+                    <div>
+                      <h6 class="fw-bold text-dark mb-0">Nestlé Ecuador</h6>
+                      <small class="text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Av. Domingo Comín, Guayaquil</small>
+                    </div>
+                  </div>
+                  <span class="badge bg-primary text-white">
+                    <i class="bi bi-people-fill me-1"></i>1 cupo
+                  </span>
+                </div>
+
+                <h5 class="card-title fw-bold text-dark fs-6 mb-2">Practicante de Seguridad Industrial y Ambiente</h5>
+
+                <div class="mb-3">
+                  <span class="badge bg-light text-secondary border me-1">
+                    <i class="bi bi-shield-fill-exclamation me-1"></i>Seguridad y Salud (SST)
+                  </span>
+                  <span class="badge bg-light text-primary border">
+                    <i class="bi bi-mortarboard me-1"></i>Ing. Industrial / Ing. Química
+                  </span>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label text-muted small fw-bold mb-1">
+                    <i class="bi bi-card-checklist me-1 text-primary"></i>Requisitos:
+                  </label>
+                  <ul class="small text-secondary ps-3 mb-0">
+                    <li>Estudiante de 7mo semestre en adelante.</li>
+                    <li>Conocimientos de normativas ISO 45001 e ISO 14001.</li>
+                    <li>Manejo de matrices de riesgos laborales e inspecciones.</li>
+                    <li>Dominio intermedio de Excel y paquetes de análisis.</li>
+                  </ul>
+                </div>
+
+                <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                  <small class="text-muted"><i class="bi bi-calendar3 me-1"></i>Hasta 10 Dic 2026</small>
+                  <button type="button" class="btn btn-primary btn-sm btn-postular"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalPostulacion"
+                          data-empresa="Nestlé Ecuador"
+                          data-cargo="Practicante de Seguridad Industrial y Ambiente"
+                          data-area="Seguridad y Salud Ocupacional"
+                          data-ubicacion="Fábrica Sur, Av. Domingo Comín y Callejón 44, Guayaquil"
+                          data-tutor="Ing. Gabriel Alejandro Castro"
+                          data-cupos="1 cupo">
+                    <i class="bi bi-send-fill me-1"></i>Postularme
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vacante 6: CNEL EP -->
+          <div class="col item-vacante" data-empresa="CNEL EP" data-area="Planificación y TI">
+            <div class="card h-100 d-flex flex-column border-0 shadow-sm">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle bg-warning bg-opacity-10 text-dark p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                      <i class="bi bi-lightning-charge-fill fs-5 text-warning"></i>
+                    </div>
+                    <div>
+                      <h6 class="fw-bold text-dark mb-0">CNEL EP</h6>
+                      <small class="text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Cdla. Garzota, Guayaquil</small>
+                    </div>
+                  </div>
+                  <span class="badge bg-primary text-white">
+                    <i class="bi bi-people-fill me-1"></i>3 cupos
+                  </span>
+                </div>
+
+                <h5 class="card-title fw-bold text-dark fs-6 mb-2">Analista de Datos y Sistemas de Distribución</h5>
+
+                <div class="mb-3">
+                  <span class="badge bg-light text-secondary border me-1">
+                    <i class="bi bi-bar-chart-fill me-1"></i>Planificación y TI
+                  </span>
+                  <span class="badge bg-light text-primary border">
+                    <i class="bi bi-mortarboard me-1"></i>Ing. en Software / Sistemas
+                  </span>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label text-muted small fw-bold mb-1">
+                    <i class="bi bi-card-checklist me-1 text-primary"></i>Requisitos:
+                  </label>
+                  <ul class="small text-secondary ps-3 mb-0">
+                    <li>Estudiante de 8vo semestre o egresado no graduado.</li>
+                    <li>Consultas en SQL (PostgreSQL / Oracle) y modelado de datos.</li>
+                    <li>Familiaridad con Python para análisis de datos o Power BI.</li>
+                    <li>Capacidad analítica para resolución de incidencias en red.</li>
+                  </ul>
+                </div>
+
+                <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                  <small class="text-muted"><i class="bi bi-calendar3 me-1"></i>Hasta 08 Dic 2026</small>
+                  <button type="button" class="btn btn-primary btn-sm btn-postular"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalPostulacion"
+                          data-empresa="CNEL EP"
+                          data-cargo="Analista de Datos y Sistemas de Distribución"
+                          data-area="Planificación y TI"
+                          data-ubicacion="Cdla. Garzota, Av. Guillermo Pareja Rolando, Guayaquil"
+                          data-tutor="Ing. Patricia Elena Zambrano"
+                          data-cupos="3 cupos">
+                    <i class="bi bi-send-fill me-1"></i>Postularme
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Sección Inferior: Mis Postulaciones (Gestalt: Proximidad, Continuidad y Región Común) -->
+        <div id="mis-postulaciones-section" class="mb-5">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h4 class="fw-bold mb-0 text-dark">
+                <i class="bi bi-journal-check text-primary me-2"></i>Mis Postulaciones
+              </h4>
+              <p class="text-muted small mb-0">Historial y estado de tus aplicaciones a prácticas preprofesionales en el ciclo vigente.</p>
+            </div>
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2">
+              <i class="bi bi-info-circle me-1"></i>4 registradas
+            </span>
+          </div>
+
+          <div class="table-container">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0" id="tablaMisPostulaciones">
+                <thead>
+                  <tr>
+                    <th scope="col">Empresa</th>
+                    <th scope="col">Puesto / Cargo</th>
+                    <th scope="col">Área / Carrera</th>
+                    <th scope="col">Fecha Postulación</th>
+                    <th scope="col" class="text-center">Estado</th>
+                    <th scope="col" class="text-end">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Fila 1: Aprobada -->
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="rounded-circle bg-warning bg-opacity-10 text-warning p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                          <i class="bi bi-bank2"></i>
+                        </div>
+                        <div>
+                          <div class="fw-bold text-dark">Banco Pichincha</div>
+                          <small class="text-muted">Guayaquil, Centro Emp. Colón</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="fw-semibold">Desarrollador Junior Frontend (Prácticas)</div>
+                      <small class="text-muted">Modalidad Híbrida — 240 Horas</small>
+                    </td>
+                    <td>
+                      <div>Tecnología e Informática</div>
+                      <small class="text-muted">Ing. en Software</small>
+                    </td>
+                    <td>
+                      <i class="bi bi-calendar-event me-1 text-muted"></i>12/11/2026
+                    </td>
+                    <td class="text-center">
+                      <span class="badge badge-estado bg-success">
+                        <i class="bi bi-check-circle-fill me-1"></i>Aprobada
+                      </span>
+                    </td>
+                    <td class="text-end">
+                      <button type="button" class="btn btn-outline-primary btn-sm btn-action me-1"
+                              data-bs-toggle="modal"
+                              data-bs-target="#modalDetallePostulacion"
+                              data-empresa="Banco Pichincha"
+                              data-puesto="Desarrollador Junior Frontend (Prácticas)"
+                              data-fecha="12/11/2026"
+                              data-estado="Aprobada"
+                              data-badge="bg-success"
+                              data-tutor="Ing. María Fernanda López"
+                              data-observacion="Postulación aprobada por el Departamento de Talento Humano. El convenio y la carta de compromiso han sido suscritos exitosamente."
+                              title="Ver Detalle">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button type="button" class="btn btn-outline-success btn-sm btn-action" title="Descargar comprobante de aceptación">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <!-- Fila 2: Pendiente -->
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="rounded-circle bg-info bg-opacity-10 text-info p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                          <i class="bi bi-router-fill"></i>
+                        </div>
+                        <div>
+                          <div class="fw-bold text-dark">CNT EP</div>
+                          <small class="text-muted">Guayaquil, Malecón y P. Ycaza</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="fw-semibold">Pasante de Soporte de Redes e Infraestructura</div>
+                      <small class="text-muted">Modalidad Presencial — 240 Horas</small>
+                    </td>
+                    <td>
+                      <div>Telecomunicaciones y Redes</div>
+                      <small class="text-muted">Ing. en Sistemas Computacionales</small>
+                    </td>
+                    <td>
+                      <i class="bi bi-calendar-event me-1 text-muted"></i>05/11/2026
+                    </td>
+                    <td class="text-center">
+                      <span class="badge badge-estado bg-warning text-dark">
+                        <i class="bi bi-clock-history me-1"></i>Pendiente
+                      </span>
+                    </td>
+                    <td class="text-end">
+                      <button type="button" class="btn btn-outline-primary btn-sm btn-action me-1"
+                              data-bs-toggle="modal"
+                              data-bs-target="#modalDetallePostulacion"
+                              data-empresa="CNT EP"
+                              data-puesto="Pasante de Soporte de Redes e Infraestructura"
+                              data-fecha="05/11/2026"
+                              data-estado="Pendiente"
+                              data-badge="bg-warning text-dark"
+                              data-tutor="Ing. Diana Patricia Villacreses"
+                              data-observacion="Tu postulación se encuentra en fase de validación de requisitos por parte del área de Redes. Tiempo estimado de respuesta: 3 días hábiles."
+                              title="Ver Detalle">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button type="button" class="btn btn-outline-danger btn-sm btn-action" title="Cancelar Postulación" data-confirm="¿Deseas retirar tu postulación a esta vacante?">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <!-- Fila 3: Pendiente -->
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="rounded-circle bg-danger bg-opacity-10 text-danger p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                          <i class="bi bi-buildings-fill"></i>
+                        </div>
+                        <div>
+                          <div class="fw-bold text-dark">Holcim Ecuador</div>
+                          <small class="text-muted">Guayaquil, Planta San Eduardo</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="fw-semibold">Pasante de Automatización y Control Industrial</div>
+                      <small class="text-muted">Modalidad Presencial — 240 Horas</small>
+                    </td>
+                    <td>
+                      <div>Operaciones y Mantenimiento</div>
+                      <small class="text-muted">Ing. Industrial</small>
+                    </td>
+                    <td>
+                      <i class="bi bi-calendar-event me-1 text-muted"></i>29/10/2026
+                    </td>
+                    <td class="text-center">
+                      <span class="badge badge-estado bg-warning text-dark">
+                        <i class="bi bi-clock-history me-1"></i>Pendiente
+                      </span>
+                    </td>
+                    <td class="text-end">
+                      <button type="button" class="btn btn-outline-primary btn-sm btn-action me-1"
+                              data-bs-toggle="modal"
+                              data-bs-target="#modalDetallePostulacion"
+                              data-empresa="Holcim Ecuador"
+                              data-puesto="Pasante de Automatización y Control Industrial"
+                              data-fecha="29/10/2026"
+                              data-estado="Pendiente"
+                              data-badge="bg-warning text-dark"
+                              data-tutor="Ing. Carlos Andrés Moreira"
+                              data-observacion="Expediente académico recibido. Se programará entrevista técnica virtual con el tutor de planta en los próximos días."
+                              title="Ver Detalle">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button type="button" class="btn btn-outline-danger btn-sm btn-action" title="Cancelar Postulación" data-confirm="¿Deseas retirar tu postulación a esta vacante?">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <!-- Fila 4: Rechazada -->
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="rounded-circle bg-success bg-opacity-10 text-success p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                          <i class="bi bi-shield-check"></i>
+                        </div>
+                        <div>
+                          <div class="fw-bold text-dark">Pronaca</div>
+                          <small class="text-muted">Guayaquil, Vía a Daule</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="fw-semibold">Asistente de Logística y Almacén</div>
+                      <small class="text-muted">Modalidad Presencial — 240 Horas</small>
+                    </td>
+                    <td>
+                      <div>Cadena de Suministro</div>
+                      <small class="text-muted">Ing. Industrial</small>
+                    </td>
+                    <td>
+                      <i class="bi bi-calendar-event me-1 text-muted"></i>14/10/2026
+                    </td>
+                    <td class="text-center">
+                      <span class="badge badge-estado bg-danger">
+                        <i class="bi bi-x-circle-fill me-1"></i>Rechazada
+                      </span>
+                    </td>
+                    <td class="text-end">
+                      <button type="button" class="btn btn-outline-primary btn-sm btn-action me-1"
+                              data-bs-toggle="modal"
+                              data-bs-target="#modalDetallePostulacion"
+                              data-empresa="Pronaca"
+                              data-puesto="Asistente de Logística y Almacén"
+                              data-fecha="14/10/2026"
+                              data-estado="Rechazada"
+                              data-badge="bg-danger"
+                              data-tutor="Mgs. Roberto Xavier Mendoza"
+                              data-observacion="Los cupos para este periodo fueron cubiertos por postulantes con mayor porcentaje de avance de malla. Te recomendamos postular a otras vacantes vigentes."
+                              title="Ver Detalle">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button type="button" class="btn btn-outline-secondary btn-sm btn-action" disabled title="No disponible">
+                        <i class="bi bi-dash-circle"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Paginación de la Tabla (Gestalt: Continuidad) -->
+            <div class="pagination-container">
+              <div class="pagination-info">
+                Mostrando 1 a 4 de 4 postulaciones
+              </div>
+              <nav aria-label="Paginación de postulaciones">
+                <ul class="pagination pagination-sm mb-0">
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i class="bi bi-chevron-left"></i></a>
+                  </li>
+                  <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="#">1</a>
+                  </li>
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-disabled="true"><i class="bi bi-chevron-right"></i></a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODAL: Postulación a Vacante (Gestalt: Cierre, Proximidad y Región Común) -->
+        <div class="modal fade" id="modalPostulacion" tabindex="-1" aria-labelledby="modalPostulacionLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow">
+              <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title fw-bold" id="modalPostulacionLabel">
+                  <i class="bi bi-send-fill me-2"></i>Formulario de Postulación
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+
+              <form id="formPostulacionVacante">
+                <div class="modal-body p-4">
+
+                  <!-- Sección 1 del Formulario: Vacante Seleccionada -->
+                  <div class="form-section">
+                    <div class="form-section-title">
+                      <i class="bi bi-building"></i>1. Datos de la Vacante Seleccionada
+                    </div>
+                    <div class="row g-3">
+                      <div class="col-12 col-md-6">
+                        <label class="form-label" for="formEmpresa">Empresa</label>
+                        <input type="text" class="form-control bg-light" id="formEmpresa" readonly>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label" for="formCupos">Cupos Disponibles</label>
+                        <input type="text" class="form-control bg-light" id="formCupos" readonly>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label" for="formCargo">Cargo / Puesto</label>
+                        <input type="text" class="form-control bg-light" id="formCargo" readonly>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label" for="formArea">Área de Trabajo</label>
+                        <input type="text" class="form-control bg-light" id="formArea" readonly>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label" for="formUbicacion">Ubicación</label>
+                        <input type="text" class="form-control bg-light" id="formUbicacion" readonly>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label" for="formTutor">Tutor Empresarial Asignado</label>
+                        <input type="text" class="form-control bg-light" id="formTutor" readonly>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Sección 2 del Formulario: Datos del Postulante -->
+                  <div class="form-section">
+                    <div class="form-section-title">
+                      <i class="bi bi-person-badge"></i>2. Información del Estudiante Postulante
+                    </div>
+                    <div class="row g-3">
+                      <div class="col-12 col-md-6">
+                        <label class="form-label" for="formEstudianteNombre">Nombres y Apellidos</label>
+                        <input type="text" class="form-control bg-light" id="formEstudianteNombre" value="Carlos Andrés Moreira" readonly>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label" for="formEstudianteCedula">Cédula de Identidad</label>
+                        <input type="text" class="form-control bg-light" id="formEstudianteCedula" value="0928475612" readonly>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label" for="formEstudianteCarrera">Carrera UG</label>
+                        <input type="text" class="form-control bg-light" id="formEstudianteCarrera" value="Ing. en Sistemas Computacionales" readonly>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label" for="formEstudianteSemestre">Semestre y Jornada</label>
+                        <input type="text" class="form-control bg-light" id="formEstudianteSemestre" value="7mo Semestre — Matutino" readonly>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label" for="formEstudianteEmail">Correo Electrónico Institucional</label>
+                        <input type="email" class="form-control bg-light" id="formEstudianteEmail" value="carlos.moreiram@ug.edu.ec" readonly>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label" for="formEstudianteTelefono">Teléfono de Contacto <span class="text-danger">*</span></label>
+                        <input type="tel" class="form-control" id="formEstudianteTelefono" value="0994582314" required>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Sección 3 del Formulario: Requisitos y Documentos -->
+                  <div class="form-section mb-0">
+                    <div class="form-section-title">
+                      <i class="bi bi-file-earmark-arrow-up"></i>3. Documentación y Carta de Compromiso
+                    </div>
+                    <div class="row g-3">
+                      <div class="col-12">
+                        <label class="form-label" for="formCurriculum">
+                          Curriculum Vitae actualizado (PDF) <span class="text-danger">*</span>
+                        </label>
+                        <input class="form-control" type="file" id="formCurriculum" accept=".pdf" required>
+                        <div class="form-text">Adjuntar formato oficial UG o formato europeo. Máximo 5 MB.</div>
+                      </div>
+                      <div class="col-12">
+                        <label class="form-label" for="formCartaMotivacion">Breve Carta de Motivación (Opcional)</label>
+                        <textarea class="form-control" id="formCartaMotivacion" rows="3" placeholder="Indica por qué te interesa esta vacante y cómo aportarás a los objetivos de la empresa..."></textarea>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="checkCompromiso" required>
+                          <label class="form-check-label small" for="checkCompromiso">
+                            Certifico que cumplo con los requisitos académicos para cursar prácticas preprofesionales y cuento con disponibilidad horaria para cumplir las 240 horas.
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="modal-footer bg-light d-flex justify-content-end gap-2">
+                  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle me-1"></i>Cancelar
+                  </button>
+                  <button type="submit" class="btn btn-primary" id="btnConfirmarPostulacion">
+                    <i class="bi bi-send-check-fill me-1"></i>Confirmar Postulación
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODAL: Detalle de Postulación Existente -->
+        <div class="modal fade" id="modalDetallePostulacion" tabindex="-1" aria-labelledby="modalDetalleLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+              <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="modalDetalleLabel">
+                  <i class="bi bi-info-circle-fill text-primary me-2"></i>Detalle de Postulación
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+                  <div>
+                    <h5 class="fw-bold text-dark mb-0" id="detEmpresa">-</h5>
+                    <small class="text-muted" id="detPuesto">-</small>
+                  </div>
+                  <span class="badge badge-estado" id="detBadgeEstado">-</span>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label text-muted small fw-bold mb-1">Fecha de Registro:</label>
+                  <div class="fw-semibold text-dark" id="detFecha">-</div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label text-muted small fw-bold mb-1">Tutor Institucional / Contacto:</label>
+                  <div class="fw-semibold text-dark" id="detTutor">-</div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label text-muted small fw-bold mb-1">Observaciones de la Coordinación:</label>
+                  <div class="p-3 bg-light rounded text-secondary small border" id="detObservacion">-</div>
+                </div>
+                <div class="alert alert-light border small text-muted mb-0">
+                  <i class="bi bi-shield-lock me-1"></i>Para consultas sobre tu estado de postulación, contacta a la Coordinación de Prácticas de tu carrera en el edificio principal de la Facultad.
+                </div>
+              </div>
+              <div class="modal-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                  <i class="bi bi-check2 me-1"></i>Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Script de Funcionalidad para Postulaciones y Filtros -->
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            // Filtrado de Vacantes
+            const inputBuscar = document.getElementById('filterBusqueda');
+            const selectArea = document.getElementById('filterArea');
+            const selectEmpresa = document.getElementById('filterEmpresa');
+            const btnAplicar = document.getElementById('btnAplicarFiltros');
+            const btnLimpiar = document.getElementById('btnLimpiarFiltros');
+            const itemsVacante = document.querySelectorAll('.item-vacante');
+            const contadorVacantes = document.getElementById('contadorVacantes');
+
+            function filtrarVacantes() {
+              const termino = inputBuscar.value.toLowerCase().trim();
+              const areaSeleccionada = selectArea.value;
+              const empresaSeleccionada = selectEmpresa.value;
+              let visibles = 0;
+
+              itemsVacante.forEach(item => {
+                const textoCompleto = item.textContent.toLowerCase();
+                const empresa = item.getAttribute('data-empresa');
+                const area = item.getAttribute('data-area');
+
+                const coincideTexto = !termino || textoCompleto.includes(termino);
+                const coincideArea = !areaSeleccionada || area === areaSeleccionada;
+                const coincideEmpresa = !empresaSeleccionada || empresa === empresaSeleccionada;
+
+                if (coincideTexto && coincideArea && coincideEmpresa) {
+                  item.style.display = '';
+                  visibles++;
+                } else {
+                  item.style.display = 'none';
+                }
+              });
+
+              contadorVacantes.textContent = `Mostrando ${visibles} vacante${visibles === 1 ? '' : 's'}`;
+            }
+
+            btnAplicar.addEventListener('click', filtrarVacantes);
+            inputBuscar.addEventListener('keyup', filtrarVacantes);
+            selectArea.addEventListener('change', filtrarVacantes);
+            selectEmpresa.addEventListener('change', filtrarVacantes);
+
+            btnLimpiar.addEventListener('click', function () {
+              inputBuscar.value = '';
+              selectArea.value = '';
+              selectEmpresa.value = '';
+              filtrarVacantes();
+            });
+
+            // Modal de Postulación: Inyectar datos de la vacante seleccionada
+            const modalPostulacion = document.getElementById('modalPostulacion');
+            if (modalPostulacion) {
+              modalPostulacion.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                if (!button) return;
+
+                document.getElementById('formEmpresa').value = button.getAttribute('data-empresa') || '';
+                document.getElementById('formCargo').value = button.getAttribute('data-cargo') || '';
+                document.getElementById('formArea').value = button.getAttribute('data-area') || '';
+                document.getElementById('formUbicacion').value = button.getAttribute('data-ubicacion') || '';
+                document.getElementById('formTutor').value = button.getAttribute('data-tutor') || '';
+                document.getElementById('formCupos').value = button.getAttribute('data-cupos') || '';
+              });
+            }
+
+            // Manejo de envío del formulario de postulación
+            const formPostulacionVacante = document.getElementById('formPostulacionVacante');
+            if (formPostulacionVacante) {
+              formPostulacionVacante.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const empresa = document.getElementById('formEmpresa').value;
+                const cargo = document.getElementById('formCargo').value;
+
+                // Cerrar modal
+                const modalInstance = bootstrap.Modal.getInstance(modalPostulacion);
+                if (modalInstance) {
+                  modalInstance.hide();
+                }
+
+                alert(`¡Postulación enviada exitosamente!\n\nEmpresa: ${empresa}\nCargo: ${cargo}\nEstado: Pendiente de validación.\n\nRecibirás una notificación en tu correo institucional una vez revisada.`);
+                formPostulacionVacante.reset();
+              });
+            }
+
+            // Modal Detalle de Postulación Existente
+            const modalDetalle = document.getElementById('modalDetallePostulacion');
+            if (modalDetalle) {
+              modalDetalle.addEventListener('show.bs.modal', function (event) {
+                const btn = event.relatedTarget;
+                if (!btn) return;
+
+                document.getElementById('detEmpresa').textContent = btn.getAttribute('data-empresa') || '-';
+                document.getElementById('detPuesto').textContent = btn.getAttribute('data-puesto') || '-';
+                document.getElementById('detFecha').textContent = btn.getAttribute('data-fecha') || '-';
+                document.getElementById('detTutor').textContent = btn.getAttribute('data-tutor') || '-';
+                document.getElementById('detObservacion').textContent = btn.getAttribute('data-observacion') || '-';
+
+                const badgeEl = document.getElementById('detBadgeEstado');
+                const estado = btn.getAttribute('data-estado') || '-';
+                const badgeClass = btn.getAttribute('data-badge') || 'bg-secondary';
+
+                badgeEl.className = `badge badge-estado ${badgeClass}`;
+                badgeEl.textContent = estado;
+              });
+            }
+          });
+        </script>
+
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>
