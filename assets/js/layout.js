@@ -101,11 +101,48 @@
         <i class="bi bi-file-earmark-check-fill"></i> Certificados
       </a>
 
+      <!-- ══════ MÓDULO 3: EVALUACIONES Y DOCUMENTOS ══════ -->
+      <div class="menu-header mt-3">Evaluaciones y Documentos</div>
+
+      <!-- Evaluaciones y Rúbricas -->
+      <a class="nav-link collapse-toggle" data-bs-toggle="collapse" href="#menuEvaluaciones" role="button" aria-expanded="false" aria-controls="menuEvaluaciones">
+        <i class="bi bi-clipboard-check-fill"></i> Evaluaciones
+      </a>
+      <div class="collapse sidebar-submenu" id="menuEvaluaciones">
+        <a class="nav-link" href="${P}evaluaciones-listado.html" data-page="eval-listado">
+          Listado de Evaluaciones
+        </a>
+        <a class="nav-link" href="${P}evaluaciones-rubrica.html" data-page="eval-rubrica">
+          Rúbrica de Evaluación
+        </a>
+      </div>
+
+      <!-- Informes Parciales y Final -->
+      <a class="nav-link" href="${P}informes-gestion.html" data-page="inf-gestion">
+        <i class="bi bi-file-earmark-text-fill"></i> Informes Parciales y Final
+      </a>
+
+      <!-- Carga de Archivos -->
+      <a class="nav-link" href="${P}documentos-carga.html" data-page="doc-carga">
+        <i class="bi bi-cloud-arrow-up-fill"></i> Carga de Archivos
+      </a>
+
+      <!-- Plantillas Descargables -->
+      <a class="nav-link" href="${P}plantillas-descargables.html" data-page="doc-plantillas">
+        <i class="bi bi-folder-symlink-fill"></i> Plantillas Descargables
+      </a>
+
     </div>
   `;
 
-  // ───── TOPBAR HTML ─────
-  const topbarHTML = `
+  // ───── TOPBAR HTML BUILDER ─────
+  function getTopbarHTML(activePage) {
+    const isDocModule = ['eval-listado', 'eval-rubrica', 'inf-gestion', 'doc-carga', 'doc-plantillas'].includes(activePage);
+    const userName = isDocModule ? 'Russell Quijije' : 'Stin Sánchez';
+    const userRole = isDocModule ? 'Docente / Evaluador' : 'Coordinador';
+    const userAvatar = isDocModule ? 'RQ' : 'SM';
+
+    return `
     <div class="d-flex align-items-center gap-3">
       <button class="btn-toggle-sidebar" id="btnToggleSidebar" title="Toggle menú">
         <i class="bi bi-list"></i>
@@ -123,33 +160,35 @@
       </div>
       <div class="dropdown">
         <div class="user-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-          <div class="user-avatar">SM</div>
+          <div class="user-avatar">${userAvatar}</div>
           <div class="user-info d-none d-md-block">
-            <div class="name">Stin Sánchez</div>
-            <div class="role">Coordinador</div>
+            <div class="name">${userName}</div>
+            <div class="role">${userRole}</div>
           </div>
           <i class="bi bi-chevron-down ms-1" style="font-size:.65rem;color:#6c757d;"></i>
         </div>
         <ul class="dropdown-menu dropdown-menu-end">
-          <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Mi Perfil</a></li>
-          <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configuración</a></li>
+          <li><span class="dropdown-header text-uppercase small" style="font-size:0.7rem;">Usuario: ${userName}</span></li>
+          <li><a class="dropdown-item" href="${P}evaluaciones-listado.html"><i class="bi bi-clipboard-check me-2"></i>Mis Evaluaciones</a></li>
+          <li><a class="dropdown-item" href="${P}documentos-carga.html"><i class="bi bi-folder-check me-2"></i>Repositorio Documental</a></li>
           <li><hr class="dropdown-divider"></li>
           <li><a class="dropdown-item text-danger" href="${A}index.html"><i class="bi bi-box-arrow-left me-2"></i>Cerrar Sesión</a></li>
         </ul>
       </div>
     </div>
-  `;
+    `;
+  }
 
   // ───── INYECTAR COMPONENTES ─────
   document.addEventListener('DOMContentLoaded', function () {
     const sidebar = document.getElementById('sidebar');
     const topbar = document.getElementById('topbar');
+    const activePage = document.body.getAttribute('data-page');
 
     if (sidebar) sidebar.innerHTML = sidebarHTML;
-    if (topbar) topbar.innerHTML = topbarHTML;
+    if (topbar) topbar.innerHTML = getTopbarHTML(activePage);
 
     // Marcar enlace activo y abrir su collapse
-    const activePage = document.body.getAttribute('data-page');
     if (activePage && sidebar) {
       const activeLink = sidebar.querySelector(`[data-page="${activePage}"]`);
       if (activeLink) {

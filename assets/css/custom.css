@@ -637,3 +637,171 @@ body {
   font-size: 1.8rem;
   color: #0d6efd;
 }
+
+/* ============================================================
+   MÓDULO: EVALUACIONES Y DOCUMENTOS (QUIJIJE CAMACHO RUSSELL JORDY)
+   ============================================================ */
+
+/* ===== RÚBRICAS & EVALUACIONES ===== */
+.rubric-table th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: #f8f9fb;
+}
+.rubric-criterion-title {
+  font-weight: 700;
+  color: #1a1f2e;
+  font-size: 0.9rem;
+}
+.rubric-criterion-desc {
+  font-size: 0.78rem;
+  color: #6c757d;
+  margin-bottom: 0;
+}
+.rubric-level-cell {
+  position: relative;
+  transition: background-color 0.2s, border-color 0.2s;
+  cursor: pointer;
+  padding: 0.75rem !important;
+}
+.rubric-level-cell:hover {
+  background-color: rgba(13, 110, 253, 0.04);
+}
+.rubric-level-cell.selected {
+  background-color: rgba(13, 110, 253, 0.1) !important;
+  border-left: 3px solid #0d6efd !important;
+}
+.rubric-option-input {
+  cursor: pointer;
+}
+.rubric-score-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 50px;
+}
+.rubric-total-box {
+  background: linear-gradient(135deg, #1a1f2e 0%, #2b354d 100%);
+  color: #fff;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+.rubric-score-display {
+  font-size: 2.8rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #38bdf8;
+}
+.rubric-score-scale {
+  font-size: 1.1rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+.rubric-score-badge {
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.35rem 0.65rem;
+  border-radius: 0.375rem;
+}
+.score-badge-excellent { background: rgba(34, 197, 94, 0.15); color: #16a34a; }
+.score-badge-good { background: rgba(14, 165, 233, 0.15); color: #0284c7; }
+.score-badge-fair { background: rgba(245, 158, 11, 0.15); color: #d97706; }
+.score-badge-poor { background: rgba(239, 68, 68, 0.15); color: #dc2626; }
+
+/* ===== CARGA DE ARCHIVOS / DROPZONE ===== */
+.upload-dropzone {
+  border: 2px dashed #b9c2d0;
+  border-radius: 0.75rem;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  background-color: #fafbfd;
+  transition: all 0.25s ease-in-out;
+  cursor: pointer;
+  position: relative;
+}
+.upload-dropzone:hover, .upload-dropzone.dragover {
+  border-color: #0d6efd;
+  background-color: rgba(13, 110, 253, 0.03);
+}
+.upload-dropzone .upload-icon-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(13, 110, 253, 0.1);
+  color: #0d6efd;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease;
+}
+.upload-dropzone:hover .upload-icon-circle {
+  transform: scale(1.08);
+}
+.doc-checklist-card {
+  border-left: 4px solid #0d6efd;
+}
+.doc-type-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+}
+
+/* ===== PLANTILLAS DESCARGABLES ===== */
+.template-card {
+  transition: all 0.25s ease;
+  border: 1px solid #edf0f5;
+  background: #fff;
+}
+.template-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+.template-file-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+.badge-docx { background: rgba(37, 99, 235, 0.12); color: #1d4ed8; }
+.badge-xlsx { background: rgba(22, 163, 74, 0.12); color: #15803d; }
+.badge-pdf { background: rgba(220, 38, 38, 0.12); color: #b91c1c; }
+.badge-zip { background: rgba(147, 51, 234, 0.12); color: #7e22ce; }
+
+.template-code {
+  font-family: monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  background: #f1f3f7;
+  color: #475569;
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  #sidebar, #topbar, .btn-action, .filter-bar, .no-print {
+    display: none !important;
+  }
+  .main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  .content {
+    padding: 0 !important;
+  }
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+  }
+}
+

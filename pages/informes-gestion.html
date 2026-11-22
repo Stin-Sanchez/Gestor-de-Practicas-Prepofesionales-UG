@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Informes Parciales y Final — Gestión de Prácticas UG</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="../assets/css/custom.css" rel="stylesheet">
+</head>
+<body data-page="inf-gestion" data-section="Evaluaciones y Documentos">
+  <div class="wrapper">
+    <aside id="sidebar"></aside>
+    <div class="sidebar-overlay"></div>
+    <div class="main-content">
+      <nav id="topbar"></nav>
+      <div class="content">
+
+        <!-- Page Header -->
+        <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+          <div>
+            <h2><i class="bi bi-file-earmark-text-fill text-primary me-2"></i>Informes Parciales y Final</h2>
+            <p>Revisión técnica, retroalimentación y seguimiento del avance documentado de prácticas preprofesionales</p>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalPlantillaInfo">
+              <i class="bi bi-file-earmark-word me-1"></i> Formato de Informe
+            </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevoInforme">
+              <i class="bi bi-cloud-arrow-up-fill me-1"></i> Entregar / Subir Informe
+            </button>
+          </div>
+        </div>
+
+        <!-- Alert Informativo -->
+        <div class="alert alert-info border-0 shadow-sm d-flex align-items-start gap-3 mb-4" role="alert">
+          <i class="bi bi-info-circle-fill text-info fs-4 mt-1"></i>
+          <div>
+            <strong>Reglamento de Informes de Prácticas UG</strong>
+            <p class="mb-0 small text-secondary">
+              Los estudiantes deben entregar obligatoriamente el <strong>Informe Parcial 1 (al cumplir 80 horas)</strong>, el <strong>Informe Parcial 2 (a las 160 horas)</strong> y el <strong>Informe Final de Prácticas (al completar las 240 horas)</strong> con el visto bueno del tutor empresarial y académico.
+            </p>
+          </div>
+        </div>
+
+        <!-- Stat Cards -->
+        <div class="row g-3 mb-4">
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-value">98</div>
+                  <div class="stat-label">Total Informes</div>
+                </div>
+                <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                  <i class="bi bi-folder-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-value text-success">76</div>
+                  <div class="stat-label">Informes Aprobados</div>
+                </div>
+                <div class="stat-icon bg-success bg-opacity-10 text-success">
+                  <i class="bi bi-check-circle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-value text-info">14</div>
+                  <div class="stat-label">En Revisión de Tutor</div>
+                </div>
+                <div class="stat-icon bg-info bg-opacity-10 text-info">
+                  <i class="bi bi-hourglass-split"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card h-100">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="stat-value text-warning">8</div>
+                  <div class="stat-label">Observados / Corregir</div>
+                </div>
+                <div class="stat-icon bg-warning bg-opacity-10 text-warning">
+                  <i class="bi bi-exclamation-triangle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <div class="form-group flex-grow-1" style="min-width: 220px;">
+            <label class="form-label" for="buscarInforme">Buscar informe o estudiante</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white text-muted border-end-0">
+                <i class="bi bi-search"></i>
+              </span>
+              <input type="text" class="form-control border-start-0 ps-0" id="buscarInforme" placeholder="Nombre, cédula o código..." data-search-table="tablaInformes">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filtroTipoInforme">Tipo de Informe</label>
+            <select class="form-select" id="filtroTipoInforme">
+              <option value="todos" selected>Todos los tipos</option>
+              <option value="parcial1">Informe Parcial 1 (80h)</option>
+              <option value="parcial2">Informe Parcial 2 (160h)</option>
+              <option value="final">Informe Final (240h)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filtroEstadoInforme">Estado de Revisión</label>
+            <select class="form-select" id="filtroEstadoInforme">
+              <option value="todos" selected>Todos los estados</option>
+              <option value="aprobado">Aprobado</option>
+              <option value="revision">En Revisión</option>
+              <option value="observado">Observado</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filtroCarreraInforme">Carrera</label>
+            <select class="form-select" id="filtroCarreraInforme">
+              <option value="todas" selected>Todas las carreras</option>
+              <option value="software">Ing. en Software</option>
+              <option value="sistemas">Ing. en Sistemas</option>
+              <option value="civil">Ing. Civil</option>
+              <option value="industrial">Ing. Industrial</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Tabla de Informes -->
+        <div class="table-container mb-4">
+          <table class="table table-hover align-middle" id="tablaInformes">
+            <thead>
+              <tr>
+                <th>Estudiante</th>
+                <th>Tipo de Informe</th>
+                <th>Horas Acumuladas</th>
+                <th>Tutor Revisor</th>
+                <th class="text-center">Estado</th>
+                <th>Documento</th>
+                <th>Fecha Entrega</th>
+                <th class="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <!-- Fila 1 -->
+              <tr data-tipo="final" data-estado="aprobado" data-carrera="software">
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="user-avatar bg-primary text-white" style="width:34px;height:34px;font-size:0.8rem;">LM</div>
+                    <div>
+                      <div class="fw-semibold text-dark">López Mendoza Carlos Alberto</div>
+                      <small class="text-muted">CI: 0928374651 &bull; Software</small>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge bg-success bg-opacity-15 text-success border border-success border-opacity-25 py-1 px-2">
+                    <i class="bi bi-file-earmark-check me-1"></i>Informe Final
+                  </span>
+                </td>
+                <td>
+                  <div class="fw-semibold text-dark">240 / 240 hrs</div>
+                  <div class="progress" style="height: 5px; width: 90px;">
+                    <div class="progress-bar bg-success" style="width: 100%;"></div>
+                  </div>
+                </td>
+                <td>
+                  <div class="text-dark">Ing. Xavier Vera, M.Sc.</div>
+                  <small class="text-muted">Tutor Académico</small>
+                </td>
+                <td class="text-center">
+                  <span class="badge bg-success badge-estado"><i class="bi bi-check-circle-fill me-1"></i>Aprobado</span>
+                </td>
+                <td>
+                  <button class="btn btn-sm btn-light border text-danger" onclick="simularDescarga('Informe_Final_Carlos_Lopez.pdf')">
+                    <i class="bi bi-file-earmark-pdf me-1"></i>PDF (3.4 MB)
+                  </button>
+                </td>
+                <td><small class="text-muted">13/11/2026</small></td>
+                <td class="text-center">
+                  <div class="d-flex gap-1 justify-content-center">
+                    <button class="btn btn-action btn-outline-primary" title="Ver Detalle del Informe" onclick="verDetalleInforme('Carlos López Mendoza', 'Informe Final (240h)', 'Telconet S.A.', 'Implementación de pipeline CI/CD en Kubernetes y monitoreo de microservicios corporativos.', 'Aprobado sin observaciones. Cumple con la estructura de marco teórico, bitácora y conclusiones válidas.', 'Aprobado', '9.8 / 10')">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-action btn-outline-secondary" title="Revisar y Calificar" onclick="abrirModalRevision('Carlos López Mendoza', 'Informe Final', 'aprobado', 'Excelente sustentación y evidencias adjuntas.')">
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Fila 2 -->
+              <tr data-tipo="parcial2" data-estado="revision" data-carrera="sistemas">
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="user-avatar bg-info text-white" style="width:34px;height:34px;font-size:0.8rem;">PV</div>
+                    <div>
+                      <div class="fw-semibold text-dark">Paredes Vargas Diana Isabel</div>
+                      <small class="text-muted">CI: 0951478236 &bull; Sistemas</small>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge bg-primary bg-opacity-15 text-primary border border-primary border-opacity-25 py-1 px-2">
+                    <i class="bi bi-journal-text me-1"></i>Informe Parcial 2
+                  </span>
+                </td>
+                <td>
+                  <div class="fw-semibold text-dark">160 / 240 hrs</div>
+                  <div class="progress" style="height: 5px; width: 90px;">
+                    <div class="progress-bar bg-primary" style="width: 66%;"></div>
+                  </div>
+                </td>
+                <td>
+                  <div class="text-dark">Dra. Carmen Salazar, PhD.</div>
+                  <small class="text-muted">Tutor Académico</small>
+                </td>
+                <td class="text-center">
+                  <span class="badge bg-info text-dark badge-estado"><i class="bi bi-hourglass-split me-1"></i>En Revisión</span>
+                </td>
+                <td>
+                  <button class="btn btn-sm btn-light border text-danger" onclick="simularDescarga('Informe_Parcial_2_Diana_Paredes.pdf')">
+                    <i class="bi bi-file-earmark-pdf me-1"></i>PDF (2.1 MB)
+                  </button>
+                </td>
+                <td><small class="text-muted">14/11/2026</small></td>
+                <td class="text-center">
+                  <div class="d-flex gap-1 justify-content-center">
+                    <button class="btn btn-action btn-outline-primary" title="Ver Detalle del Informe" onclick="verDetalleInforme('Diana Isabel Paredes', 'Informe Parcial 2 (160h)', 'Banco Guayaquil', 'Auditoría interna de accesos a base de datos Oracle y fortalecimiento de contraseñas de red interna.', 'En proceso de revisión por la comisión académica.', 'En Revisión', 'Pendiente')">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-action btn-primary text-white" title="Revisar y Emitir Dictamen" onclick="abrirModalRevision('Diana Isabel Paredes', 'Informe Parcial 2', 'revision', '')">
+                      <i class="bi bi-check2-square"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Fila 3 -->
+              <tr data-tipo="parcial1" data-estado="observado" data-carrera="industrial">
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="user-avatar bg-danger text-white" style="width:34px;height:34px;font-size:0.8rem;">GT</div>
+                    <div>
+                      <div class="fw-semibold text-dark">Guerrero Torres Melanie Sofia</div>
+                      <small class="text-muted">CI: 0938472615 &bull; Industrial</small>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge bg-secondary bg-opacity-15 text-secondary border border-secondary border-opacity-25 py-1 px-2">
+                    <i class="bi bi-journal me-1"></i>Informe Parcial 1
+                  </span>
+                </td>
+                <td>
+                  <div class="fw-semibold text-dark">80 / 240 hrs</div>
+                  <div class="progress" style="height: 5px; width: 90px;">
+                    <div class="progress-bar bg-warning" style="width: 33%;"></div>
+                  </div>
+                </td>
+                <td>
+                  <div class="text-dark">Ing. Patricia Moncayo, M.Sc.</div>
+                  <small class="text-muted">Tutor Académico</small>
+                </td>
+                <td class="text-center">
+                  <span class="badge bg-warning text-dark badge-estado"><i class="bi bi-exclamation-triangle me-1"></i>Observado</span>
+                </td>
+                <td>
+                  <button class="btn btn-sm btn-light border text-danger" onclick="simularDescarga('Informe_Parcial_1_Melanie_Guerrero.pdf')">
+                    <i class="bi bi-file-earmark-pdf me-1"></i>PDF (1.8 MB)
+                  </button>
+                </td>
+                <td><small class="text-muted">11/11/2026</small></td>
+                <td class="text-center">
+                  <div class="d-flex gap-1 justify-content-center">
+                    <button class="btn btn-action btn-outline-primary" title="Ver Detalle del Informe" onclick="verDetalleInforme('Melanie Sofia Guerrero', 'Informe Parcial 1 (80h)', 'Pronaca S.A.', 'Revisión del diagrama de flujo de empaque y toma de tiempos de línea de producción.', 'Faltan firmas del supervisor en bitácora anexa y el marco metodológico debe referenciar la norma ISO 9001.', 'Observado', '6.0 / 10')">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-action btn-outline-warning" title="Editar Observaciones" onclick="abrirModalRevision('Melanie Sofia Guerrero', 'Informe Parcial 1', 'observado', 'Faltan firmas del supervisor en bitácora anexa y el marco metodológico debe referenciar la norma ISO 9001.')">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Fila 4 -->
+              <tr data-tipo="final" data-estado="aprobado" data-carrera="civil">
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="user-avatar bg-warning text-dark" style="width:34px;height:34px;font-size:0.8rem;">MR</div>
+                    <div>
+                      <div class="fw-semibold text-dark">Moreira Reyes Kevin Josué</div>
+                      <small class="text-muted">CI: 0947261893 &bull; Civil</small>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge bg-success bg-opacity-15 text-success border border-success border-opacity-25 py-1 px-2">
+                    <i class="bi bi-file-earmark-check me-1"></i>Informe Final
+                  </span>
+                </td>
+                <td>
+                  <div class="fw-semibold text-dark">240 / 240 hrs</div>
+                  <div class="progress" style="height: 5px; width: 90px;">
+                    <div class="progress-bar bg-success" style="width: 100%;"></div>
+                  </div>
+                </td>
+                <td>
+                  <div class="text-dark">Ing. Andrés Cevallos, M.Sc.</div>
+                  <small class="text-muted">Tutor Académico</small>
+                </td>
+                <td class="text-center">
+                  <span class="badge bg-success badge-estado"><i class="bi bi-check-circle-fill me-1"></i>Aprobado</span>
+                </td>
+                <td>
+                  <button class="btn btn-sm btn-light border text-danger" onclick="simularDescarga('Informe_Final_Kevin_Moreira.pdf')">
+                    <i class="bi bi-file-earmark-pdf me-1"></i>PDF (4.8 MB)
+                  </button>
+                </td>
+                <td><small class="text-muted">09/11/2026</small></td>
+                <td class="text-center">
+                  <div class="d-flex gap-1 justify-content-center">
+                    <button class="btn btn-action btn-outline-primary" title="Ver Detalle del Informe" onclick="verDetalleInforme('Kevin Josué Moreira', 'Informe Final (240h)', 'Hidalgo & Hidalgo', 'Control de calidad de mezclas asfálticas y ensayos de laboratorio de compresión simple.', 'Informe de alto rigor técnico. Bitácora validada por el superintendente con 240 horas cumplidas.', 'Aprobado', '9.4 / 10')">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-action btn-outline-secondary" title="Revisar" onclick="abrirModalRevision('Kevin Josué Moreira', 'Informe Final', 'aprobado', 'Informe con alto rigor técnico y ensayos completos.')">
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pagination-container">
+            <div class="pagination-info">Mostrando 4 informes registrados en el período activo</div>
+            <nav>
+              <ul class="pagination pagination-sm">
+                <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <!-- Modal Detalle del Informe -->
+        <div class="modal fade" id="modalVerInforme" tabindex="-1" aria-labelledby="modalVerInformeLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+              <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold" id="modalVerInformeLabel">
+                  <i class="bi bi-file-earmark-text text-primary me-2"></i>Contenido y Estado del Informe
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body pt-3">
+                <div class="card bg-light border-0 mb-3">
+                  <div class="card-body py-3">
+                    <div class="row g-2">
+                      <div class="col-sm-6">
+                        <small class="text-muted d-block">Estudiante:</small>
+                        <strong class="text-dark" id="detEstudiante">Carlos López</strong>
+                      </div>
+                      <div class="col-sm-6">
+                        <small class="text-muted d-block">Tipo de Informe:</small>
+                        <span class="badge bg-primary" id="detTipo">Informe Final</span>
+                      </div>
+                      <div class="col-sm-6">
+                        <small class="text-muted d-block">Empresa / Institución:</small>
+                        <span class="text-dark fw-medium" id="detEmpresa">Telconet S.A.</span>
+                      </div>
+                      <div class="col-sm-6">
+                        <small class="text-muted d-block">Estado y Nota:</small>
+                        <span class="badge bg-success me-1" id="detEstado">Aprobado</span>
+                        <strong class="text-primary" id="detNota">9.8 / 10</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <h6 class="fw-bold text-dark"><i class="bi bi-card-text text-primary me-1"></i>Resumen de Actividades Realizadas</h6>
+                  <p class="text-secondary small bg-light p-3 rounded" id="detResumen"></p>
+                </div>
+
+                <div class="mb-3">
+                  <h6 class="fw-bold text-dark"><i class="bi bi-chat-left-quote text-success me-1"></i>Dictamen y Observaciones del Tutor</h6>
+                  <div class="p-3 rounded border bg-light text-dark small" id="detObservaciones"></div>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between p-3 rounded bg-primary bg-opacity-10 border border-primary border-opacity-25">
+                  <div class="d-flex align-items-center gap-3">
+                    <i class="bi bi-file-earmark-pdf-fill text-danger fs-2"></i>
+                    <div>
+                      <div class="fw-bold text-dark">Documento Digital Anexo</div>
+                      <small class="text-muted">Formato Oficial UG &bull; Firmado digitalmente</small>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary btn-sm" onclick="simularDescarga('Documento_Informe_UG.pdf')">
+                    <i class="bi bi-download me-1"></i>Descargar PDF
+                  </button>
+                </div>
+              </div>
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Revisión del Tutor -->
+        <div class="modal fade" id="modalRevisionTutor" tabindex="-1" aria-labelledby="modalRevisionLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold" id="modalRevisionLabel">
+                  <i class="bi bi-check2-circle text-primary me-2"></i>Dictamen del Tutor Académico
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body pt-3">
+                <p class="text-muted small">Evaluación del informe presentado por <strong id="revEstudiante">Diana Paredes</strong>.</p>
+                
+                <div class="mb-3">
+                  <label class="form-label">Dictamen de Aprobación</label>
+                  <div class="d-flex gap-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="dictamenRadio" id="radAprobar" value="aprobado" checked>
+                      <label class="form-check-label text-success fw-bold" for="radAprobar">
+                        <i class="bi bi-check-circle me-1"></i>Aprobar Informe
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="dictamenRadio" id="radObservar" value="observado">
+                      <label class="form-check-label text-warning fw-bold" for="radObservar">
+                        <i class="bi bi-exclamation-circle me-1"></i>Con Observaciones
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label" for="revNota">Calificación del Informe (sobre 10.0)</label>
+                  <input type="number" step="0.1" min="1" max="10" class="form-control" id="revNota" value="9.0">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label" for="revComentarios">Observaciones y Retroalimentación</label>
+                  <textarea class="form-control" id="revComentarios" rows="3" placeholder="Indique observaciones específicas o felicitaciones..."></textarea>
+                </div>
+              </div>
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="guardarRevision()">
+                  <i class="bi bi-save me-1"></i>Guardar Dictamen
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Registrar / Subir Informe -->
+        <div class="modal fade" id="modalNuevoInforme" tabindex="-1" aria-labelledby="modalNuevoInformeLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="modalNuevoInformeLabel">
+                  <i class="bi bi-cloud-arrow-up text-primary me-2"></i>Entregar Informe de Prácticas
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body">
+                <form id="formNuevoInforme" onsubmit="event.preventDefault(); enviarNuevoInforme();">
+                  <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                      <label class="form-label" for="nuevoEstudiante">Estudiante</label>
+                      <select class="form-select" id="nuevoEstudiante" required>
+                        <option value="" disabled selected>Seleccione estudiante...</option>
+                        <option value="López Mendoza Carlos Alberto">López Mendoza Carlos Alberto (Software)</option>
+                        <option value="Paredes Vargas Diana Isabel">Paredes Vargas Diana Isabel (Sistemas)</option>
+                        <option value="Moreira Reyes Kevin Josué">Moreira Reyes Kevin Josué (Civil)</option>
+                        <option value="Guerrero Torres Melanie Sofia">Guerrero Torres Melanie Sofia (Industrial)</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label" for="nuevoTipoInforme">Tipo de Informe</label>
+                      <select class="form-select" id="nuevoTipoInforme" required>
+                        <option value="parcial1">Informe Parcial 1 (80 horas)</option>
+                        <option value="parcial2">Informe Parcial 2 (160 horas)</option>
+                        <option value="final">Informe Final (240 horas)</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label" for="nuevoHoras">Horas que Acredita este Informe</label>
+                      <input type="number" class="form-control" id="nuevoHoras" placeholder="ej. 80" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label" for="nuevoPeriodo">Período Abarcado</label>
+                      <input type="text" class="form-control" id="nuevoPeriodo" placeholder="ej. 01/10/2026 - 31/10/2026" required>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label" for="nuevoResumen">Resumen de Actividades Realizadas</label>
+                    <textarea class="form-control" id="nuevoResumen" rows="3" placeholder="Detalle sintético de tareas desarrolladas en la empresa..." required></textarea>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label" for="nuevoArchivo">Adjuntar Documento del Informe (PDF obligatorio)</label>
+                    <input type="file" class="form-control" id="nuevoArchivo" accept=".pdf" required>
+                    <small class="text-muted">Tamaño máximo: 15 MB. El archivo debe contar con la plantilla oficial y firmas pertinentes.</small>
+                  </div>
+
+                  <div class="modal-footer border-0 px-0 pb-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                      <i class="bi bi-send-fill me-1"></i>Registrar y Enviar a Tutor
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Info Plantilla -->
+        <div class="modal fade" id="modalPlantillaInfo" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title fw-bold"><i class="bi bi-file-earmark-word text-primary me-2"></i>Plantilla Oficial de Informes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <p class="text-muted small">Descargue el formato institucional oficial para la redacción de informes parciales y finales de la Facultad de Ciencias Matemáticas y Físicas UG.</p>
+                <div class="list-group">
+                  <a href="plantillas-descargables.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <div>
+                      <strong class="d-block text-dark">Plantilla Informe Parcial (Word .docx)</strong>
+                      <small class="text-muted">Código: UG-FPP-03 &bull; v2.4</small>
+                    </div>
+                    <span class="btn btn-sm btn-outline-primary"><i class="bi bi-arrow-right"></i> Ir a Plantillas</span>
+                  </a>
+                  <a href="plantillas-descargables.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <div>
+                      <strong class="d-block text-dark">Plantilla Informe Final (Word .docx)</strong>
+                      <small class="text-muted">Código: UG-FPP-04 &bull; v2.4</small>
+                    </div>
+                    <span class="btn btn-sm btn-outline-primary"><i class="bi bi-arrow-right"></i> Ir a Plantillas</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.content -->
+    </div><!-- /.main-content -->
+  </div><!-- /.wrapper -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+  <script>
+    // Filtros dinámicos de tabla
+    const fTipo = document.getElementById('filtroTipoInforme');
+    const fEstado = document.getElementById('filtroEstadoInforme');
+    const fCarrera = document.getElementById('filtroCarreraInforme');
+    const rowsInf = document.querySelectorAll('#tablaInformes tbody tr');
+
+    function filtrarInformes() {
+      const vT = fTipo.value;
+      const vE = fEstado.value;
+      const vC = fCarrera.value;
+
+      rowsInf.forEach(r => {
+        const mT = (vT === 'todos' || r.getAttribute('data-tipo') === vT);
+        const mE = (vE === 'todos' || r.getAttribute('data-estado') === vE);
+        const mC = (vC === 'todas' || r.getAttribute('data-carrera') === vC);
+        r.style.display = (mT && mE && mC) ? '' : 'none';
+      });
+    }
+
+    fTipo.addEventListener('change', filtrarInformes);
+    fEstado.addEventListener('change', filtrarInformes);
+    fCarrera.addEventListener('change', filtrarInformes);
+
+    // Ver detalle
+    function verDetalleInforme(estudiante, tipo, empresa, resumen, observaciones, estado, nota) {
+      document.getElementById('detEstudiante').textContent = estudiante;
+      document.getElementById('detTipo').textContent = tipo;
+      document.getElementById('detEmpresa').textContent = empresa;
+      document.getElementById('detResumen').textContent = resumen;
+      document.getElementById('detObservaciones').textContent = observaciones;
+      document.getElementById('detEstado').textContent = estado;
+      document.getElementById('detNota').textContent = nota;
+
+      new bootstrap.Modal(document.getElementById('modalVerInforme')).show();
+    }
+
+    // Modal revisión
+    function abrirModalRevision(estudiante, tipo, estadoActual, comentarios) {
+      document.getElementById('revEstudiante').textContent = estudiante;
+      document.getElementById('revComentarios').value = comentarios || '';
+      if (estadoActual === 'aprobado') {
+        document.getElementById('radAprobar').checked = true;
+      } else if (estadoActual === 'observado') {
+        document.getElementById('radObservar').checked = true;
+      }
+      new bootstrap.Modal(document.getElementById('modalRevisionTutor')).show();
+    }
+
+    function guardarRevision() {
+      bootstrap.Modal.getInstance(document.getElementById('modalRevisionTutor')).hide();
+      alert('¡Dictamen registrado exitosamente! Se notificó al estudiante por correo institucional.');
+    }
+
+    function enviarNuevoInforme() {
+      const estudiante = document.getElementById('nuevoEstudiante').value;
+      const tipo = document.getElementById('nuevoTipoInforme').value;
+      const horas = document.getElementById('nuevoHoras').value;
+      const archivoInput = document.getElementById('nuevoArchivo');
+      const nombreArchivo = (archivoInput.files && archivoInput.files[0]) ? archivoInput.files[0].name : 'Informe_Prácticas_Nuevo.pdf';
+
+      let tipoNombre = 'Informe Parcial';
+      let tipoBadge = 'bg-primary';
+      if (tipo === 'parcial1') { tipoNombre = 'Informe Parcial 1'; tipoBadge = 'bg-secondary'; }
+      else if (tipo === 'parcial2') { tipoNombre = 'Informe Parcial 2'; tipoBadge = 'bg-primary'; }
+      else if (tipo === 'final') { tipoNombre = 'Informe Final'; tipoBadge = 'bg-success'; }
+
+      const tbody = document.querySelector('#tablaInformes tbody');
+      const newRow = document.createElement('tr');
+      newRow.className = 'table-primary bg-opacity-25';
+      newRow.innerHTML = `
+        <td>
+          <div class="d-flex align-items-center gap-2">
+            <div class="user-avatar bg-primary text-white" style="width:34px;height:34px;font-size:0.8rem;">EST</div>
+            <div>
+              <div class="fw-semibold text-dark">${estudiante}</div>
+              <small class="text-success"><i class="bi bi-clock me-1"></i>Enviado hace un momento</small>
+            </div>
+          </div>
+        </td>
+        <td>
+          <span class="badge ${tipoBadge} bg-opacity-15 text-dark border py-1 px-2">
+            <i class="bi bi-journal-check me-1"></i>${tipoNombre}
+          </span>
+        </td>
+        <td>
+          <div class="fw-semibold text-dark">${horas} / 240 hrs</div>
+          <div class="progress" style="height: 5px; width: 90px;">
+            <div class="progress-bar bg-info" style="width: ${Math.min(100, Math.round((horas/240)*100))}%;"></div>
+          </div>
+        </td>
+        <td>
+          <div class="text-dark">Ing. Xavier Vera, M.Sc.</div>
+          <small class="text-muted">Tutor Académico</small>
+        </td>
+        <td class="text-center">
+          <span class="badge bg-info text-dark badge-estado"><i class="bi bi-hourglass-split me-1"></i>En Revisión</span>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-light border text-danger" onclick="simularDescarga('${nombreArchivo}')">
+            <i class="bi bi-file-earmark-pdf me-1"></i>PDF
+          </button>
+        </td>
+        <td><small class="text-muted">Hoy (15/11/2026)</small></td>
+        <td class="text-center">
+          <div class="d-flex gap-1 justify-content-center">
+            <button class="btn btn-action btn-outline-primary" title="Ver Detalle" onclick="verDetalleInforme('${estudiante}', '${tipoNombre}', 'Empresa Asignada', 'Informe remitido para evaluación curricular.', 'Pendiente de dictamen docente.', 'En Revisión', 'Pendiente')">
+              <i class="bi bi-eye"></i>
+            </button>
+            <button class="btn btn-action btn-primary text-white" title="Revisar" onclick="abrirModalRevision('${estudiante}', '${tipoNombre}', 'revision', '')">
+              <i class="bi bi-check2-square"></i>
+            </button>
+          </div>
+        </td>
+      `;
+      tbody.insertBefore(newRow, tbody.firstChild);
+
+      bootstrap.Modal.getInstance(document.getElementById('modalNuevoInforme')).hide();
+      alert('¡Informe entregado y cargado correctamente en el repositorio! Está listo para la revisión de los tutores.');
+      document.getElementById('formNuevoInforme').reset();
+    }
+
+    function simularDescarga(nombre) {
+      const contenido = `UNIVERSIDAD DE GUAYAQUIL
+FACULTAD DE CIENCIAS MATEMÁTICAS Y FÍSICAS
+INFORME DE PRÁCTICAS PREPROFESIONALES
+
+DOCUMENTO: ${nombre}
+FECHA: ${new Date().toLocaleDateString('es-EC')}
+ESTADO: Documento oficial registrado en el repositorio digital UG
+
+Estudiante: Practicante de la Universidad de Guayaquil
+Tutor Académico: Docente Guía
+Tutor Empresarial: Supervisor de la Entidad Receptora
+
+========================================================================
+CONTENIDO DEL INFORME:
+1. Resumen Ejecutivo de Actividades
+2. Objetivos de Aprendizaje Logrados
+3. Detalle de Horas Ejecutadas y Acreditadas
+4. Dificultades Técnicas y Soluciones Implementadas
+5. Conclusiones y Recomendaciones
+========================================================================
+Módulo: Evaluaciones y Documentos
+Responsable: Quijije Camacho Russell Jordy
+`;
+      const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = nombre;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      const t = document.createElement('div');
+      t.className = 'position-fixed bottom-0 end-0 p-3';
+      t.style.zIndex = '9999';
+      t.innerHTML = `
+        <div class="toast show align-items-center text-bg-success border-0 shadow">
+          <div class="d-flex">
+            <div class="toast-body">
+              <i class="bi bi-file-earmark-check-fill me-2"></i> Descargando <strong>${nombre}</strong>...
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 4000);
+    }
+  </script>
+</body>
+</html>

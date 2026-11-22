@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plantillas Descargables — Gestión de Prácticas UG</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="../assets/css/custom.css" rel="stylesheet">
+</head>
+<body data-page="doc-plantillas" data-section="Evaluaciones y Documentos">
+  <div class="wrapper">
+    <aside id="sidebar"></aside>
+    <div class="sidebar-overlay"></div>
+    <div class="main-content">
+      <nav id="topbar"></nav>
+      <div class="content">
+
+        <!-- Page Header -->
+        <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+          <div>
+            <h2><i class="bi bi-folder-symlink-fill text-primary me-2"></i>Plantillas y Formatos Oficiales UG</h2>
+            <p>Repositorio de formatos descargables para el inicio, ejecución, evaluación y cierre de prácticas preprofesionales</p>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <button type="button" class="btn btn-outline-secondary" onclick="simularDescarga('Kit_Completo_Formatos_Practicas_UG_2026.zip')">
+              <i class="bi bi-file-earmark-zip me-1"></i> Descargar Todo el Kit (.ZIP)
+            </button>
+            <a href="documentos-carga.html" class="btn btn-primary">
+              <i class="bi bi-cloud-arrow-up me-1"></i> Ir a Carga de Documentos
+            </a>
+          </div>
+        </div>
+
+        <!-- Banner Informativo -->
+        <div class="alert alert-secondary bg-white border d-flex align-items-center justify-content-between p-3 rounded-3 shadow-sm mb-4">
+          <div class="d-flex align-items-center gap-3">
+            <div class="p-2 rounded bg-primary bg-opacity-10 text-primary">
+              <i class="bi bi-award-fill fs-3"></i>
+            </div>
+            <div>
+              <strong class="text-dark d-block">Versión Vigente de Formatos: Periodo Académico 2026 - 2027</strong>
+              <small class="text-muted">Aprobados por el Consejo Directivo de la Facultad de Ciencias Matemáticas y Físicas UG</small>
+            </div>
+          </div>
+          <span class="badge bg-primary px-3 py-2">Normativa RRA-UG</span>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <div class="filter-bar mb-4">
+          <div class="form-group flex-grow-1" style="min-width: 240px;">
+            <label class="form-label" for="buscarPlantilla">Buscar plantilla o código UG</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white text-muted border-end-0">
+                <i class="bi bi-search"></i>
+              </span>
+              <input type="text" class="form-control border-start-0 ps-0" id="buscarPlantilla" placeholder="Buscar por nombre, código ej: UG-FPP-01...">
+            </div>
+          </div>
+          <div class="form-group" style="min-width: 220px;">
+            <label class="form-label" for="categoriaPlantilla">Categoría del Trámite</label>
+            <select class="form-select" id="categoriaPlantilla">
+              <option value="todas" selected>Todas las categorías</option>
+              <option value="inicio">Inicio de Prácticas (Aceptación / Compromiso)</option>
+              <option value="informes">Informes y Bitácoras</option>
+              <option value="evaluaciones">Rúbricas y Evaluaciones</option>
+              <option value="culminacion">Culminación y Certificados</option>
+            </select>
+          </div>
+          <div class="form-group" style="max-width: 180px;">
+            <label class="form-label" for="tipoArchivoPlantilla">Tipo de Archivo</label>
+            <select class="form-select" id="tipoArchivoPlantilla">
+              <option value="todos" selected>Todos los formatos</option>
+              <option value="docx">Microsoft Word (.docx)</option>
+              <option value="xlsx">Microsoft Excel (.xlsx)</option>
+              <option value="pdf">Documento PDF (.pdf)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Grid de Plantillas Descargables -->
+        <div class="row g-4 mb-4" id="gridPlantillas">
+
+          <!-- Card 1: UG-FPP-01 -->
+          <div class="col-md-6 col-xl-4 plantilla-item" data-cat="inicio" data-ext="docx" data-texto="ug-fpp-01 carta de aceptacion empresa">
+            <div class="card template-card h-100 p-3 rounded-3">
+              <div class="d-flex align-items-start justify-content-between mb-3">
+                <div class="template-file-badge badge-docx">
+                  <i class="bi bi-file-earmark-word-fill"></i>
+                </div>
+                <span class="template-code">UG-FPP-01</span>
+              </div>
+              <h5 class="fw-bold text-dark mb-1">Carta de Aceptación de la Empresa</h5>
+              <p class="text-secondary small mb-3 flex-grow-1">
+                Formato institucional obligatorio emitido y sellado por la empresa u organismo receptor que confirma la vacante y asignación del tutor empresarial.
+              </p>
+              <div class="d-flex justify-content-between align-items-center small text-muted mb-3 border-top pt-2">
+                <span><i class="bi bi-person-check me-1"></i>Llenado por: <strong>Empresa</strong></span>
+                <span>DOCX &bull; 45 KB</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-secondary flex-grow-1" onclick="abrirPreviewPlantilla('Carta de Aceptación Institucional', 'UG-FPP-01', 'Word (.docx)', '45 KB', 'Estructura oficial: Datos de la empresa receptora, RUC, nombre del practicante, horario semanal, área de desempeño y designación formal del tutor empresarial con firma y sello.')">
+                  <i class="bi bi-eye me-1"></i> Vista Previa
+                </button>
+                <button class="btn btn-sm btn-primary flex-grow-1" onclick="simularDescarga('UG-FPP-01_Carta_Aceptacion_UG.docx')">
+                  <i class="bi bi-download me-1"></i> Descargar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: UG-FPP-02 -->
+          <div class="col-md-6 col-xl-4 plantilla-item" data-cat="inicio" data-ext="docx" data-texto="ug-fpp-02 carta compromiso confidencialidad">
+            <div class="card template-card h-100 p-3 rounded-3">
+              <div class="d-flex align-items-start justify-content-between mb-3">
+                <div class="template-file-badge badge-docx">
+                  <i class="bi bi-file-earmark-word-fill"></i>
+                </div>
+                <span class="template-code">UG-FPP-02</span>
+              </div>
+              <h5 class="fw-bold text-dark mb-1">Carta de Compromiso y Confidencialidad</h5>
+              <p class="text-secondary small mb-3 flex-grow-1">
+                Documento de adhesión y responsabilidad firmado por el estudiante, estipulando ética, custodia de información corporativa y cumplimiento horario.
+              </p>
+              <div class="d-flex justify-content-between align-items-center small text-muted mb-3 border-top pt-2">
+                <span><i class="bi bi-person me-1"></i>Llenado por: <strong>Estudiante</strong></span>
+                <span>DOCX &bull; 52 KB</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-secondary flex-grow-1" onclick="abrirPreviewPlantilla('Carta de Compromiso y Confidencialidad', 'UG-FPP-02', 'Word (.docx)', '52 KB', 'Cláusulas de ética profesional, secreto corporativo, obligaciones del practicante frente a la Universidad de Guayaquil y la entidad receptora.')">
+                  <i class="bi bi-eye me-1"></i> Vista Previa
+                </button>
+                <button class="btn btn-sm btn-primary flex-grow-1" onclick="simularDescarga('UG-FPP-02_Carta_Compromiso_UG.docx')">
+                  <i class="bi bi-download me-1"></i> Descargar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: UG-FPP-03 -->
+          <div class="col-md-6 col-xl-4 plantilla-item" data-cat="informes" data-ext="docx" data-texto="ug-fpp-03 plantilla informe parcial 80h 160h">
+            <div class="card template-card h-100 p-3 rounded-3">
+              <div class="d-flex align-items-start justify-content-between mb-3">
+                <div class="template-file-badge badge-docx">
+                  <i class="bi bi-file-earmark-word-fill"></i>
+                </div>
+                <span class="template-code">UG-FPP-03</span>
+              </div>
+              <h5 class="fw-bold text-dark mb-1">Plantilla de Informe Parcial de Prácticas</h5>
+              <p class="text-secondary small mb-3 flex-grow-1">
+                Estructura canónica para la entrega de los informes parciales (80h y 160h) con registro de actividades, metas alcanzadas y observaciones de progreso.
+              </p>
+              <div class="d-flex justify-content-between align-items-center small text-muted mb-3 border-top pt-2">
+                <span><i class="bi bi-person me-1"></i>Llenado por: <strong>Estudiante</strong></span>
+                <span>DOCX &bull; 120 KB</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-secondary flex-grow-1" onclick="abrirPreviewPlantilla('Plantilla de Informe Parcial', 'UG-FPP-03', 'Word (.docx)', '120 KB', 'Portada institucional UG, índice, introducción, objetivos específicos del período, actividades detalladas, dificultades encontradas y firmas del tutor académico y empresarial.')">
+                  <i class="bi bi-eye me-1"></i> Vista Previa
+                </button>
+                <button class="btn btn-sm btn-primary flex-grow-1" onclick="simularDescarga('UG-FPP-03_Plantilla_Informe_Parcial_UG.docx')">
+                  <i class="bi bi-download me-1"></i> Descargar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: UG-FPP-04 -->
+          <div class="col-md-6 col-xl-4 plantilla-item" data-cat="informes" data-ext="docx" data-texto="ug-fpp-04 plantilla informe final 240h memoria">
+            <div class="card template-card h-100 p-3 rounded-3">
+              <div class="d-flex align-items-start justify-content-between mb-3">
+                <div class="template-file-badge badge-docx">
+                  <i class="bi bi-file-earmark-word-fill"></i>
+                </div>
+                <span class="template-code">UG-FPP-04</span>
+              </div>
+              <h5 class="fw-bold text-dark mb-1">Plantilla de Informe Final de Prácticas (240h)</h5>
+              <p class="text-secondary small mb-3 flex-grow-1">
+                Formato integral de la memoria técnica de prácticas con marco metodológico, aporte práctico a la empresa, conclusiones, recomendaciones y anexos.
+              </p>
+              <div class="d-flex justify-content-between align-items-center small text-muted mb-3 border-top pt-2">
+                <span><i class="bi bi-person me-1"></i>Llenado por: <strong>Estudiante</strong></span>
+                <span>DOCX &bull; 180 KB</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-secondary flex-grow-1" onclick="abrirPreviewPlantilla('Plantilla de Informe Final de Prácticas', 'UG-FPP-04', 'Word (.docx)', '180 KB', 'Estructura académica de informe final de 240 horas: Resumen ejecutivo, diagnóstico institucional, desarrollo técnico de actividades, aportes, conclusiones, recomendaciones y compendio fotográfico.')">
+                  <i class="bi bi-eye me-1"></i> Vista Previa
+                </button>
+                <button class="btn btn-sm btn-primary flex-grow-1" onclick="simularDescarga('UG-FPP-04_Plantilla_Informe_Final_UG.docx')">
+                  <i class="bi bi-download me-1"></i> Descargar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: UG-FPP-05 -->
+          <div class="col-md-6 col-xl-4 plantilla-item" data-cat="informes" data-ext="xlsx" data-texto="ug-fpp-05 bitacora diaria horas actividades control">
+            <div class="card template-card h-100 p-3 rounded-3">
+              <div class="d-flex align-items-start justify-content-between mb-3">
+                <div class="template-file-badge badge-xlsx">
+                  <i class="bi bi-file-earmark-excel-fill"></i>
+                </div>
+                <span class="template-code">UG-FPP-05</span>
+              </div>
+              <h5 class="fw-bold text-dark mb-1">Bitácora Diaria de Registro de Horas</h5>
+              <p class="text-secondary small mb-3 flex-grow-1">
+                Libro de cálculo automatizado para asentar día a día las horas ejecutadas, detalle de tareas, firmas de visto bueno y cálculo del acumulado vs. 240h.
+              </p>
+              <div class="d-flex justify-content-between align-items-center small text-muted mb-3 border-top pt-2">
+                <span><i class="bi bi-person me-1"></i>Llenado por: <strong>Estudiante / Tutor</strong></span>
+                <span>XLSX &bull; 65 KB</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-secondary flex-grow-1" onclick="abrirPreviewPlantilla('Bitácora Diaria de Horas (Excel)', 'UG-FPP-05', 'Excel (.xlsx)', '65 KB', 'Planilla formulada con suma acumulativa automática, control de días hábiles, cálculo de avance porcentual y sección para firmas semanales.')">
+                  <i class="bi bi-eye me-1"></i> Vista Previa
+                </button>
+                <button class="btn btn-sm btn-success flex-grow-1 text-white" onclick="simularDescarga('UG-FPP-05_Bitacora_Horas_UG.xlsx')">
+                  <i class="bi bi-download me-1"></i> Descargar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6: UG-FPP-06 -->
+          <div class="col-md-6 col-xl-4 plantilla-item" data-cat="evaluaciones" data-ext="pdf" data-texto="ug-fpp-06 rubrica evaluacion tutor empresarial">
+            <div class="card template-card h-100 p-3 rounded-3">
+              <div class="d-flex align-items-start justify-content-between mb-3">
+                <div class="template-file-badge badge-pdf">
+                  <i class="bi bi-file-earmark-pdf-fill"></i>
+                </div>
+                <span class="template-code">UG-FPP-06</span>
+              </div>
+              <h5 class="fw-bold text-dark mb-1">Rúbrica de Evaluación Tutor Empresarial</h5>
+              <p class="text-secondary small mb-3 flex-grow-1">
+                Instrumento imprimible oficial para la calificación del desempeño laboral, puntualidad, ética, adaptabilidad y trabajo en equipo del practicante.
+              </p>
+              <div class="d-flex justify-content-between align-items-center small text-muted mb-3 border-top pt-2">
+                <span><i class="bi bi-building me-1"></i>Llenado por: <strong>Tutor Empresarial</strong></span>
+                <span>PDF &bull; 110 KB</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-secondary flex-grow-1" onclick="abrirPreviewPlantilla('Rúbrica Tutor Empresarial (PDF)', 'UG-FPP-06', 'PDF (.pdf)', '110 KB', '5 Criterios de evaluación laboral, tabla de puntaje sobre 10.0, nivel de logro y espacio para firma y sello de la empresa receptora.')">
+                  <i class="bi bi-eye me-1"></i> Vista Previa
+                </button>
+                <button class="btn btn-sm btn-danger flex-grow-1 text-white" onclick="simularDescarga('UG-FPP-06_Rubrica_Tutor_Empresarial_UG.pdf')">
+                  <i class="bi bi-download me-1"></i> Descargar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 7: UG-FPP-07 -->
+          <div class="col-md-6 col-xl-4 plantilla-item" data-cat="evaluaciones" data-ext="pdf" data-texto="ug-fpp-07 rubrica evaluacion tutor academico docente">
+            <div class="card template-card h-100 p-3 rounded-3">
+              <div class="d-flex align-items-start justify-content-between mb-3">
+                <div class="template-file-badge badge-pdf">
+                  <i class="bi bi-file-earmark-pdf-fill"></i>
+                </div>
+                <span class="template-code">UG-FPP-07</span>
+              </div>
+              <h5 class="fw-bold text-dark mb-1">Rúbrica de Evaluación Tutor Académico</h5>
+              <p class="text-secondary small mb-3 flex-grow-1">
+                Instrumento imprimible oficial para la calificación pedagógica de la memoria técnica, aplicación de conocimientos disciplinares y tutorías.
+              </p>
+              <div class="d-flex justify-content-between align-items-center small text-muted mb-3 border-top pt-2">
+                <span><i class="bi bi-mortarboard me-1"></i>Llenado por: <strong>Docente Tutor</strong></span>
+                <span>PDF &bull; 105 KB</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-secondary flex-grow-1" onclick="abrirPreviewPlantilla('Rúbrica Tutor Académico (PDF)', 'UG-FPP-07', 'PDF (.pdf)', '105 KB', '5 Criterios académicos institucionales sobre 10.0, ponderación al 50%, recomendaciones formativas y firma del docente guía UG.')">
+                  <i class="bi bi-eye me-1"></i> Vista Previa
+                </button>
+                <button class="btn btn-sm btn-danger flex-grow-1 text-white" onclick="simularDescarga('UG-FPP-07_Rubrica_Tutor_Academico_UG.pdf')">
+                  <i class="bi bi-download me-1"></i> Descargar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 8: UG-FPP-08 -->
+          <div class="col-md-6 col-xl-4 plantilla-item" data-cat="culminacion" data-ext="docx" data-texto="ug-fpp-08 certificado culminacion empresa horas">
+            <div class="card template-card h-100 p-3 rounded-3">
+              <div class="d-flex align-items-start justify-content-between mb-3">
+                <div class="template-file-badge badge-docx">
+                  <i class="bi bi-file-earmark-word-fill"></i>
+                </div>
+                <span class="template-code">UG-FPP-08</span>
+              </div>
+              <h5 class="fw-bold text-dark mb-1">Certificado de Culminación Empresarial</h5>
+              <p class="text-secondary small mb-3 flex-grow-1">
+                Modelo sugerido para la certificación expedida por la máxima autoridad de RRHH o gerencia de la empresa acreditando las 240 horas ejecutadas.
+              </p>
+              <div class="d-flex justify-content-between align-items-center small text-muted mb-3 border-top pt-2">
+                <span><i class="bi bi-building me-1"></i>Llenado por: <strong>Empresa</strong></span>
+                <span>DOCX &bull; 48 KB</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-secondary flex-grow-1" onclick="abrirPreviewPlantilla('Certificado de Culminación de Prácticas', 'UG-FPP-08', 'Word (.docx)', '48 KB', 'Certificado con membrete empresarial, fecha de inicio y finalización, total de 240 horas y constancia del rendimiento del practicante.')">
+                  <i class="bi bi-eye me-1"></i> Vista Previa
+                </button>
+                <button class="btn btn-sm btn-primary flex-grow-1" onclick="simularDescarga('UG-FPP-08_Certificado_Culminacion_Empresarial_UG.docx')">
+                  <i class="bi bi-download me-1"></i> Descargar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 9: UG-FPP-09 -->
+          <div class="col-md-6 col-xl-4 plantilla-item" data-cat="inicio" data-ext="docx" data-texto="ug-fpp-09 plan de aprendizaje propuesta cronograma">
+            <div class="card template-card h-100 p-3 rounded-3">
+              <div class="d-flex align-items-start justify-content-between mb-3">
+                <div class="template-file-badge badge-docx">
+                  <i class="bi bi-file-earmark-word-fill"></i>
+                </div>
+                <span class="template-code">UG-FPP-09</span>
+              </div>
+              <h5 class="fw-bold text-dark mb-1">Plan de Aprendizaje de Prácticas</h5>
+              <p class="text-secondary small mb-3 flex-grow-1">
+                Planificación formativa con los objetivos de aprendizaje, competencias de perfil de egreso a potenciar y cronograma de fases de la práctica.
+              </p>
+              <div class="d-flex justify-content-between align-items-center small text-muted mb-3 border-top pt-2">
+                <span><i class="bi bi-journal-check me-1"></i>Llenado por: <strong>Tutor / Estudiante</strong></span>
+                <span>DOCX &bull; 58 KB</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-secondary flex-grow-1" onclick="abrirPreviewPlantilla('Plan de Aprendizaje de Prácticas', 'UG-FPP-09', 'Word (.docx)', '58 KB', 'Matriz de competencias del perfil de egreso, objetivos de aprendizaje, tareas por cumplir y mecanismos de evaluación pactados.')">
+                  <i class="bi bi-eye me-1"></i> Vista Previa
+                </button>
+                <button class="btn btn-sm btn-primary flex-grow-1" onclick="simularDescarga('UG-FPP-09_Plan_Aprendizaje_UG.docx')">
+                  <i class="bi bi-download me-1"></i> Descargar
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /.row -->
+
+        <!-- Modal Vista Previa de Plantilla -->
+        <div class="modal fade" id="modalPreviewPlantilla" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+              <div class="modal-header border-0 pb-0">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge bg-primary" id="prevCod">UG-FPP-01</span>
+                  <h5 class="modal-title fw-bold text-dark" id="prevNombre">Nombre de Plantilla</h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body pt-3">
+                <div class="card bg-light border-0 mb-3">
+                  <div class="card-body py-2">
+                    <div class="d-flex justify-content-between small text-muted">
+                      <span>Formato oficial: <strong class="text-dark" id="prevFormato">Word (.docx)</strong></span>
+                      <span>Tamaño estimado: <strong class="text-dark" id="prevTamano">45 KB</strong></span>
+                      <span>Entidad emisora: <strong class="text-dark">Universidad de Guayaquil</strong></span>
+                    </div>
+                  </div>
+                </div>
+
+                <h6 class="fw-bold mb-2 text-dark"><i class="bi bi-info-circle text-primary me-2"></i>Estructura y Contenido del Formato</h6>
+                <div class="p-3 border rounded bg-white text-secondary small mb-3" id="prevDescripcion"></div>
+
+                <div class="alert alert-warning border-0 small mb-0 d-flex align-items-center gap-2">
+                  <i class="bi bi-exclamation-triangle-fill text-warning fs-5"></i>
+                  <div>
+                    <strong>Recomendación importante:</strong> No altere los logotipos ni los encabezados predeterminados de la Universidad de Guayaquil al completar este formato.
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="btnDescargarModal" onclick="descargarDesdeModal()">
+                  <i class="bi bi-download me-1"></i> Descargar Documento
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.content -->
+    </div><!-- /.main-content -->
+  </div><!-- /.wrapper -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+  <script>
+    // Filtros dinámicos de plantillas
+    const inputBuscar = document.getElementById('buscarPlantilla');
+    const selectCat = document.getElementById('categoriaPlantilla');
+    const selectExt = document.getElementById('tipoArchivoPlantilla');
+    const cards = document.querySelectorAll('.plantilla-item');
+
+    let archivoActualDescarga = '';
+
+    function filtrarPlantillas() {
+      const term = inputBuscar.value.toLowerCase().trim();
+      const cat = selectCat.value;
+      const ext = selectExt.value;
+
+      cards.forEach(card => {
+        const text = card.getAttribute('data-texto') || '';
+        const cardCat = card.getAttribute('data-cat');
+        const cardExt = card.getAttribute('data-ext');
+
+        const matchSearch = (!term || text.includes(term));
+        const matchCat = (cat === 'todas' || cardCat === cat);
+        const matchExt = (ext === 'todos' || cardExt === ext);
+
+        card.style.display = (matchSearch && matchCat && matchExt) ? '' : 'none';
+      });
+    }
+
+    inputBuscar.addEventListener('input', filtrarPlantillas);
+    selectCat.addEventListener('change', filtrarPlantillas);
+    selectExt.addEventListener('change', filtrarPlantillas);
+
+    // Modal de previsualización
+    function abrirPreviewPlantilla(nombre, codigo, formato, tamano, descripcion) {
+      document.getElementById('prevNombre').textContent = nombre;
+      document.getElementById('prevCod').textContent = codigo;
+      document.getElementById('prevFormato').textContent = formato;
+      document.getElementById('prevTamano').textContent = tamano;
+      document.getElementById('prevDescripcion').textContent = descripcion;
+
+      const extension = formato.includes('Word') ? 'docx' : (formato.includes('Excel') ? 'xlsx' : 'pdf');
+      archivoActualDescarga = `${codigo}_${nombre.replace(/ /g, '_')}.${extension}`;
+
+      new bootstrap.Modal(document.getElementById('modalPreviewPlantilla')).show();
+    }
+
+    function descargarDesdeModal() {
+      simularDescarga(archivoActualDescarga || 'Plantilla_UG.docx');
+    }
+
+    function simularDescarga(nombre) {
+      const contenido = `UNIVERSIDAD DE GUAYAQUIL
+FACULTAD DE CIENCIAS MATEMÁTICAS Y FÍSICAS
+COMISIÓN DE PRÁCTICAS PREPROFESIONALES Y VINCULACIÓN
+
+FORMATO OFICIAL INSTITUCIONAL: ${nombre}
+VERSIÓN VIGENTE: Periodo Lectivo 2026 - 2027 (Aprobado por Consejo Directivo)
+CÓDIGO DE REGISTRO: UG-FPP
+
+========================================================================
+ESTRUCTURA GENERAL DEL INSTRUMENTO:
+1. INFORMACIÓN GENERAL:
+   - Nombre del Practicante, Cédula de Identidad, Carrera, Nivel/Semestre.
+   - Entidad Receptora / Empresa, RUC, Dirección, Teléfono, Sector económico.
+   - Tutor Académico de la UG y Tutor Empresarial designado.
+
+2. ESPECIFICACIONES DE LA PRÁCTICA:
+   - Campo o área de desempeño profesional.
+   - Horario convenido y distribución de horas (Meta: 240 Horas).
+   - Objetivos y competencias específicas del perfil de egreso a desarrollar.
+
+3. PLAN DE ACTIVIDADES Y SEGUIMIENTO:
+   - Detalle de tareas asignadas con fechas estimadas de entrega.
+   - Bitácora de control diario y semanal de actividades.
+   - Entregas de Informe Parcial 1 (80h), Parcial 2 (160h) e Informe Final (240h).
+
+4. EVALUACIÓN Y VALIDACIÓN FINAL:
+   - Rúbrica de evaluación del Tutor Académico (50%).
+   - Rúbrica de evaluación del Tutor Empresarial (50%).
+   - Certificado de culminación emitido por Talento Humano / Gerencia.
+   - Firmas y sellos de responsabilidad de las partes involucradas.
+========================================================================
+Formato descargado desde el Sistema de Gestión de Prácticas Preprofesionales UG
+Desarrollado para el módulo: Evaluaciones y Documentos
+Responsable: Quijije Camacho Russell Jordy
+`;
+      const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = nombre;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      const t = document.createElement('div');
+      t.className = 'position-fixed bottom-0 end-0 p-3';
+      t.style.zIndex = '9999';
+      t.innerHTML = `
+        <div class="toast show align-items-center text-bg-success border-0 shadow">
+          <div class="d-flex">
+            <div class="toast-body">
+              <i class="bi bi-file-earmark-arrow-down-fill me-2"></i> Descargando <strong>${nombre}</strong>...
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 4000);
+    }
+  </script>
+</body>
+</html>
