@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Seguimiento de Horas — Gestión de Prácticas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="../assets/css/custom.css" rel="stylesheet">
+  <link href="../assets/css/seguimiento-horas.css" rel="stylesheet">
+</head>
+<body data-page="asig-horas" data-section="Asignación">
+  <div class="wrapper">
+    <aside id="sidebar"></aside>
+    <div class="sidebar-overlay"></div>
+    <main class="main-content">
+      <nav id="topbar"></nav>
+      <div class="content">
+        <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+          <div>
+            <h2>Seguimiento de Horas</h2>
+            <p>Registro diario de actividades, control de horas acumuladas y aprobación del tutor.</p>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-secondary" type="button" onclick="window.print()"><i class="bi bi-printer me-1"></i> Imprimir</button>
+            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalRegistro"><i class="bi bi-plus-circle me-1"></i> Registrar horas</button>
+          </div>
+        </div>
+
+        <div class="row g-3 mb-4">
+          <div class="col-12 col-sm-6 col-xl-3"><div class="card stat-card h-100"><div class="card-body d-flex align-items-center justify-content-between"><div><div class="stat-label">Horas aprobadas</div><div class="stat-value my-1" id="horasAprobadas">0 h</div><small class="text-success fw-semibold">Validadas por el tutor</small></div><div class="stat-icon bg-success bg-opacity-10 text-success"><i class="bi bi-check-circle-fill"></i></div></div></div></div>
+          <div class="col-12 col-sm-6 col-xl-3"><div class="card stat-card h-100"><div class="card-body d-flex align-items-center justify-content-between"><div><div class="stat-label">Horas pendientes</div><div class="stat-value my-1" id="horasPendientes">0 h</div><small class="text-warning fw-semibold">Esperando revisión</small></div><div class="stat-icon bg-warning bg-opacity-10 text-warning"><i class="bi bi-hourglass-split"></i></div></div></div></div>
+          <div class="col-12 col-sm-6 col-xl-3"><div class="card stat-card h-100"><div class="card-body d-flex align-items-center justify-content-between"><div><div class="stat-label">Registros rechazados</div><div class="stat-value my-1" id="totalRechazados">0</div><small class="text-danger fw-semibold">Requieren corrección</small></div><div class="stat-icon bg-danger bg-opacity-10 text-danger"><i class="bi bi-exclamation-circle-fill"></i></div></div></div></div>
+          <div class="col-12 col-sm-6 col-xl-3"><div class="card stat-card h-100"><div class="card-body d-flex align-items-center justify-content-between"><div><div class="stat-label">Meta de prácticas</div><div class="stat-value my-1">240 h</div><small class="text-primary fw-semibold" id="porcentajeMeta">0% completado</small></div><div class="stat-icon bg-primary bg-opacity-10 text-primary"><i class="bi bi-flag-fill"></i></div></div></div></div>
+        </div>
+
+        <section class="card mb-4"><div class="card-body">
+          <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
+            <div><h5 class="mb-1 fw-bold">Acumulado de horas vs. meta</h5><div class="small text-muted">Asignación: <strong>ASG-2026-001</strong> · María Fernanda López Mendoza</div></div>
+            <div class="text-end"><div class="fw-bold fs-5" id="progresoTexto">0 / 240 h</div><small class="text-muted">Horas aprobadas</small></div>
+          </div>
+          <div class="progress" style="height:12px"><div id="barraProgreso" class="progress-bar bg-primary" role="progressbar" style="width:0%" aria-valuemin="0" aria-valuemax="240"></div></div>
+          <div class="d-flex justify-content-between small text-muted mt-2"><span>0 horas</span><span>Meta: 240 horas</span></div>
+        </div></section>
+
+        <div class="row g-3 mb-4">
+          <div class="col-12 col-xl-7">
+            <section class="card h-100"><div class="card-body">
+              <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                <h5 class="fw-bold mb-0">Calendario de registros</h5>
+                <div class="d-flex align-items-center gap-2"><button class="btn btn-sm btn-outline-secondary" id="mesAnterior" type="button"><i class="bi bi-chevron-left"></i></button><strong id="mesActual" class="text-capitalize"></strong><button class="btn btn-sm btn-outline-secondary" id="mesSiguiente" type="button"><i class="bi bi-chevron-right"></i></button></div>
+              </div>
+              <div id="calendarioHoras" class="calendar-horas"></div>
+              <div class="small text-muted mt-3"><span class="calendar-legend"></span> Día con horas registradas. Selecciona un día para filtrar la bitácora.</div>
+            </div></section>
+          </div>
+          <div class="col-12 col-xl-5">
+            <section class="card h-100"><div class="card-body">
+              <h5 class="fw-bold mb-3">Datos de la asignación</h5>
+              <div class="row g-3 small">
+                <div class="col-6"><span class="text-muted d-block">Código</span><strong>ASG-2026-001</strong></div>
+                <div class="col-6"><span class="text-muted d-block">Estado</span><span class="badge bg-success">En Progreso</span></div>
+                <div class="col-6"><span class="text-muted d-block">Estudiante</span><strong>María Fernanda López Mendoza</strong></div>
+                <div class="col-6"><span class="text-muted d-block">Tutor académico</span><strong>Ing. Roberto Vélez Castro</strong></div>
+                <div class="col-6"><span class="text-muted d-block">Empresa</span><strong>Banco Pichincha</strong></div>
+                <div class="col-6"><span class="text-muted d-block">Meta requerida</span><strong>240 horas</strong></div>
+              </div>
+              <hr>
+              <h6 class="fw-bold mb-3">Flujo de aprobación</h6>
+              <div class="approval-step"><strong>1. Registro del estudiante</strong><small>Ingresa fecha, horas y actividades realizadas.</small></div>
+              <div class="approval-step"><strong>2. Revisión del tutor</strong><small>El tutor aprueba o rechaza e ingresa una observación.</small></div>
+              <div class="approval-step mb-0"><strong>3. Actualización del acumulado</strong><small>Solo las horas aprobadas cuentan para la meta.</small></div>
+            </div></section>
+          </div>
+        </div>
+
+        <section class="card"><div class="card-body">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+            <div><h5 class="fw-bold mb-1">Bitácora diaria de horas y actividades</h5><small class="text-muted">Entidad: <strong>RegistroHoras</strong> · Referencia: <strong>Asignación</strong></small></div>
+            <button class="btn btn-outline-secondary btn-sm" type="button" id="limpiarFiltrosHoras"><i class="bi bi-x-circle me-1"></i> Limpiar filtros</button>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-12 col-md-5"><input id="buscarHoras" class="form-control" placeholder="Buscar actividad u observación..."></div>
+            <div class="col-12 col-md-3"><select id="filtroEstadoHoras" class="form-select"><option value="">Todos los estados</option><option>Pendiente</option><option>Aprobado</option><option>Rechazado</option></select></div>
+            <div class="col-12 col-md-4"><input id="filtroFechaHoras" type="date" class="form-control" aria-label="Filtrar por fecha"></div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="tablaRegistroHoras">
+              <thead><tr><th>Fecha</th><th>Horas</th><th>Actividades realizadas</th><th>Estado</th><th>Observación del tutor</th><th class="text-end">Acciones</th></tr></thead>
+              <tbody id="cuerpoRegistroHoras"></tbody>
+            </table>
+          </div>
+          <div id="sinRegistrosHoras" class="text-center text-muted py-4 d-none"><i class="bi bi-journal-text fs-2 d-block mb-2"></i>No hay registros para mostrar.</div>
+        </div></section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal de registro -->
+  <div class="modal fade" id="modalRegistro" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+    <form id="formRegistroHoras">
+      <div class="modal-header"><div><h5 class="modal-title fw-bold" id="tituloModalRegistro">Registrar horas</h5><small class="text-muted">Asignación ASG-2026-001</small></div><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <input type="hidden" id="registroHorasId">
+        <div class="mb-3"><label class="form-label" for="fechaHoras">Fecha de actividad</label><input type="date" class="form-control" id="fechaHoras" required></div>
+        <div class="mb-3"><label class="form-label" for="cantidadHoras">Cantidad de horas</label><input type="number" class="form-control" id="cantidadHoras" min="0.5" max="12" step="0.5" required><div class="form-text">Entre 0.5 y 12 horas por día.</div></div>
+        <div class="mb-3"><label class="form-label" for="actividadHoras">Actividades realizadas</label><textarea class="form-control" id="actividadHoras" rows="4" maxlength="500" placeholder="Describe las tareas realizadas..." required></textarea></div>
+        <div class="alert alert-info small mb-0"><i class="bi bi-info-circle me-1"></i> El registro quedará pendiente hasta que el tutor lo revise.</div>
+      </div>
+      <div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Guardar registro</button></div>
+    </form>
+  </div></div></div>
+
+  <!-- Modal de revisión -->
+  <div class="modal fade" id="modalRevisionHoras" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+    <form id="formRevisionHoras">
+      <div class="modal-header"><h5 class="modal-title fw-bold">Revisión del tutor</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <input type="hidden" id="revisionHorasId">
+        <div class="alert alert-light border small" id="resumenRevisionHoras"></div>
+        <div class="mb-3"><label class="form-label" for="decisionHoras">Decisión</label><select id="decisionHoras" class="form-select"><option value="Aprobado">Aprobar registro</option><option value="Rechazado">Rechazar registro</option></select></div>
+        <div><label class="form-label" for="observacionHoras">Observación del tutor</label><textarea id="observacionHoras" class="form-control" rows="3" placeholder="Motivo del rechazo o comentario de revisión..."></textarea><div class="form-text">La observación es obligatoria si se rechaza.</div></div>
+      </div>
+      <div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Guardar revisión</button></div>
+    </form>
+  </div></div></div>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3"><div id="toastHoras" class="toast text-bg-dark border-0" role="status"><div class="d-flex"><div class="toast-body" id="toastHorasTexto"></div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div></div></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+  <script src="../assets/js/seguimiento-horas.js"></script>
+</body>
+</html>
