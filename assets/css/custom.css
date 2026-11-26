@@ -804,4 +804,163 @@ body {
     border: 1px solid #ddd !important;
   }
 }
+/* ============================================================
+   MÓDULO: SEGUIMIENTO DE HORAS
+   Estilos específicos de calendario, bitácora y aprobación
+   ============================================================ */
 
+/* ===== CALENDARIO DE HORAS ===== */
+.calendar-horas {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.calendar-horas .calendar-day-name {
+  text-align: center;
+  color: #6c757d;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 6px 0;
+}
+
+.calendar-horas .calendar-day {
+  min-height: 68px;
+  border: 1px solid #e9ecef;
+  border-radius: 0.5rem;
+  background: #fff;
+  padding: 7px;
+  text-align: left;
+  color: #212529;
+  font-size: 0.82rem;
+}
+
+.calendar-horas .calendar-day:hover {
+  border-color: #0d6efd;
+  background: #f5f8ff;
+}
+
+.calendar-horas .calendar-day.other-month {
+  background: #f8f9fb;
+  color: #adb5bd;
+}
+
+.calendar-horas .calendar-day.today {
+  border: 2px solid #0d6efd;
+}
+
+.calendar-horas .calendar-day.selected {
+  background: #eaf2ff;
+  border-color: #0d6efd;
+}
+
+.calendar-horas .calendar-day .day-hours {
+  display: block;
+  margin-top: 7px;
+  color: #198754;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.calendar-legend {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #198754;
+  margin-right: 5px;
+}
+
+/* ===== FLUJO DE APROBACIÓN DEL TUTOR ===== */
+.approval-step {
+  border-left: 2px solid #dce4f2;
+  padding: 0 0 17px 15px;
+  margin-left: 6px;
+  position: relative;
+}
+
+.approval-step::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #0d6efd;
+}
+
+.approval-step strong,
+.approval-step small {
+  display: block;
+}
+
+.approval-step strong {
+  font-size: 0.82rem;
+}
+
+.approval-step small {
+  font-size: 0.76rem;
+  color: #6c757d;
+  margin-top: 3px;
+}
+
+/* ===== TABLA DE REGISTROS DE HORAS ===== */
+#tablaRegistroHoras td {
+  font-size: 0.85rem;
+  vertical-align: middle;
+}
+
+#tablaRegistroHoras .activity-cell {
+  min-width: 220px;
+  max-width: 360px;
+}
+
+#tablaRegistroHoras .observation-cell {
+  min-width: 190px;
+  max-width: 280px;
+}
+
+/* ===== ADAPTACIÓN A DISPOSITIVOS MÓVILES ===== */
+@media (max-width: 575.98px) {
+  .calendar-horas {
+    gap: 3px;
+  }
+
+  .calendar-horas .calendar-day {
+    min-height: 54px;
+    padding: 4px;
+    font-size: 0.75rem;
+  }
+
+  .calendar-horas .calendar-day .day-hours {
+    font-size: 0.6rem;
+    margin-top: 4px;
+  }
+}
+
+/* ===== IMPRESIÓN DEL REPORTE ===== */
+@media print {
+  #sidebar,
+  #topbar,
+  .sidebar-overlay,
+  .page-header .btn,
+  .no-print,
+  #modalRegistro,
+  #modalRevisionHoras {
+    display: none !important;
+  }
+
+  .main-content {
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  .content {
+    padding: 0 !important;
+  }
+
+  .card {
+    box-shadow: none !important;
+  }
+}
